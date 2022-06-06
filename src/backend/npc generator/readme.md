@@ -146,3 +146,8 @@ Normally, you will generate NPCs via a template. To do this, pass one of the fol
 * "minor"
 * "significant"
 * "main"
+
+### To Do
+
+Refactor npc generator to only return fields marked as "random",
+Implement a middleman function which created parameter objects based on templates, and accepts either partially completed parameter objects and/or string names of templates
