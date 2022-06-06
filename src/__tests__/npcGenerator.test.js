@@ -1,38 +1,4 @@
-import getNpcs from "../backend/npcGenerator/npc generator/index.js";
-const mandatoryKeys = {
-	background: ["descent", "sex", "name", "highConcept"],
-	minor: [
-		"descent",
-		"sex",
-		"name",
-		"highConcept",
-		"characterisation",
-		"relationships"
-	],
-	significant: [
-		"descent",
-		"sex",
-		"name",
-		"highConcept",
-		"characterisation",
-		"relationships",
-		"assets",
-		"limits",
-		"approach"
-	],
-	main: [
-		"descent",
-		"sex",
-		"name",
-		"highConcept",
-		"characterisation",
-		"relationships",
-		"assets",
-		"limits",
-		"approach",
-		"agenda"
-	]
-};
+import { getNpcs, npcTemplates } from "../backend/npc generator/index.js";
 
 let params = {};
 beforeEach(() => {
@@ -42,7 +8,7 @@ beforeEach(() => {
 describe("getNpc function", () => {
 	describe("returned keys have appropriate values", () => {
 		describe("simple string keys", () => {
-			const npc = getNpcs("main", 1)[0];
+			const npc = getNpcs(npcTemplates.main)[0];
 			const stringKeys = [
 				"descent",
 				"sex",
@@ -68,7 +34,7 @@ describe("getNpc function", () => {
 			for (let key of arrayKeys) {
 				describe(`${key}`, () => {
 					test("default value is array of strings", () => {
-						const npc = getNpcs("main", 1)[0];
+						const npc = getNpcs(npcTemplates.main)[0];
 						expect(Array.isArray(npc[key])).toBe(true);
 						expect(npc[key].length).toBeGreaterThan(0);
 						npc[key].forEach((value) => {
@@ -84,7 +50,7 @@ describe("getNpc function", () => {
 							"random",
 							"random"
 						];
-						const npc = getNpcs(params, 1)[0];
+						const npc = getNpcs(params)[0];
 						expect(Array.isArray(npc[key])).toBe(true);
 						expect(npc[key].length).toBeGreaterThan(0);
 						npc[key].forEach((value) => {
@@ -95,7 +61,7 @@ describe("getNpc function", () => {
 					});
 					test("given values are preserved in arrays", () => {
 						params[key] = ["hello", "random", "random"];
-						const npc = getNpcs(params, 1)[0];
+						const npc = getNpcs(params)[0];
 						expect(Array.isArray(npc[key])).toBe(true);
 						expect(npc[key].length).toBeGreaterThan(0);
 						expect(npc[key][0]).toBe("hello");
@@ -107,21 +73,24 @@ describe("getNpc function", () => {
 		});
 		describe("assets", () => {
 			test("returns a stats object as well as an array of two more assets", () => {
-				const npc = getNpcs("main", 1)[0];
+				const npc = getNpcs(npcTemplates.main)[0];
 				expect(Array.isArray(npc.assets)).toBe(true);
 				expect(npc.assets.length).toBe(3);
 				expect(typeof npc.assets[0]).toBe("object");
 				expect(typeof npc.assets[1]).toBe("string");
+				expect(typeof npc.assets[1]).not.toBe("random");
 				expect(typeof npc.assets[2]).toBe("string");
+				expect(typeof npc.assets[2]).not.toBe("random");
 			});
 		});
 	});
 	describe("returns correct default keys for each NPC type", () => {
-		const types = ["background", "minor", "significant", "main"];
+		const types = Object.keys(npcTemplates);
 		types.forEach((npcType) => {
 			test(`${npcType}`, () => {
-				const npc = getNpcs(npcType, 1)[0];
-				mandatoryKeys[npcType].forEach((key) => {
+				const params = npcTemplates[npcType];
+				const npc = getNpcs(params)[0];
+				Object.keys(params).forEach((key) => {
 					expect(npc).toHaveProperty(key);
 				});
 			});
@@ -137,12 +106,6 @@ describe("getNpc function", () => {
 		}
 		test("defaults to 1", () => {
 			expect(getNpcs(params).length).toBe(1);
-		});
-	});
-	describe("returned object includes unusual keys added in params", () => {
-		test("test key: banana", () => {
-			const npc = getNpcs({ banana: true }, 1)[0];
-			expect(npc.banana).toBe(true);
 		});
 	});
 });

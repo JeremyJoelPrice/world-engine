@@ -22,7 +22,7 @@ import {
 	InterfaceButton,
 	InterfaceRadio
 } from "./styled/NpcGen";
-import generateNpc from "../backend/npcGenerator/npc generator/index";
+import { getNpcs } from "../backend/npc generator/index";
 
 const npcTemplates = {
 	background: {
@@ -100,7 +100,7 @@ const Interface = ({ setNpcs }) => {
 				num = Math.floor(Math.random() * 4 + 5);
 				break;
 		}
-		setNpcs(generateNpc(params, num));
+		setNpcs(getNpcs(params, num));
 	}
 
 	return (
@@ -233,7 +233,9 @@ const NpcBlock = ({ npcs }) => {
 								<TableCell colSpan="2">
 									<BoldBodyText>{npc.name}</BoldBodyText>
 									<br />
-									<SmallText>{npc.sex} of {npc.descent} descent</SmallText>
+									<SmallText>
+										{npc.sex} of {npc.descent} descent
+									</SmallText>
 									<br />
 									{npc.highConcept}
 								</TableCell>
@@ -303,7 +305,9 @@ const TableCellComponent = ({ title, content }) => {
 			// display stats & name
 			const statKey = Object.keys(content[0]);
 			const stats = content[0][statKey];
-			const filteredContent = content.filter((c) => (typeof c === "string"));
+			const filteredContent = content.filter(
+				(c) => typeof c === "string"
+			);
 			return (
 				<TableCell>
 					<ItalicsBodyText>{title}</ItalicsBodyText>

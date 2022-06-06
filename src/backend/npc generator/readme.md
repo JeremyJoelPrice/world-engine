@@ -93,8 +93,7 @@ characterisation: [
 
 ### Parameters Object
 
-NPC parameters are specified with a similar object. This object is provided as
-an argument, and is used as a template for the NPC/s to be created.
+NPC parameters are specified with a similar object. This object is provided as an argument, and is used as a basis for the NPC/s to be created. Template parameter objects, based on the four types of NPC described above, are available by importing the npcTemplates array from index.js
 
 ```
 {
@@ -102,27 +101,23 @@ an argument, and is used as a template for the NPC/s to be created.
     descent: "norræn" || "woodland" || "asculum",
     sex: "male" || "female",
     characterisation: "random",
+    assets: [
+        stats: {
+            some_key: some_stat_block
+        }
+    ]
     ...
 }
 ```
 
-Any key can be given a value of "random' instead, and a random value will be
-returned. Any key can also be given a custom value, and that value will be
-returned as given. Any keys not given will be ignored in the returned object,
-except for the following mandatory keys, which will be given random values:
-
--   name
--   descent
--   sex
--   highConcept
+Any key with a value of "random" will be assigned a random value. Other values are left as they are.
 
 ### Assets Key
 Because assets includes characer stats, this key has some extra optional configurations.
-If your assets array includes an object with a key of `maxHd` and/or `minHd`, these will act as constraints on the random stats generated.
 
 ### Function Call
 
-The getNPC function takes several parameters:
+The getNpcs function takes two parameters:
 
 -   npcParams - _the parameters object described above_
 -   count - _the number of NPCs to return_
@@ -138,16 +133,3 @@ values to generate additional content:
 -   limitations
 -   approach
 -   agenda
-
-### Templates
-
-Normally, you will generate NPCs via a template. To do this, pass one of the following strings in place of the params object:
-* "background"
-* "minor"
-* "significant"
-* "main"
-
-### To Do
-
-Refactor npc generator to only return fields marked as "random",
-Implement a middleman function which created parameter objects based on templates, and accepts either partially completed parameter objects and/or string names of templates
