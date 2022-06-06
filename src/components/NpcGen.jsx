@@ -10,7 +10,6 @@ import {
 } from "./styled/genericText";
 import {
 	Buffer,
-	FlexColumn,
 	FlexRow,
 	Table,
 	TableCell,
@@ -20,49 +19,10 @@ import {
 	StyledNpcGen,
 	StyledNpcBlock,
 	InterfaceButton,
-	InterfaceRadio
+	InterfaceRadio,
+	FormColumn
 } from "./styled/NpcGen";
-import { getNpcs } from "../backend/npc generator/index";
-
-const npcTemplates = {
-	background: {
-		descent: "random",
-		sex: "random",
-		name: "random",
-		highConcept: "random"
-	},
-	minor: {
-		descent: "random",
-		sex: "random",
-		name: "random",
-		highConcept: "random",
-		characterisation: "random",
-		relationships: "random"
-	},
-	significant: {
-		descent: "random",
-		sex: "random",
-		name: "random",
-		highConcept: "random",
-		characterisation: "random",
-		relationships: "random",
-		assets: "random",
-		limits: "random",
-		approach: "random"
-	},
-	main: {
-		descent: "random",
-		sex: "random",
-		name: "random",
-		highConcept: "random",
-		characterisation: "random",
-		relationships: "random",
-		assets: "random",
-		limits: "random",
-		approach: "random",
-		agenda: "random"
-	}
-};
+import { getNpcs, npcTemplates } from "../backend/npc generator/index";
 
 export const NpcGen = () => {
 	const [npcs, setNpcs] = useState([]);
@@ -80,14 +40,14 @@ export const NpcGen = () => {
 
 const Interface = ({ setNpcs }) => {
 	const [sex, setSex] = useState("random");
-	const [heritage, setHeritage] = useState("norræn");
+	const [descent, setDescent] = useState("random");
 	const [numToGenerate, setNumToGenerate] = useState("1");
 	const [npcType, setNpcType] = useState("background");
 
 	async function onSubmit() {
 		const params = npcTemplates[npcType];
 		params.sex = sex;
-		params.descent = heritage;
+		params.descent = descent;
 		let num;
 		switch (numToGenerate) {
 			case "1":
@@ -100,14 +60,16 @@ const Interface = ({ setNpcs }) => {
 				num = Math.floor(Math.random() * 4 + 5);
 				break;
 		}
-		setNpcs(getNpcs(params, num));
+		const npcs = getNpcs(params, num);
+		console.log(params);
+		setNpcs(npcs);
 	}
 
 	return (
 		<section>
 			<FlexRow>
 				<SexMenu setSex={setSex} />
-				<HeritageMenu setHeritage={setHeritage} />
+				<DescentMenu setDescent={setDescent} />
 				<NumToGenerateMenu setNumToGenerate={setNumToGenerate} />
 				<NpcTypeMenu setNpcType={setNpcType} />
 			</FlexRow>
@@ -123,7 +85,7 @@ const SexMenu = ({ sex, setSex }) => {
 	return (
 		<form onChange={onChange}>
 			<H3>Sex</H3>
-			<FlexColumn>
+			<FormColumn>
 				<div>
 					<InterfaceRadio name="sex" value="random" />
 					<BodyText>Random</BodyText>
@@ -136,35 +98,35 @@ const SexMenu = ({ sex, setSex }) => {
 					<InterfaceRadio name="sex" value="female" />
 					<BodyText>Female</BodyText>
 				</div>
-			</FlexColumn>
+			</FormColumn>
 		</form>
 	);
 };
-const HeritageMenu = ({ setHeritage }) => {
+const DescentMenu = ({ setDescent }) => {
 	const onChange = (e) => {
-		setHeritage(e.target.value);
+		setDescent(e.target.value);
 	};
 	return (
 		<form onChange={onChange}>
-			<H3>Heritage</H3>
-			<FlexColumn>
+			<H3>Descent</H3>
+			<FormColumn>
 				<div>
-					<InterfaceRadio name="heritage" value="random" />
+					<InterfaceRadio name="descent" value="random" />
 					<BodyText>Random</BodyText>
 				</div>
 				<div>
-					<InterfaceRadio name="heritage" value="norræn" />
+					<InterfaceRadio name="descent" value="norræn" />
 					<BodyText>Norræn</BodyText>
 				</div>
 				<div>
-					<InterfaceRadio name="heritage" value="woodland" />
-					<BodyText>Woodland</BodyText>
+					<InterfaceRadio name="descent" value="woodlands" />
+					<BodyText>Woodlands</BodyText>
 				</div>
 				<div>
-					<InterfaceRadio name="heritage" value="asculum" />
+					<InterfaceRadio name="descent" value="asculum" />
 					<BodyText>Asculum</BodyText>
 				</div>
-			</FlexColumn>
+			</FormColumn>
 		</form>
 	);
 };
@@ -175,7 +137,7 @@ const NumToGenerateMenu = ({ setNumToGenerate }) => {
 	return (
 		<form onChange={onChange}>
 			<H3>NumToGenerate</H3>
-			<FlexColumn>
+			<FormColumn>
 				<div>
 					<InterfaceRadio name="numToGenerate" value="1" />
 					<BodyText>1</BodyText>
@@ -188,7 +150,7 @@ const NumToGenerateMenu = ({ setNumToGenerate }) => {
 					<InterfaceRadio name="numToGenerate" value="5-8" />
 					<BodyText>5-8</BodyText>
 				</div>
-			</FlexColumn>
+			</FormColumn>
 		</form>
 	);
 };
@@ -199,7 +161,7 @@ const NpcTypeMenu = ({ setNpcType }) => {
 	return (
 		<form onChange={onChange}>
 			<H3>NPC Type</H3>
-			<FlexColumn>
+			<FormColumn>
 				<div>
 					<InterfaceRadio name="npcType" value="background" />
 					<BodyText>background</BodyText>
@@ -216,13 +178,12 @@ const NpcTypeMenu = ({ setNpcType }) => {
 					<InterfaceRadio name="npcType" value="main" />
 					<BodyText>main</BodyText>
 				</div>
-			</FlexColumn>
+			</FormColumn>
 		</form>
 	);
 };
 
 const NpcBlock = ({ npcs }) => {
-	console.log(npcs);
 	return (
 		<StyledNpcBlock>
 			{npcs.map((npc) => {

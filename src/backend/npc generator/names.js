@@ -1,10 +1,16 @@
 const { getRandomElement } = require("./utils");
-const nameTables =  require("../table roller/tables/NPCs/names");
+const nameTables = require("../table roller/tables/NPCs/names");
 
 module.exports = (sex, descent) => {
 	// in case sex is given a default value other than 'male' or 'female', set the parameter randomly to either 'male' or 'female' for the sake of choosing a name list.
 	if (sex !== "male" && sex !== "female")
 		sex = getRandomElement(["male", "female"]);
+	if (
+		descent !== "norræn" &&
+		descent !== "asculum" &&
+		descent !== "woodlands"
+	)
+		descent = getRandomElement(["norræn", "woodlands", "asculum"]);
 
 	switch (descent) {
 		case "norræn":
@@ -14,13 +20,12 @@ module.exports = (sex, descent) => {
 		case "woodlands":
 			return getRandomWoodlandName(sex);
 	}
-}
+};
 
 function getRandomNorrænName(sex) {
 	let firstNameTable, lastNameTable, lastNameSuffix;
 	if (sex === "male") {
-		firstNameTable = lastNameTable =
-			nameTables.norrænMaleNames;
+		firstNameTable = lastNameTable = nameTables.norrænMaleNames;
 		lastNameSuffix = "son";
 	}
 	if (sex === "female") {

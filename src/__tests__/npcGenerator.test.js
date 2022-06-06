@@ -84,6 +84,20 @@ describe("getNpc function", () => {
 			});
 		});
 	});
+	describe("precision tests", () => {
+		describe("returns only the specified keys", () => {
+			test("name", () => {
+				const npc = getNpcs({ name: "random" })[0];
+				expect(Object.keys(npc).length).toBe(1);
+				expect(typeof npc.name).toBe("string");
+			});
+			test("descent", () => {
+				const npc = getNpcs({ descent: "random" })[0];
+				expect(Object.keys(npc).length).toBe(1);
+				expect(typeof npc.descent).toBe("string");
+			});
+		});
+	});
 	describe("returns correct default keys for each NPC type", () => {
 		const types = Object.keys(npcTemplates);
 		types.forEach((npcType) => {
