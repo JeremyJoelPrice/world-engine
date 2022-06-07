@@ -1,19 +1,16 @@
-const npcTables = require("../table roller/tables/NPCs");
-const { getRandomElement } = require("../table roller");
+const tables = require("../table roller/tables");
+const { getRandomElement } = require("../table roller/tableUtils");
 const getStats = require("./stats");
 
 exports.getNumOfCharacterisations = (num) => {
-	return getNumOfElements(npcTables.appearance, num);
+	return getNumOfElements(tables.appearance, num);
 };
 exports.getNumOfRelationships = (num) => {
 	// get num of dispositions
-	const dispositions = getNumOfElements(
-		npcTables.customTables.disposition,
-		num
-	);
+	const dispositions = getNumOfElements(tables.customTables.disposition, num);
 
 	// get num - 1 relators, because the PCs are always the first relators
-	const relators = getNumOfElements(npcTables.customTables.relator, num - 1);
+	const relators = getNumOfElements(tables.customTables.relator, num - 1);
 
 	// in a results object, pair each disposition to a relator
 	const results = [];
@@ -27,13 +24,13 @@ exports.getNumOfRelationships = (num) => {
 	return results;
 };
 exports.getNumOfAssets = (num) => {
-	return getNumOfElements(npcTables.customTables.assets, num)
+	return getNumOfElements(tables.customTables.assets, num);
 };
 exports.getNumOfLimits = (num) => {
-	return getNumOfElements(npcTables.customTables.limits, num);
+	return getNumOfElements(tables.customTables.limits, num);
 };
 exports.getNumOfApproaches = (num) => {
-	return getNumOfElements(npcTables.customTables.approach, num);
+	return getNumOfElements(tables.customTables.approach, num);
 };
 function getNumOfElements(tablesObj, num = 2) {
 	const results = [];

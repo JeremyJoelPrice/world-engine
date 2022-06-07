@@ -1,4 +1,4 @@
-const { genericStats } = require("../table roller/tables/NPCs");
+const { genericStats } = require("../table roller/tables");
 const { generateIndex } = require("../utils");
 
 export default (minHd, maxHd) => {

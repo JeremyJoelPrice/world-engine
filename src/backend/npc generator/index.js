@@ -1,8 +1,8 @@
 import getStats from "./stats";
 const getRandomName = require("./names");
 const arrayFacets = require("./arrayFacets");
-const npcTables = require("../table roller/tables/NPCs");
-const { getRandomElement } = require("../table roller");
+const tables = require("../table roller/tables");
+const { getRandomElement } = require("../table roller/tableUtils");
 
 export const npcTemplates = {
 	background: {
@@ -78,12 +78,12 @@ function getNpcFacet(key, params) {
 		case "sex":
 			return getRandomElement(["male", "female"]);
 		case "agenda":
-			return getRandomElement(npcTables.customTables.agenda);
+			return getRandomElement(tables.customTables.agenda);
 		case "name":
 			return getRandomName(params.sex, params.descent);
 		case "highConcept":
 			const table =
-				npcTables.npcTypes[
+				tables.npcTypes[
 					getRandomElement([
 						"commoners",
 						"underclass",

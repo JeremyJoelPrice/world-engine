@@ -1,5 +1,5 @@
-const { getRandomElement } = require("../table roller");
-const nameTables = require("../table roller/tables/NPCs/names");
+const { getRandomElement } = require("../table roller/tableUtils");
+const tables = require("../table roller/tables");
 
 module.exports = (sex, descent) => {
 	// in case sex is given a default value other than 'male' or 'female', set the parameter randomly to either 'male' or 'female' for the sake of choosing a name list.
@@ -25,15 +25,15 @@ module.exports = (sex, descent) => {
 function getRandomNorrænName(sex) {
 	let firstNameTable, lastNameTable, lastNameSuffix;
 	if (sex === "male") {
-		firstNameTable = lastNameTable = nameTables.norrænMaleNames;
+		firstNameTable = lastNameTable = tables.norrænMaleNames;
 		lastNameSuffix = "son";
 	}
 	if (sex === "female") {
-		firstNameTable = nameTables.norrænFemaleNames;
+		firstNameTable = tables.norrænFemaleNames;
 		lastNameTable =
 			Math.random() < 0.8
-				? nameTables.norrænMaleNames
-				: nameTables.norrænFemaleNames;
+				? tables.norrænMaleNames
+				: tables.norrænFemaleNames;
 		lastNameSuffix = "sdottir";
 	}
 
@@ -45,10 +45,10 @@ function getRandomNorrænName(sex) {
 function getRandomAsculumName(sex) {
 	const praenomenTable =
 		sex === "male"
-			? nameTables.asculumMalePraenomina
-			: nameTables.asculumFemalePraenomina;
-	const nomenTable = nameTables.asculumNomina;
-	const cognomenTable = nameTables.asculumCognomina;
+			? tables.asculumMalePraenomina
+			: tables.asculumFemalePraenomina;
+	const nomenTable = tables.asculumNomina;
+	const cognomenTable = tables.asculumCognomina;
 
 	return `${getRandomElement(praenomenTable)} ${getRandomElement(
 		nomenTable
@@ -58,18 +58,18 @@ function getRandomAsculumName(sex) {
 function getRandomWoodlandName(sex) {
 	let firstName = getRandomElement(
 		sex === "male"
-			? nameTables.woodlandMaleFirstNames
-			: nameTables.woodlandFemaleFirstNames
+			? tables.woodlandMaleFirstNames
+			: tables.woodlandFemaleFirstNames
 	);
 
 	let lastName;
 	const random = Math.random();
 	if (random <= 0.25) {
-		lastName = getRandomElement(nameTables.occupationalSurnames);
+		lastName = getRandomElement(tables.occupationalSurnames);
 	} else if (random <= 75) {
-		lastName = `Mac${getRandomElement(nameTables.woodlandMaleFirstNames)}`;
+		lastName = `Mac${getRandomElement(tables.woodlandMaleFirstNames)}`;
 	} else {
-		lastName = `O'${getRandomElement(nameTables.woodlandMaleFirstNames)}`;
+		lastName = `O'${getRandomElement(tables.woodlandMaleFirstNames)}`;
 	}
 
 	return `${firstName} ${lastName}`;

@@ -33,7 +33,6 @@ exports.limits = [
 	"Someone they love makes horrible choices",
 	"An underling plots to betray them"
 ];
-
 exports.assets = [
 	"A cache of saved or discovered wealth",
 	"A useful magical item",
@@ -47,7 +46,6 @@ exports.assets = [
 	"A magical trait that aids their purpose",
 	"Reluctant rival-partner in their ambition"
 ];
-
 exports.disposition = [
 	"more than friendly",
 	"friendly",
@@ -59,7 +57,6 @@ exports.disposition = [
 	"unfriendly",
 	"hostile"
 ];
-
 exports.relator = [
 	"local authority figure",
 	"family member",
@@ -70,7 +67,6 @@ exports.relator = [
 	"friend",
 	"outsider"
 ];
-
 exports.agenda = [
 	"They want someone murdered",
 	"They want to make a lot of money",
@@ -95,7 +91,6 @@ exports.agenda = [
 	"To topple an institution, business, or faith",
 	"To repay some immeasurable debt"
 ];
-
 exports.approach = [
 	"bargain",
 	"direct force",
@@ -112,7 +107,6 @@ exports.approach = [
 	"seek support from a friend/the community",
 	"scheme & plot"
 ];
-
 exports.hexPointsOfInterest = [
 	[
 		[
