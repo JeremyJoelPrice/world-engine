@@ -1,5 +1,5 @@
 const npcTables = require("../table roller/tables/NPCs");
-const { getRandomElement } = require("./utils");
+const { getRandomElement } = require("../table roller");
 const getStats = require("./stats");
 
 exports.getNumOfCharacterisations = (num) => {

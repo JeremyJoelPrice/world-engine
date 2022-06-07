@@ -1,4 +1,4 @@
-const { getRandomElement } = require("./utils");
+const { getRandomElement } = require("../table roller");
 const nameTables = require("../table roller/tables/NPCs/names");
 
 module.exports = (sex, descent) => {

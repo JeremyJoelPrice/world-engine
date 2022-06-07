@@ -7,3 +7,4 @@ exports.names = require("./names");
 exports.customTables = require("./customTables");
 exports.genericStats = require("./WWN/NPCs/generic stats");
 exports.npcTypes = require("./WWN/NPCs/npc types");
+exports.utils = require("../../../utils");

@@ -1,7 +1,3 @@
-exports.getRandomElement = (array) => {
-	return array[Math.floor(Math.random() * array.length)];
-};
-
 exports.generateIndex = (range) => {
 	// generate numbers according to a power law
 	const rand = Math.random();

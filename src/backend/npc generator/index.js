@@ -1,8 +1,8 @@
 import getStats from "./stats";
-const { getRandomElement } = require("./utils");
 const getRandomName = require("./names");
 const arrayFacets = require("./arrayFacets");
 const npcTables = require("../table roller/tables/NPCs");
+const { getRandomElement } = require("../table roller");
 
 export const npcTemplates = {
 	background: {

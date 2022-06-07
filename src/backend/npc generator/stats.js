@@ -1,5 +1,5 @@
 const { genericStats } = require("../table roller/tables/NPCs");
-const { getRandomElement, generateIndex } = require("./utils");
+const { generateIndex } = require("../utils");
 
 export default (minHd, maxHd) => {
 	// get some random stats
@@ -31,7 +31,7 @@ function insertHitPoints(statBlock) {
 	statBlock = `${statBlock.substring(0, hdEnd)}, ${hp}hp${statBlock.substring(
 		hdEnd
 	)}`;
-	
+
 	// return statblock
 	return statBlock;
 }
