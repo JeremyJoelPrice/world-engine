@@ -61,7 +61,6 @@ const Interface = ({ setNpcs }) => {
 				break;
 		}
 		const npcs = getNpcs(params, num);
-		console.log(params);
 		setNpcs(npcs);
 	}
 

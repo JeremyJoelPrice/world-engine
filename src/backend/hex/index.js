@@ -1,7 +1,7 @@
 const { recursivelyGetRandomElement } = require("../table roller/tableUtils");
 const { customTables } = require("../table roller/tables");
 
-export const rollForPointOfInterest = (numOfRolls) => {
+exports.rollForPointsOfInterest = (numOfRolls) => {
 	const results = [];
 
 	for (let i = 0; i < numOfRolls; i++) {
@@ -15,3 +15,7 @@ export const rollForPointOfInterest = (numOfRolls) => {
 function getPointOfInterest() {
 	return recursivelyGetRandomElement(customTables.hexPointsOfInterest);
 }
+
+const NUMBER_OF_HEXES_TO_ROLL_FOR = 9;
+
+console.log(this.rollForPointsOfInterest(NUMBER_OF_HEXES_TO_ROLL_FOR));
