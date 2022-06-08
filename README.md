@@ -4,6 +4,7 @@ This is a collection of automated tools, reference material, and best practices,
 
 ## In Progress
 - NPC generator
+- Hex crawl
 
 ## Future Features
 
@@ -13,7 +14,6 @@ Unordered, unvetted list of potential features:
 	- WWN generators
 	- Loot generator
 	- Everyday items generator
-	- Hex Crawl stuff
 
 - Running the game
 	- HexFlower
