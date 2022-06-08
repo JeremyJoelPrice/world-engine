@@ -94,15 +94,18 @@ function getNpcFacet(key, params) {
 			return getRandomElement(table);
 		case "characterisation":
 			func = arrayFacets.getNumOfCharacterisations;
+			return getArrayOfNpcDetails(key, params, func);
 		case "relationships":
 			func = arrayFacets.getNumOfRelationships;
+			return getArrayOfNpcDetails(key, params, func);
 		case "assets":
 			func = arrayFacets.getNumOfAssets;
+			return getArrayOfNpcDetails(key, params, func);
 		case "limits":
 			func = arrayFacets.getNumOfLimits;
+			return getArrayOfNpcDetails(key, params, func);
 		case "approach":
 			func = arrayFacets.getNumOfApproaches;
-		default:
 			return getArrayOfNpcDetails(key, params, func);
 	}
 }
