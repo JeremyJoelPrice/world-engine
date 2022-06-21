@@ -133,3 +133,9 @@ values to generate additional content:
 -   limitations
 -   approach
 -   agenda
+
+## To Do
+
+<hr>
+
+Implement some way of specifying the HD of the NPCs to be generated.
