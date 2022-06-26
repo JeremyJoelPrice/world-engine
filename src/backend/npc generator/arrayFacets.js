@@ -1,4 +1,4 @@
-const tables = require("../table roller/tables");
+const tables = require("../table roller/tables").npcTables;
 const { getRandomElement } = require("../table roller/tableUtils");
 const getStats = require("./stats");
 

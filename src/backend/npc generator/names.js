@@ -1,5 +1,5 @@
 const { getRandomElement } = require("../table roller/tableUtils");
-const tables = require("../table roller/tables");
+const tables = require("../table roller/tables").npcTables;
 
 module.exports = (sex, descent) => {
 	// in case sex is given a default value other than 'male' or 'female', set the parameter randomly to either 'male' or 'female' for the sake of choosing a name list.

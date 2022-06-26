@@ -1,7 +1,7 @@
 import getStats from "./stats";
 const getRandomName = require("./names");
 const arrayFacets = require("./arrayFacets");
-const tables = require("../table roller/tables");
+const tables = require("../table roller/tables").npcTables;
 const { getRandomElement } = require("../table roller/tableUtils");
 
 export const npcTemplates = {

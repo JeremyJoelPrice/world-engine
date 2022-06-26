@@ -1,9 +1,5 @@
-exports.appearance = require("./NPCs/WWN/appearance");
-exports.burningAmbition = require("./NPCs/WWN/burning ambitions");
-exports.closeFriendships = require("./NPCs/WWN/close friendships");
-exports.personalTragedies = require("./NPCs/WWN/personal tragedies");
-exports.troubledRomances = require("./NPCs/WWN/troubled romances");
-exports.names = require("./NPCs/names");
-exports.customTables = require("./NPCs/customTables");
-exports.genericStats = require("./NPCs/WWN/generic stats");
-exports.npcTypes = require("./NPCs/WWN/npc types");
+// NPC tables
+exports.npcTables = require("./NPCs");
+
+// Location Tables
+exports.locationTags = require("./Location Tags/WWN/tags");
