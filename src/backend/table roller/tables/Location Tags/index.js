@@ -7,3 +7,5 @@ exports.businessCourts = require("./WWN/businessCourts");
 exports.criminalCourts = require("./WWN/criminalCourts");
 exports.familialClanCourts = require("./WWN/familialClanCourts");
 exports.religiousCourts = require("./WWN/religiousCourts");
+exports.ruins = require("./WWN/ruins");
+exports.wilderness = require("./WWN/wilderness");
