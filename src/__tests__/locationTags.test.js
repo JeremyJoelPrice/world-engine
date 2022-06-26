@@ -16,7 +16,7 @@ describe.only("Community", () => {
       when we call this, we get back 2 elements
       each element matches a certain object
       */
-      test("function returns 2 community tags with correct keys", () => {
+      test("Function returns 2 community tags with correct keys", () => {
         const functionCall = getCommunityTags();
         expect(functionCall).toHaveLength(2);
         functionCall.forEach((tag) => {
@@ -31,6 +31,12 @@ describe.only("Community", () => {
           });
         });
       });
+    });
+    test("Rolled tags are not duplicated.", () => {
+      for (let i = 0; i < 500; i++) {
+        let functionCall = getCommunityTags();
+        expect(functionCall[0].name).not.toEqual(functionCall[1].name);
+      }
     });
   });
   describe("Overview", () => {});
