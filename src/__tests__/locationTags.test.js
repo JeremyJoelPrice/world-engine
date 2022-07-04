@@ -1,22 +1,8 @@
-const { getCommunityTags } = require("../backend/location tags");
+const getTagFunctions = require("../backend/location tags");
 
-// Communuty Tags
-// Court Tags
-// Ruin Tags
-// Wilderness Tags
-
-// one function returns a tag - returns an object where the tag has a name, blurb, efctp
-// one function returns a second tag that is not the same as the first
-describe("", () => {});
-// getCommunityTag
 describe("locationTags", () => {
-  const getTagFunctions = { getCommunityTags };
   Object.keys(getTagFunctions).forEach((key) => {
     describe(`${key}`, () => {
-      /*
-      when we call this, we get back 2 elements
-      each element matches a certain object
-      */
       test("Function returns 2 tags with correct keys", () => {
         expect(getTagFunctions[key]()).toHaveLength(2);
         getTagFunctions[key]().forEach((tag) => {
@@ -40,4 +26,3 @@ describe("locationTags", () => {
     });
   });
 });
-describe("Overview", () => {});
