@@ -4,17 +4,10 @@ let params = {};
 beforeEach(() => {
 	params = {};
 });
-
 describe("returned keys have appropriate values", () => {
 	describe("simple string keys", () => {
 		const npc = getNpcs(npcTemplates.main)[0];
-		const stringKeys = [
-			"descent",
-			"sex",
-			"name",
-			"highConcept",
-			"agenda"
-		];
+		const stringKeys = ["descent", "sex", "name", "highConcept", "agenda"];
 		for (let i = 0; i < stringKeys.length; i++) {
 			const key = stringKeys[i];
 			test(`${key}`, () => {
@@ -66,6 +59,10 @@ describe("returned keys have appropriate values", () => {
 					expect(npc[key][0]).toBe("hello");
 					expect(npc[key][1]).not.toBe("random");
 					expect(npc[key][2]).not.toBe("random");
+				});
+				test("values are not repeated", () => {
+					const array = getNpcs(npcTemplates.main)[0][key];
+					expect(new Set(array).size).toBe(array.length);
 				});
 			});
 		}
