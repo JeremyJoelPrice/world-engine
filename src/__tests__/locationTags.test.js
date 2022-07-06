@@ -24,8 +24,9 @@ describe("locationTags", () => {
 	Object.keys(getTagFunctions).forEach((key) => {
 		describe(`${key}`, () => {
 			test("Function returns 2 tags with correct keys", () => {
-				expect(getTagFunctions[key]()).toHaveLength(2);
-				getTagFunctions[key]().forEach((tag) => {
+				const result = getTagFunctions[key]();
+				expect(result).toHaveLength(2);
+				result.forEach((tag) => {
 					expect(tag).toMatchObject({
 						name: expect.any(String),
 						blurb: expect.any(String),
@@ -59,6 +60,7 @@ describe("location thumbnails", () => {
 			Object.keys(communitiesThumbnailFunctions).forEach((key) => {
 				test(`${key} returns thumbnail`, () => {
 					const thumbnail = communitiesThumbnailFunctions[key]();
+					console.log(thumbnail);
 					expect(thumbnail).toMatchObject({
 						rationaleForTheCommunitiesExistance: expect.any(String),
 						whoRunsIt: expect.any(String),
