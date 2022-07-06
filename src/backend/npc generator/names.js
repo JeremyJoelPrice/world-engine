@@ -1,17 +1,17 @@
-const { getRandomElement } = require("../table roller/tableUtils");
+const { rollOnTable } = require("../table roller/tableUtils");
 const tables = require("../table roller/tables");
 
 module.exports = (sex, descent) => {
 	// in case sex is given a default value other than 'male' or 'female', set the parameter randomly to either 'male' or 'female' for the sake of choosing a name list.
 	if (sex !== "male" && sex !== "female") {
-		sex = getRandomElement(["male", "female"]);
+		sex = rollOnTable(["male", "female"]);
 	}
 	if (
 		descent !== "norræn" &&
 		descent !== "asculum" &&
 		descent !== "woodlands"
 	) {
-		descent = getRandomElement(["norræn", "woodlands", "asculum"]);
+		descent = rollOnTable(["norræn", "woodlands", "asculum"]);
 	}
 	switch (descent) {
 		case "norræn":
@@ -38,7 +38,7 @@ function getRandomNorrænName(sex) {
 		lastNameSuffix = "sdottir";
 	}
 
-	return `${getRandomElement(firstNameTable)} ${getRandomElement(
+	return `${rollOnTable(firstNameTable)} ${rollOnTable(
 		lastNameTable
 	)}${lastNameSuffix}`;
 }
@@ -51,13 +51,13 @@ function getRandomAsculumName(sex) {
 	const nomenTable = tables.names.asculumNomina;
 	const cognomenTable = tables.names.asculumCognomina;
 
-	return `${getRandomElement(praenomenTable)} ${getRandomElement(
+	return `${rollOnTable(praenomenTable)} ${rollOnTable(
 		nomenTable
-	)} ${getRandomElement(cognomenTable)}`;
+	)} ${rollOnTable(cognomenTable)}`;
 }
 
 function getRandomWoodlandName(sex) {
-	let firstName = getRandomElement(
+	let firstName = rollOnTable(
 		sex === "male"
 			? tables.names.woodlandMaleFirstNames
 			: tables.names.woodlandFemaleFirstNames
@@ -66,15 +66,11 @@ function getRandomWoodlandName(sex) {
 	let lastName;
 	const random = Math.random();
 	if (random <= 0.25) {
-		lastName = getRandomElement(tables.names.occupationalSurnames);
+		lastName = rollOnTable(tables.names.occupationalSurnames);
 	} else if (random <= 75) {
-		lastName = `Mac${getRandomElement(
-			tables.names.woodlandMaleFirstNames
-		)}`;
+		lastName = `Mac${rollOnTable(tables.names.woodlandMaleFirstNames)}`;
 	} else {
-		lastName = `O'${getRandomElement(
-			tables.names.woodlandMaleFirstNames
-		)}`;
+		lastName = `O'${rollOnTable(tables.names.woodlandMaleFirstNames)}`;
 	}
 
 	return `${firstName} ${lastName}`;

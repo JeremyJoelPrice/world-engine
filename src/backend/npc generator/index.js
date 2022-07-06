@@ -2,7 +2,7 @@ import getStats from "./stats";
 const getRandomName = require("./names");
 const arrayFacets = require("./arrayFacets");
 const tables = require("../table roller/tables");
-const { getRandomElement } = require("../table roller/tableUtils");
+const { rollOnTable } = require("../table roller/tableUtils");
 
 export const npcTemplates = {
 	background: {
@@ -74,24 +74,24 @@ function getNpcFacet(key, params) {
 	let func;
 	switch (key) {
 		case "descent":
-			return getRandomElement(["norræn", "woodlands", "asculum"]);
+			return rollOnTable(["norræn", "woodlands", "asculum"]);
 		case "sex":
-			return getRandomElement(["male", "female"]);
+			return rollOnTable(["male", "female"]);
 		case "agenda":
-			return getRandomElement(tables.customTables.agenda);
+			return rollOnTable(tables.customTables.agenda);
 		case "name":
 			return getRandomName(params.sex, params.descent);
 		case "highConcept":
 			const table =
 				tables.npcTypes[
-					getRandomElement([
+					rollOnTable([
 						"commoners",
 						"underclass",
 						"specificVillagers",
 						"specificWarriors"
 					])
 				];
-			return getRandomElement(table);
+			return rollOnTable(table);
 		case "characterisation":
 			func = arrayFacets.getNumOfCharacterisations;
 			return getArrayOfNpcDetails(key, params, func);
