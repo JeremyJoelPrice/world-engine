@@ -1,4 +1,4 @@
-exports.overview = [
+exports.relationsWithTheirNeighbors = [
 	"Isolated, distrusted or disliked by most",
 	"Creditor. with many owing them povmen!",
 	"Scorned, derided for some deed or trait",

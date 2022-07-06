@@ -58,7 +58,7 @@ exports.howDidItBecomeRuined = [
 	"Some dire monster or great toe smashed it",
 	"Its inhabitants died out or simply left it"
 ];
-exports.whyHasntItBeenPlunderedBeforeYet = [
+exports.whyHasntItBeenPlunderedBareYet = [
 	"The environment around it is very dangerous",
 	"It's cursed, plaque, or has some miasmo",
 	"The locals kill or drive off looters",
