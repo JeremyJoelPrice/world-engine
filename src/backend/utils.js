@@ -1,4 +1,4 @@
-exports.generateIndex = (range) => {
+const generateIndex = (range) => {
 	// generate numbers according to a power law
 	const rand = Math.random();
 
@@ -11,3 +11,14 @@ exports.generateIndex = (range) => {
 
 	return result;
 };
+
+const expect_or = (...tests) => {
+	try {
+		tests.shift()();
+	} catch (e) {
+		if (tests.length) expect_or(...tests);
+		else throw e;
+	}
+};
+
+module.exports = { expect_or, generateIndex };
