@@ -55,6 +55,7 @@ exports.getReligiousCourtThumbnail = () =>
 // Ruins
 exports.getRuinsThumbnail = () => getThumbnail(ruins, ruinTags);
 
+// Wilderness
 exports.getWildernessThumbnail = () => getThumbnail(wilderness, wildernessTags);
 
 function getThumbnail(tablesObj, tagsTable) {

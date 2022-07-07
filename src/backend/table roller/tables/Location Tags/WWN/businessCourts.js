@@ -1,6 +1,6 @@
 exports.relationsWithTheLocalMarket = [
 	"Trusted, they'ro a fixture of the local market",
-	"Angry, they've done something to inturiate",
+	"Angry, they've done something to infuriate",
 	"Curious, they've come up with a new thing",
 	"Resentful, they deal harshly and graspingly",
 	"Suspicious, they're rumored to do vile things",
