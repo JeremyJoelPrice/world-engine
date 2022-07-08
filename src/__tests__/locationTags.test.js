@@ -60,7 +60,6 @@ describe("location thumbnails", () => {
 			Object.keys(communitiesThumbnailFunctions).forEach((key) => {
 				test(`${key} returns thumbnail`, () => {
 					const thumbnail = communitiesThumbnailFunctions[key]();
-					console.log(thumbnail);
 					expect(thumbnail).toMatchObject({
 						rationaleForTheCommunitiesExistance: expect.any(String),
 						whoRunsIt: expect.any(String),

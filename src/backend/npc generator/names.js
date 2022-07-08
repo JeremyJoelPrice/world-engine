@@ -26,15 +26,15 @@ module.exports = (sex, descent) => {
 function getRandomNorrænName(sex) {
 	let firstNameTable, lastNameTable, lastNameSuffix;
 	if (sex === "male") {
-		firstNameTable = lastNameTable = tables.names.norrænMaleNames;
+		firstNameTable = lastNameTable = tables.npcTables.names.norrænMaleNames;
 		lastNameSuffix = "son";
 	}
 	if (sex === "female") {
-		firstNameTable = tables.names.norrænFemaleNames;
+		firstNameTable = tables.npcTables.names.norrænFemaleNames;
 		lastNameTable =
 			Math.random() < 0.8
-				? tables.names.norrænMaleNames
-				: tables.names.norrænFemaleNames;
+				? tables.npcTables.names.norrænMaleNames
+				: tables.npcTables.names.norrænFemaleNames;
 		lastNameSuffix = "sdottir";
 	}
 
@@ -46,10 +46,10 @@ function getRandomNorrænName(sex) {
 function getRandomAsculumName(sex) {
 	const praenomenTable =
 		sex === "male"
-			? tables.names.asculumMalePraenomina
-			: tables.names.asculumFemalePraenomina;
-	const nomenTable = tables.names.asculumNomina;
-	const cognomenTable = tables.names.asculumCognomina;
+			? tables.npcTables.names.asculumMalePraenomina
+			: tables.npcTables.names.asculumFemalePraenomina;
+	const nomenTable = tables.npcTables.names.asculumNomina;
+	const cognomenTable = tables.npcTables.names.asculumCognomina;
 
 	return `${rollOnTable(praenomenTable)} ${rollOnTable(
 		nomenTable
@@ -59,18 +59,18 @@ function getRandomAsculumName(sex) {
 function getRandomWoodlandName(sex) {
 	let firstName = rollOnTable(
 		sex === "male"
-			? tables.names.woodlandMaleFirstNames
-			: tables.names.woodlandFemaleFirstNames
+			? tables.npcTables.names.woodlandMaleFirstNames
+			: tables.npcTables.names.woodlandFemaleFirstNames
 	);
 
 	let lastName;
 	const random = Math.random();
 	if (random <= 0.25) {
-		lastName = rollOnTable(tables.names.occupationalSurnames);
+		lastName = rollOnTable(tables.npcTables.names.occupationalSurnames);
 	} else if (random <= 75) {
-		lastName = `Mac${rollOnTable(tables.names.woodlandMaleFirstNames)}`;
+		lastName = `Mac${rollOnTable(tables.npcTables.names.woodlandMaleFirstNames)}`;
 	} else {
-		lastName = `O'${rollOnTable(tables.names.woodlandMaleFirstNames)}`;
+		lastName = `O'${rollOnTable(tables.npcTables.names.woodlandMaleFirstNames)}`;
 	}
 
 	return `${firstName} ${lastName}`;

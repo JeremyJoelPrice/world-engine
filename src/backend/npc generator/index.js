@@ -78,12 +78,12 @@ function getNpcFacet(key, params) {
 		case "sex":
 			return rollOnTable(["male", "female"]);
 		case "agenda":
-			return rollOnTable(tables.customTables.agenda);
+			return rollOnTable(tables.npcTables.customTables.agenda);
 		case "name":
 			return getRandomName(params.sex, params.descent);
 		case "highConcept":
 			const table =
-				tables.npcTypes[
+				tables.npcTables.npcTypes[
 					rollOnTable([
 						"commoners",
 						"underclass",
