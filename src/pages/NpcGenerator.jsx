@@ -3,11 +3,13 @@ import { BodyText, Header, Subheader } from "../components/StyledText";
 import { useState } from "react";
 import { uid } from "../utils/utils";
 import { npcOptions } from "../datasource";
-const { sex, race } = npcOptions;
+import getNpcs from "../services/npcGeneratorService";
+const { sex, race, flavour } = npcOptions;
 
 const NpcGenerator = () => {
 	const [chosenSex, setChosenSex] = useState(sex[0]); // the 0th element is "random"
 	const [chosenRace, setChosenRace] = useState(race[0]);
+	const [chosenFlavour, setChosenFlavour] = useState(flavour[0]);
 
 	const menuOptions = [
 		{
@@ -21,11 +23,19 @@ const NpcGenerator = () => {
 			options: race,
 			state: chosenRace,
 			stateChange: setChosenRace
+		},
+		{
+			title: "Flavour",
+			options: flavour,
+			state: chosenFlavour,
+			stateChange: setChosenFlavour
 		}
 	];
 
 	const getRandomNpc = () => {
-		console.log("getting npc");
+		const { name, sex } = getNpcs(1, chosenSex, chosenFlavour)[0];
+		console.log(name);
+		console.log(sex);
 	};
 
 	return (
