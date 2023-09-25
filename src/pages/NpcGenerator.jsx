@@ -2,31 +2,30 @@ import styled from "styled-components";
 import { BodyText, Header, Subheader } from "../components/StyledText";
 import { useState } from "react";
 import { uid } from "../utils/utils";
-import { npcOptions } from "../datasource";
-import getNpcs from "../services/npcGeneratorService";
-const { sex, race, flavour } = npcOptions;
+import { getNpcs, npcOptions } from "../services/npcGeneratorService";
+const { sexOptions, raceOptions, flavourOptions } = npcOptions;
 
 const NpcGenerator = () => {
-	const [chosenSex, setChosenSex] = useState(sex[0]); // the 0th element is "random"
-	const [chosenRace, setChosenRace] = useState(race[0]);
-	const [chosenFlavour, setChosenFlavour] = useState(flavour[0]);
+	const [chosenSex, setChosenSex] = useState(sexOptions[0]); // the 0th element is "random"
+	const [chosenRace, setChosenRace] = useState(raceOptions[0]);
+	const [chosenFlavour, setChosenFlavour] = useState(flavourOptions[0]);
 
 	const menuOptions = [
 		{
 			title: "Sex",
-			options: sex,
+			options: sexOptions,
 			state: chosenSex,
 			stateChange: setChosenSex
 		},
 		{
 			title: "Race",
-			options: race,
+			options: raceOptions,
 			state: chosenRace,
 			stateChange: setChosenRace
 		},
 		{
 			title: "Flavour",
-			options: flavour,
+			options: flavourOptions,
 			state: chosenFlavour,
 			stateChange: setChosenFlavour
 		}

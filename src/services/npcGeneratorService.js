@@ -1,12 +1,55 @@
+import { npcNames } from "../datasource";
+
+/**
+ * NPC Generator Config
+ *
+ * These variabels define the menu options shown on the front end
+ *
+ * */
+
+// options lists comprise the menus
+const sexOptions = ["Random", "Male", "Female"];
+const raceOptions = [
+	"Random",
+	"Human",
+	"Dwarf",
+	"Gnome",
+	"Elf",
+	"Tiefling",
+	"Goblin"
+];
+const flavourOptions = ["Random", "Celtic", "Latin", "Norse", "Persian"];
+const npcOptions = { sexOptions, raceOptions, flavourOptions };
+
+// map name lists from the db to the name options defined above
+const npcOptionNameListMap = {
+	Norse: {
+		maleForenames: npcNames.norseNames["male forenames"],
+		femaleForenames: npcNames.norseNames["female forenames"]
+	},
+	Latin: {
+		maleForenames: npcNames.latinNames["male forenames"],
+		femaleForenames: npcNames.latinNames["female forenames"],
+		surnames: npcNames.latinNames.surnames
+	},
+	Celtic: {
+		maleForenames: npcNames.celticNames["male forenames"],
+		femaleForenames: npcNames.celticNames["female forenames"],
+		surnames: npcNames.celticNames.surnames
+	},
+	Persian: {
+		maleForenames: npcNames.persianNames["male forenames"],
+		femaleForenames: npcNames.persianNames["female forenames"],
+		surnames: npcNames.persianNames.surnames
+	}
+};
+
 /**
  * _API_
  *
  * These are the publicly available functions which can be used to request an NPC
  * based on certain given parameters
  *  */
-
-import { npcNames, npcOptionNameListMap, npcOptions } from "../datasource";
-const { flavour: flavourOptions, sex: sexOptions } = npcOptions;
 
 const getNpcs = (quantity, sex, flavour) => {
 	/**
@@ -80,4 +123,4 @@ const getNameTables = (sex, flavour) => {
 	return { firstNames, surnames };
 };
 
-export default getNpcs;
+export { npcOptions, getNpcs };
