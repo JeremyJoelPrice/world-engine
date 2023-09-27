@@ -10,7 +10,7 @@ const NpcGenerator = () => {
 	const [chosenRace, setChosenRace] = useState(raceOptions[0]);
 	const [chosenFlavour, setChosenFlavour] = useState(flavourOptions[0]);
 
-	const menuOptions = [
+	const menus = [
 		{
 			title: "Sex",
 			options: sexOptions,
@@ -40,9 +40,9 @@ const NpcGenerator = () => {
 	return (
 		<>
 			<Header>NPC Generator</Header>
-			<Menu>
-				{menuOptions.map(({ title, options, state, stateChange }) => (
-					<div key={uid()}>
+			<MenusContainer>
+				{menus.map(({ title, options, state, stateChange }) => (
+					<Menu key={uid()}>
 						<OptionTitle>{title}</OptionTitle>
 						<OptionList>
 							{options.map((optionName) => {
@@ -56,9 +56,9 @@ const NpcGenerator = () => {
 								);
 							})}
 						</OptionList>
-					</div>
+					</Menu>
 				))}
-			</Menu>
+			</MenusContainer>
 			<br />
 			<br />
 			<GenerateButton onClick={getRandomNpc}>Generate</GenerateButton>
@@ -68,11 +68,15 @@ const NpcGenerator = () => {
 
 export default NpcGenerator;
 
-const Menu = styled.div`
+const MenusContainer = styled.div`
 	justify-content: space-evenly;
 	display: flex;
 	width: 50%;
 	margin: 0 auto;
+`;
+
+const Menu = styled.div`
+	max-width: 35%;
 `;
 
 const OptionTitle = styled(Subheader)`
@@ -81,9 +85,8 @@ const OptionTitle = styled(Subheader)`
 
 const OptionList = styled.div`
 	display: flex;
-	flex-direction: column;
 	flex-wrap: wrap;
-	height: 150px;
+	justify-content: center;
 `;
 
 const Option = ({ label, isActive, onClick }) => {
@@ -95,6 +98,7 @@ const Option = ({ label, isActive, onClick }) => {
 };
 
 const StyledOption = styled(BodyText)`
+	width: 80px;
 	text-align: center;
 	padding: 5px 10px;
 	border: 1pt solid gold;
