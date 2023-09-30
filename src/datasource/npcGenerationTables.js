@@ -3230,7 +3230,7 @@ exports.agenda = [
 	"They want a matter hushed up",
 	"To win the love or possession of someone",
 	"To obtain riches and personal wealth",
-	"To win political power or an particular ofﬁce",
+	"To win political power or a particular ofﬁce",
 	"To obtain glory or get fame for a skill",
 	"To gain a particular property or piece of land",
 	"To go to or explore a far-off place",
