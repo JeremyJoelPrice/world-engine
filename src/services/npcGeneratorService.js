@@ -1,5 +1,17 @@
-import { npcNames } from "../datasource";
+import npcTables, {
+	agenda,
+	approach,
+	assets,
+	disposition,
+	highConcepts,
+	limits,
+	nonphysicalCharacterisation,
+	physicalCharacterisation,
+	relator
+} from "../datasource/npcGenerationTables";
 import { rollOnTable } from "../utils/utils";
+
+const { names: npcNames } = npcTables;
 
 /**
  * NPC Generator Config
@@ -23,7 +35,7 @@ const flavourOptions = ["Random", "Celtic", "Latin", "Norse", "Persian"];
 const npcOptions = { sexOptions, raceOptions, flavourOptions };
 
 // map name lists from the db to the name options defined above
-const npcOptionNameListMap = {
+const npcFlavourOptionNameListMap = {
 	Norse: {
 		maleForenames: npcNames.norseNames["male forenames"],
 		femaleForenames: npcNames.norseNames["female forenames"]
@@ -53,27 +65,6 @@ const npcOptionNameListMap = {
  *  */
 
 const getNpcs = (quantity, sex, flavour) => {
-	/**
-	 * What is an NPC?
-	 *
-	 * A name
-	 *
-	 * High concept / occupation
-	 *
-	 * Characterisation
-	 *
-	 * Relationships
-	 *
-	 * Agenda
-	 *
-	 * Approach
-	 *
-	 * Assets
-	 *
-	 * Limits
-	 *
-	 */
-
 	const npcs = [];
 	for (let i = 0; i < quantity; i++) {
 		// resolve "Random" values for sex and flavour
@@ -88,6 +79,13 @@ const getNpcs = (quantity, sex, flavour) => {
 
 		npc.name = getName(sex, flavour);
 		npc.sex = sex;
+		npc.highConcept = rollOnTable(highConcepts);
+		npc.characterisation = getCharacterisation();
+		npc.relationships = getRelationships();
+		npc.agenda = rollOnTable(agenda);
+		npc.approach = rollOnTable(approach, 2);
+		npc.assets = rollOnTable(assets, 2);
+		npc.limits = rollOnTable(limits, 2);
 		npcs.push(npc);
 	}
 
@@ -97,6 +95,8 @@ const getNpcs = (quantity, sex, flavour) => {
 const resolveRandomOption = (optionList) => {
 	return optionList[parseInt(Math.random() * (optionList.length - 1)) + 1];
 };
+
+// NPC Names
 
 const getName = (sex, flavour) => {
 	const { firstNames, surnames } = getNameTables(sex, flavour);
@@ -111,7 +111,7 @@ const getName = (sex, flavour) => {
 const getNameTables = (sex, flavour) => {
 	// get specific name tables
 	let { maleForenames, femaleForenames, surnames } =
-		npcOptionNameListMap[flavour];
+		npcFlavourOptionNameListMap[flavour];
 
 	const firstNames = sex === "Male" ? maleForenames : femaleForenames;
 
@@ -122,6 +122,22 @@ const getNameTables = (sex, flavour) => {
 	}
 
 	return { firstNames, surnames };
+};
+
+// Other NPC Details
+
+const getCharacterisation = () => {
+	return [
+		rollOnTable(physicalCharacterisation),
+		rollOnTable(nonphysicalCharacterisation)
+	];
+};
+
+const getRelationships = () => {
+	return [
+		`${rollOnTable(disposition)} toward PCs`,
+		`${rollOnTable(disposition)} toward ${rollOnTable(relator)}`
+	];
 };
 
 export { npcOptions, getNpcs };
