@@ -32,9 +32,8 @@ const NpcGenerator = () => {
 	];
 
 	const getRandomNpc = () => {
-		const { name, sex } = getNpcs(1, chosenSex, chosenFlavour)[0];
-		console.log(name);
-		console.log(sex);
+		const npcs = getNpcs(1, chosenSex, chosenFlavour);
+		console.log(npcs[0]);
 	};
 
 	return (
