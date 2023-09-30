@@ -64,21 +64,23 @@ const npcFlavourOptionNameListMap = {
  * based on certain given parameters
  *  */
 
-const getNpcs = (quantity, sex, flavour) => {
+const getNpcs = (quantity, sex, flavour, race) => {
 	const npcs = [];
 	for (let i = 0; i < quantity; i++) {
-		// resolve "Random" values for sex and flavour
+		// resolve "Random" values for sex, flavour and race
 		flavour =
 			flavour === "Random"
 				? resolveRandomOption(flavourOptions)
 				: flavour;
 		sex = sex === "Random" ? resolveRandomOption(sexOptions) : sex;
+		race = race === "Random" ? resolveRandomOption(raceOptions) : race;
 
 		// generate an npc
 		const npc = {};
 
 		npc.name = getName(sex, flavour);
 		npc.sex = sex;
+		npc.race = race;
 		npc.highConcept = rollOnTable(highConcepts);
 		npc.characterisation = getCharacterisation();
 		npc.relationships = getRelationships();
