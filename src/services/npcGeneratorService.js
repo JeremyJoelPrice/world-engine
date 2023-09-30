@@ -1,4 +1,5 @@
 import { npcNames } from "../datasource";
+import { rollOnTable } from "../utils/utils";
 
 /**
  * NPC Generator Config
@@ -101,10 +102,10 @@ const getName = (sex, flavour) => {
 	const { firstNames, surnames } = getNameTables(sex, flavour);
 
 	// generate name
-	const firstName = firstNames[parseInt(Math.random() * firstNames.length)];
-	const surname = surnames[parseInt(Math.random() * surnames.length)];
+	const firstName = rollOnTable(firstNames);
+	const surname = rollOnTable(surnames);
 
-	return { firstName, surname };
+	return `${firstName} ${surname}`;
 };
 
 const getNameTables = (sex, flavour) => {
