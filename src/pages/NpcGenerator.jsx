@@ -88,7 +88,10 @@ const NpcCard = ({ npc }) => {
 	const handleClick = (e) => {
 		setTooltipVisible("true");
 
-		setTooltipPosition({ x: e.clientX, y: e.clientY });
+		setTooltipPosition({
+			x: e.clientX + window.scrollX,
+			y: e.clientY + window.scrollY
+		});
 		// Update tooltip position while the mouse moves
 		const moveHandler = (e) => {
 			setTooltipPosition({
