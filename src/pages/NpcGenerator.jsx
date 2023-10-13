@@ -174,24 +174,24 @@ ${highConcept}\n`;
 
 	text += `\n_Characterisation_\n`;
 	characterisation.forEach((e) => {
-		text += `${e}\n`;
+		text += `\t${e}\n`;
 	});
 	text += `\n_Relationships_\n`;
 	relationships.forEach((e) => {
-		text += `${e}\n`;
+		text += `\t${e}\n`;
 	});
 	text += `\n_Agenda_\n${agenda}\n`;
 	text += `\n_Approach_\n`;
 	approach.forEach((e) => {
-		text += `${e}\n`;
+		text += `\t${e}\n`;
 	});
 	text += `\n_Assets_\n`;
 	assets.forEach((e) => {
-		text += `${e}\n`;
+		text += `\t${e}\n`;
 	});
 	text += `\n_Limits_\n`;
 	limits.forEach((e) => {
-		text += `${e}\n`;
+		text += `\t${e}\n`;
 	});
 	navigator.clipboard.writeText(text);
 }
