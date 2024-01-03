@@ -1,12 +1,22 @@
 import styled from "styled-components";
 import { BodyText, Header, Subheader } from "../components/StyledText";
 import colors from "./Colors";
+import NpcGenerator from "../pages/NpcGenerator";
+
+const pageMap = {
+	"NPC Generator": NpcGenerator
+};
 
 const Navbar = () => {
 	return (
 		<Background>
-			<NavbarItem>NPC Generator</NavbarItem>
-			<NavbarItem>Combat Stats</NavbarItem>
+			{Object.keys(pageMap).map((key) => {
+				return (
+					<NavbarItem key={key} page={pageMap[key]}>
+						{key}
+					</NavbarItem>
+				);
+			})}
 		</Background>
 	);
 };
