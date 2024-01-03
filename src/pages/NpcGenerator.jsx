@@ -37,7 +37,7 @@ const NpcGenerator = () => {
 	};
 
 	return (
-		<>
+		<PageContainer>
 			<Header>NPC Generator</Header>
 			<MenusContainer>
 				{menus.map(({ title, options, state, stateChange }) => (
@@ -64,7 +64,7 @@ const NpcGenerator = () => {
 			{npcs?.map((npc) => {
 				return <NpcCard key={uid()} npc={npc} />;
 			})}
-		</>
+		</PageContainer>
 	);
 };
 
@@ -197,6 +197,10 @@ ${highConcept}\n`;
 }
 
 /* Styled Components */
+
+const PageContainer = styled.div`
+	display: block;
+`;
 
 const MenusContainer = styled.div`
 	justify-content: space-evenly;
