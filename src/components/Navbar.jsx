@@ -1,18 +1,23 @@
 import styled from "styled-components";
-import { BodyText, Header, Subheader } from "../components/StyledText";
+import { Subheader } from "../components/StyledText";
 import colors from "./Colors";
 import NpcGenerator from "../pages/NpcGenerator";
+import CombatStats from "../pages/CombatStats";
 
 const pageMap = {
-	"NPC Generator": NpcGenerator
+	"NPC Generator": <NpcGenerator />,
+	"Combat Stats": <CombatStats />
 };
 
-const Navbar = () => {
+const Navbar = ({ setCurrentPage }) => {
 	return (
 		<Background>
 			{Object.keys(pageMap).map((key) => {
 				return (
-					<NavbarItem key={key} page={pageMap[key]}>
+					<NavbarItem
+						key={key}
+						page={pageMap[key]}
+						setCurrentPage={setCurrentPage}>
 						{key}
 					</NavbarItem>
 				);
@@ -23,9 +28,12 @@ const Navbar = () => {
 
 export default Navbar;
 
-const NavbarItem = ({ children }) => {
+const NavbarItem = ({ children, page, setCurrentPage }) => {
 	return (
-		<StyledNavbarItem>
+		<StyledNavbarItem
+			onClick={() => {
+				setCurrentPage(page);
+			}}>
 			<NavbarText>{children}</NavbarText>
 		</StyledNavbarItem>
 	);
