@@ -6,21 +6,55 @@ import {
 	getStats,
 	roleOptions
 } from "../services/combatStatsService";
-import genericMonsterStats from "../datasource/genericMonsterStats";
 import { useState } from "react";
+import { uid } from "../utils/utils";
 
 const CombatStats = () => {
 	const [rows, setRows] = useState([]);
+	const [cr, setCr] = useState(crOptions[0]);
 
-	// const copyRow = (cr, role) => {};
+	const addRow = (role) => {
+		setRows((currentRows) => {
+			const newRows = [...currentRows];
+			const stats = getStats(cr, role);
+			newRows.push({
+				stats,
+				role
+			});
+			return newRows;
+		});
+	};
 
 	return (
 		<>
 			<Header>Combat Stats</Header>
-			<CopyButton>Copy Row</CopyButton>
-			<StatRow initialCR={crOptions[0]} initialRole={roleOptions[0]} />
-			{rows.map((r) => {
-				return <StatRow key={r} />;
+			<MenuContainer>
+				<RoleButtonContainer>
+					{roleOptions.map((r) => {
+						return (
+							<RoleButton key={r} onClick={() => addRow(r)}>
+								{r}
+							</RoleButton>
+						);
+					})}
+				</RoleButtonContainer>
+				<StyledDropdown
+					value={cr}
+					onChange={(event) => {
+						event.preventDefault();
+						setCr(Number(event.target.value));
+					}}>
+					{crOptions.map((o) => {
+						return (
+							<option key={o} value={o}>
+								{o}
+							</option>
+						);
+					})}
+				</StyledDropdown>
+			</MenuContainer>
+			{rows.map(({ stats, role }) => {
+				return <StatRow key={uid()} stats={stats} role={role} />;
 			})}
 		</>
 	);
@@ -30,70 +64,25 @@ export default CombatStats;
 
 /* Other Components */
 
-const StatRow = ({ initialCR, initialRole }) => {
-	const [role, setRole] = useState(initialRole);
-	const [cr, setCR] = useState(initialCR);
-	const [stats, setStats] = useState(getStats(cr, role));
-
-	// console.log("[CombatStats]");
-	// console.log("	cr: ", cr);
-	// console.log("	role: ", role);
-	// console.log("	stats: ", stats);
-
-	const handleChange = (event) => {
-		event.preventDefault();
-		const { name, value } = event.target;
-		switch (name) {
-			case "role":
-				setRole((prevRole) => {
-					const newRole = value;
-					setStats(getStats(cr, newRole));
-					return newRole;
-				});
-				break;
-			case "cr":
-				setCR((prevCr) => {
-					const newCr = Number(value);
-					setStats(getStats(newCr, role));
-					return newCr;
-				});
-				break;
-			default:
-				break;
-		}
-	};
-
+const StatRow = ({ stats, role }) => {
 	return (
 		<StyledStatRow>
-			role
-			<StyledDropdown name="role" value={role} onChange={handleChange}>
-				{roleOptions.map((o) => {
-					return (
-						<option key={o} value={o}>
-							{o}
-						</option>
-					);
-				})}
-			</StyledDropdown>
+			<WidthLabel width={"90px"}>{role}</WidthLabel>
 			CR
-			<StyledDropdown name="cr" value={cr} onChange={handleChange}>
-				{crOptions.map((o) => {
-					return (
-						<option key={o} value={o}>
-							{o}
-						</option>
-					);
-				})}
-			</StyledDropdown>
-			ac{stats.ac} prof{stats.proficiency} hp{stats.hpMin}-{stats.hpMax}{" "}
-			att{stats.attack} dmg
-			{stats.dmgMin}-{stats.dmgMax} dc{stats.dc}
+			<WidthLabel width={"25px"}>{stats.cr}</WidthLabel>
+			ac{stats.ac} prof{stats.proficiency} hp
+			<WidthLabel width={"75px"}>
+				{stats.hpMin}-{stats.hpMax}
+			</WidthLabel>
+			att
+			<WidthLabel width={"25px"}>{stats.attack}</WidthLabel>
+			dmg
+			<WidthLabel width={"75px"}>
+				{stats.dmgMin}-{stats.dmgMax}
+			</WidthLabel>
+			dc{stats.dc}
 		</StyledStatRow>
 	);
-};
-
-const NewRowButton = () => {
-	return <StyledAddButton>+</StyledAddButton>;
 };
 
 /* Styled Components */
@@ -112,37 +101,35 @@ const StyledDropdown = styled.select`
 	outline: none;
 	font-family: Times, "Times New Roman", Georgia, serif;
 	font-size: 14pt;
-	min-width: 65px;
 	text-align: center;
-	margin: 0 10px 0 0;
 `;
 
-const StyledAddButton = styled.button`
-	background-color: transparent;
-	color: ${colors.cream2};
-	border: none;
-	box-shadow: beige 0px 0px 1px 1px;
-	border-radius: 25px;
-	margin: 1px 10px 0;
-	height: 1.5em;
-
-	&:hover {
-		cursor: pointer;
-	}
+const RoleButtonContainer = styled.div`
+	display: flex;
+	margin: 10px;
+	flex-wrap: wrap;
+	width: 200px;
 `;
 
-const CopyButton = styled.button`
-	display: block;
-
-	margin: 0 auto 10px;
-	padding: 5px 10px;
-
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-size: 16pt;
+const RoleButton = styled.button`
+	flex-grow: 1;
+	min-width: 100px;
+	padding: 5px;
 	color: ${colors.cream};
 	background-color: ${colors.darkgrey};
 	border-radius: 6px;
 	&:hover {
 		cursor: pointer;
 	}
+`;
+
+const MenuContainer = styled.div`
+	text-align: center;
+	display: flex;
+	justify-content: center;
+`;
+
+const WidthLabel = styled.div`
+	display: inline-block;
+	width: ${(props) => props.width || "90px"};
 `;

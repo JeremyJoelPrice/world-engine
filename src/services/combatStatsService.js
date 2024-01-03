@@ -10,13 +10,13 @@ const crOptions = [
 ];
 
 const roleOptions = [
-	"infantry",
-	"brute",
-	"artillery",
-	"skirmisher",
-	"lurker",
+	"leader",
 	"controller",
-	"leader"
+	"lurker",
+	"skirmisher",
+	"artillery",
+	"brute",
+	"infantry"
 ];
 
 /**
