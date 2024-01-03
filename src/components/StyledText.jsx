@@ -1,19 +1,20 @@
 import styled from "styled-components";
+import colors from "./Colors";
 
 const BodyText = styled.div`
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 14pt;
-	color: rgb(239, 233, 203);
+	color: ${colors.cream};
 	line-height: 1.5em;
 	white-space: pre-line;
 `;
 
 const Header = styled(BodyText)`
 	font-size: 24pt;
-	margin: 20px 0 10px;
+	margin: 20px 0 20px;
 	text-align: center;
 	line-height: 1em;
-	color: rgb(213, 194, 103);
+	color: ${colors.cream2};
 `;
 
 const Subheader = styled(Header)`

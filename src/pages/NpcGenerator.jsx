@@ -3,6 +3,7 @@ import { BodyText, Header, Subheader } from "../components/StyledText";
 import { useState } from "react";
 import { uid } from "../utils/utils";
 import { getNpcs, npcOptions } from "../services/npcGeneratorService";
+import colors from "../components/Colors";
 const { sexOptions, raceOptions, flavourOptions } = npcOptions;
 
 const NpcGenerator = () => {
@@ -230,13 +231,13 @@ const StyledOption = styled(BodyText)`
 	border: 1pt solid gold;
 
 	&:hover {
-		background-color: rgba(40, 40, 40, 0.8);
+		background-color: ${colors.darkgrey};
 		cursor: pointer;
 	}
 `;
 
 const StyledChosenOption = styled(StyledOption)`
-	background-color: rgba(40, 40, 40, 0.8);
+	background-color: ${colors.darkgrey};
 `;
 
 const GenerateButton = styled.button`
@@ -247,16 +248,19 @@ const GenerateButton = styled.button`
 
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 16pt;
-	color: rgb(239, 233, 203);
-	background-color: rgba(40, 40, 40, 0.8);
+	color: ${colors.cream};
+	background-color: ${colors.darkgrey};
 	border-radius: 6px;
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
 const StyledNpcCard = styled.div`
 	width: fit-content;
 	margin: 40px auto 0;
 	padding: 10px 30px;
-	background-color: rgb(32, 32, 42);
+	background-color: ${colors.bluegrey};
 
 	&:hover {
 		cursor: pointer;
@@ -273,13 +277,13 @@ const CeneteredText = styled(BodyText)`
 `;
 
 const NpcHeader = styled(BodyText)`
-	color: rgb(213, 194, 103);
+	color: ${colors.cream2};
 `;
 
 const TooltipWrapper = styled(NpcHeader)`
 	position: absolute;
 
-	color: rgb(142, 142, 142);
+	color: ${colors.grey};
 	font-family: Helvetica, sans serif;
 
 	transition: opacity 0.5s;
