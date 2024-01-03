@@ -43,7 +43,7 @@ const NpcGenerator = () => {
 			<MenusContainer>
 				{menus.map(({ title, options, state, stateChange }) => (
 					<Menu key={uid()}>
-						<OptionTitle>{title}</OptionTitle>
+						<Subheader>{title}</Subheader>
 						<OptionList>
 							{options.map((optionName) => {
 								return (
@@ -214,10 +214,6 @@ const Menu = styled.div`
 	max-width: 35%;
 `;
 
-const OptionTitle = styled(Subheader)`
-	text-align: center;
-`;
-
 const OptionList = styled.div`
 	display: flex;
 	flex-wrap: wrap;
@@ -268,7 +264,6 @@ const StyledNpcCard = styled.div`
 `;
 
 const NpcName = styled(Subheader)`
-	text-align: center;
 	margin: 0;
 `;
 

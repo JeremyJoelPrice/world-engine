@@ -19,7 +19,6 @@ const Header = styled(BodyText)`
 
 const Subheader = styled(Header)`
 	font-size: 18pt;
-	text-align: left;
 `;
 
 export { BodyText, Header, Subheader };
