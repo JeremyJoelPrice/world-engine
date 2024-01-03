@@ -15,10 +15,7 @@ const { names: npcNames } = npcTables;
 
 /**
  * NPC Generator Config
- *
- * These variabels define the menu options shown on the front end
- *
- * */
+ */
 
 // options lists comprise the menus
 const sexOptions = ["Random", "Male", "Female"];
@@ -58,11 +55,8 @@ const npcFlavourOptionNameListMap = {
 };
 
 /**
- * _API_
- *
- * These are the publicly available functions which can be used to request an NPC
- * based on certain given parameters
- *  */
+ * NPC Generator API
+ */
 
 const getNpcs = (quantity, sex, flavour, race) => {
 	const npcs = [];
@@ -97,6 +91,10 @@ const getNpcs = (quantity, sex, flavour, race) => {
 const resolveRandomOption = (optionList) => {
 	return optionList[parseInt(Math.random() * (optionList.length - 1)) + 1];
 };
+
+/**
+ * NPC Generator Utility Functions
+ */
 
 // NPC Names
 
