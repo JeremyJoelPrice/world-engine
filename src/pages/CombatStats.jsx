@@ -19,10 +19,15 @@ const CombatStats = () => {
 			const stats = getStats(cr, role);
 			newRows.push({
 				stats,
-				role
+				role,
+				id: uid()
 			});
 			return newRows;
 		});
+	};
+
+	const removeRow = (id) => {
+		setRows((currentRows) => currentRows.filter((row) => id !== row.id));
 	};
 
 	return (
@@ -53,8 +58,16 @@ const CombatStats = () => {
 					})}
 				</StyledDropdown>
 			</MenuContainer>
-			{rows.map(({ stats, role }) => {
-				return <StatRow key={uid()} stats={stats} role={role} />;
+			{rows.map(({ stats, role, id }) => {
+				return (
+					<StatRow
+						key={id}
+						id={id}
+						stats={stats}
+						role={role}
+						removeFunc={removeRow}
+					/>
+				);
 			})}
 		</>
 	);
@@ -64,7 +77,7 @@ export default CombatStats;
 
 /* Other Components */
 
-const StatRow = ({ stats, role }) => {
+const StatRow = ({ stats, role, id, removeFunc }) => {
 	return (
 		<StyledStatRow>
 			<WidthLabel width={"90px"}>{role}</WidthLabel>
@@ -81,6 +94,7 @@ const StatRow = ({ stats, role }) => {
 				{stats.dmgMin}-{stats.dmgMax}
 			</WidthLabel>
 			dc{stats.dc}
+			<button onClick={() => removeFunc(id)}>kill me</button>
 		</StyledStatRow>
 	);
 };
