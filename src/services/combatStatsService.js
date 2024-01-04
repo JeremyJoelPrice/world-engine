@@ -1,34 +1,38 @@
 import genericMonsterStats from "../datasource/genericMonsterStats";
 
 /**
- * Combat Stats API
+ * Combat Stats Config
  */
 
-const crOptions = [
-	0, 0.125, 0.25, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-	17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
+const roles = [
+	{ name: "leader" },
+	{ name: "controller", buff: ["dc"] },
+	{ name: "lurker", buff: ["highProf", "dc"], debuff: ["hp"] },
+	{ name: "skirmisher" },
+	{ name: "artillery", buff: ["dmg"], debuff: ["ac", "hp"] },
+	{ name: "brute", buff: ["hp", "dmg"], debuff: ["ac"] },
+	{ name: "infantry" }
 ];
-
-const roleOptions = [
-	"leader",
-	"controller",
-	"lurker",
-	"skirmisher",
-	"artillery",
-	"brute",
-	"infantry"
-];
+/**
+ * dmg +/- 2CR
+ * ac +/- 2
+ * hp +/- 2CR
+ * prof +/- 3
+ * save dc +/- 2
+ */
 
 /**
  * Combat Stats API
  */
 
-const getStats = (cr, role) => {
-	const stats = genericMonsterStats.filter(
-		(statblock) => statblock.cr === cr
-	)[0];
+export const getStats = (cr, roleName) => {
+	const stats = {
+		...genericMonsterStats.filter((statblock) => statblock.cr === cr)[0]
+	};
 
-	return stats;
+	const role = roles.filter(({ name }) => name === roleName)[0];
+
+	return applyRole(stats, role);
 };
 
 /**
@@ -36,10 +40,58 @@ const getStats = (cr, role) => {
  */
 
 const applyRole = (stats, role) => {
-	// switch(role) {
+	// for each buff in the role, add the buff
+	// for each debuff in the role, add the debuff
 
-	// }
+	// console.log(stats.cr);
+	role.buff?.forEach((buff) => {
+		switch (buff) {
+			case "dmg":
+			case "hp":
+				stats[buff] = getFromOtherCR(buff, stats.cr, 2);
+				break;
+			case "ac":
+			case "dc":
+				stats[buff] += 2;
+				break;
+			case "highProf":
+				stats[buff] += 3;
+				break;
+			default:
+				break;
+		}
+	});
+	role.debuff?.forEach((debuff) => {
+		switch (debuff) {
+			case "dmg":
+			case "hp":
+				stats[debuff] = getFromOtherCR(debuff, stats.cr, -2);
+				break;
+			case "ac":
+			case "dc":
+				stats[debuff] -= 2;
+				break;
+			case "highProf":
+				stats[debuff] -= 3;
+				break;
+			default:
+				break;
+		}
+	});
 	return stats;
 };
 
-export { crOptions, getStats, roleOptions };
+function getFromOtherCR(statName, cr, crModifier) {
+	for (let i = 0; i < genericMonsterStats.length; i++) {
+		if (genericMonsterStats[i].cr === cr)
+			return genericMonsterStats[
+				Math.max(
+					0,
+					Math.min(genericMonsterStats.length - 1, i + crModifier)
+				)
+			][statName];
+	}
+}
+
+export const crOptions = genericMonsterStats.map(({ cr }) => cr);
+export const roleOptions = roles.map(({ name }) => name);
