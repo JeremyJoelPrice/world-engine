@@ -39,7 +39,7 @@ const CombatStats = () => {
 
 			if (i > 0) text += "\n";
 
-			text += `CR ${cr} ${role}; AC ${ac} HP ${hp}; ${att} attack, ${dmg} damage, ${act} action/s; Save DC ${dc}; ${highProf}/${lowProf} prof`;
+			text += `${role} CR ${cr}; AC ${ac} HP ${hp}; ${att} attack, ${dmg} damage, ${act} action/s; Save DC ${dc}; ${highProf}/${lowProf} prof`;
 		}
 		navigator.clipboard.writeText(text);
 	};
