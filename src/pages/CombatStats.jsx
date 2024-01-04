@@ -32,9 +32,16 @@ const CombatStats = () => {
 
 	const copyCombat = (event) => {
 		event.preventDefault();
-		let text = "copied text";
-		console.log(text);
-		// navigator.clipboard.writeText(text);
+		let text = "";
+		for (let i = 0; i < rows.length; i++) {
+			const { stats, role } = rows[i];
+			const { cr, ac, hp, dmg, att, act, highProf, lowProf, dc } = stats;
+
+			if (i > 0) text += "\n";
+
+			text += `CR ${cr} ${role}; AC ${ac} HP ${hp}; ${att} attack, ${dmg} damage, ${act} action/s; Save DC ${dc}; ${highProf}/${lowProf} prof`;
+		}
+		navigator.clipboard.writeText(text);
 	};
 
 	return (
