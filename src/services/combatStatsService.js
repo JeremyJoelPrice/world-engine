@@ -28,11 +28,6 @@ const getStats = (cr, role) => {
 		(statblock) => statblock.cr === cr
 	)[0];
 
-	// console.log("[getStats()]");
-	// console.log("	cr: ", cr);
-	// console.log("	role: ", role);
-	// console.log("	stats: ", stats);
-
 	return stats;
 };
 

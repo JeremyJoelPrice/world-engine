@@ -100,16 +100,16 @@ const StatRow = ({ stats, role, id, removeFunc }) => {
 			<WidthLabel width={"90px"}>{role}</WidthLabel>
 			CR
 			<WidthLabel width={"50px"}>{stats.cr}</WidthLabel>
-			ac{stats.ac} prof{stats.proficiency} hp
-			<WidthLabel width={"75px"}>
-				{stats.hpMin}-{stats.hpMax}
-			</WidthLabel>
+			ac{stats.ac} hp
+			<WidthLabel width={"40px"}>{stats.hp}</WidthLabel>
 			att
-			<WidthLabel width={"25px"}>{stats.attack}</WidthLabel>
+			<WidthLabel width={"40px"}>{stats.att}</WidthLabel>
 			dmg
-			<WidthLabel width={"75px"}>
-				{stats.dmgMin}-{stats.dmgMax}
-			</WidthLabel>
+			<WidthLabel width={"40px"}>{stats.dmg}</WidthLabel>
+			prof high
+			<WidthLabel width={"40px"}> {stats.highProf}</WidthLabel>
+			prof low
+			<WidthLabel width={"20px"}>{stats.lowProf}</WidthLabel>
 			dc{stats.dc}
 			<RemoveRowButton onClick={() => removeFunc(id)}>X</RemoveRowButton>
 		</StyledStatRow>
