@@ -41,7 +41,7 @@ const NavbarItem = ({ children, page, setCurrentPage }) => {
 
 const Background = styled.div`
 	background-color: ${colors.darkgrey};
-	width: 200px;
+	min-width: 200px;
 `;
 
 const StyledNavbarItem = styled.div`
