@@ -1,6 +1,6 @@
 /* Returns a unique key for lists in React */
 const uid = () => {
-	return parseInt(Math.random() * 100000);
+	return parseInt(Math.random() * 10000000);
 };
 
 /**

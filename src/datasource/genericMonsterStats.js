@@ -6,7 +6,7 @@ const stats = [
 		hpMin: 1,
 		hpMax: 6,
 		attack: 1,
-		dmgMin: 0,
+		dmgMin: 1,
 		dmgMax: 1,
 		dc: 11
 	},
