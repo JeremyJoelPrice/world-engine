@@ -30,6 +30,13 @@ const CombatStats = () => {
 		setRows((currentRows) => currentRows.filter((row) => id !== row.id));
 	};
 
+	const copyCombat = (event) => {
+		event.preventDefault();
+		let text = "copied text";
+		console.log(text);
+		// navigator.clipboard.writeText(text);
+	};
+
 	return (
 		<>
 			<Header>Combat Stats</Header>
@@ -57,18 +64,28 @@ const CombatStats = () => {
 						);
 					})}
 				</StyledDropdown>
+				<ColumnContainer>
+					<CopyCombatButton onClick={() => setRows([])}>
+						Clear
+					</CopyCombatButton>
+					<CopyCombatButton onClick={copyCombat}>
+						Copy
+					</CopyCombatButton>
+				</ColumnContainer>
 			</MenuContainer>
-			{rows.map(({ stats, role, id }) => {
-				return (
-					<StatRow
-						key={id}
-						id={id}
-						stats={stats}
-						role={role}
-						removeFunc={removeRow}
-					/>
-				);
-			})}
+			<StyledCombatCard>
+				{rows.map(({ stats, role, id }) => {
+					return (
+						<StatRow
+							key={id}
+							id={id}
+							stats={stats}
+							role={role}
+							removeFunc={removeRow}
+						/>
+					);
+				})}
+			</StyledCombatCard>
 		</>
 	);
 };
@@ -82,7 +99,7 @@ const StatRow = ({ stats, role, id, removeFunc }) => {
 		<StyledStatRow>
 			<WidthLabel width={"90px"}>{role}</WidthLabel>
 			CR
-			<WidthLabel width={"25px"}>{stats.cr}</WidthLabel>
+			<WidthLabel width={"50px"}>{stats.cr}</WidthLabel>
 			ac{stats.ac} prof{stats.proficiency} hp
 			<WidthLabel width={"75px"}>
 				{stats.hpMin}-{stats.hpMax}
@@ -94,7 +111,7 @@ const StatRow = ({ stats, role, id, removeFunc }) => {
 				{stats.dmgMin}-{stats.dmgMax}
 			</WidthLabel>
 			dc{stats.dc}
-			<button onClick={() => removeFunc(id)}>kill me</button>
+			<RemoveRowButton onClick={() => removeFunc(id)}>X</RemoveRowButton>
 		</StyledStatRow>
 	);
 };
@@ -120,7 +137,6 @@ const StyledDropdown = styled.select`
 
 const RoleButtonContainer = styled.div`
 	display: flex;
-	margin: 10px;
 	flex-wrap: wrap;
 	width: 200px;
 `;
@@ -146,4 +162,46 @@ const MenuContainer = styled.div`
 const WidthLabel = styled.div`
 	display: inline-block;
 	width: ${(props) => props.width || "90px"};
+`;
+
+const StyledCombatCard = styled.div`
+	width: fit-content;
+	margin: 40px auto 0;
+	padding: 10px 30px;
+	background-color: ${colors.bluegrey};
+
+	&:empty {
+		padding: 0;
+	}
+`;
+
+const RemoveRowButton = styled.button`
+	height: 23px;
+	width: 28px;
+	margin: 4px 4px 4px 20px;
+	background-color: ${colors.darkgrey2};
+	color: ${colors.cream2};
+	box-shadow: ${colors.cream2} 0px 0px 1px 1px;
+	border-radius: 20%;
+
+	&:hover {
+		cursor: pointer;
+		background-color: ${colors.bluegrey};
+	}
+`;
+
+const CopyCombatButton = styled.button`
+	color: ${colors.cream};
+	background-color: ${colors.darkgrey};
+	border-radius: 6px;
+	flex: 1;
+	&:hover {
+		cursor: pointer;
+	}
+`;
+
+const ColumnContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 60px;
 `;
