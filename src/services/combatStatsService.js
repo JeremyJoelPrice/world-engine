@@ -13,13 +13,6 @@ const roles = [
 	{ name: "brute", buff: ["hp", "dmg"], debuff: ["ac"] },
 	{ name: "infantry" }
 ];
-/**
- * dmg +/- 2CR
- * ac +/- 2
- * hp +/- 2CR
- * prof +/- 3
- * save dc +/- 2
- */
 
 /**
  * Combat Stats API
@@ -40,10 +33,6 @@ export const getStats = (cr, roleName) => {
  */
 
 const applyRole = (stats, role) => {
-	// for each buff in the role, add the buff
-	// for each debuff in the role, add the debuff
-
-	// console.log(stats.cr);
 	role.buff?.forEach((buff) => {
 		switch (buff) {
 			case "dmg":
