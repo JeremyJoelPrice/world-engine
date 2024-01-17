@@ -3,10 +3,12 @@ import { Subheader } from "../components/StyledText";
 import colors from "./Colors";
 import NpcGenerator from "../pages/NpcGenerator";
 import CombatStats from "../pages/CombatStats";
+import XPCalculator from "../pages/XPCalculator";
 
 const pageMap = {
 	"NPC Generator": <NpcGenerator />,
-	"Combat Stats": <CombatStats />
+	"Combat Stats": <CombatStats />,
+	"XP Calculator": <XPCalculator />
 };
 
 const Navbar = ({ setCurrentPage }) => {
