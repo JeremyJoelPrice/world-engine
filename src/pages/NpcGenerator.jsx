@@ -181,7 +181,7 @@ ${highConcept}\n`;
 	relationships.forEach((e) => {
 		text += `\t${e}\n`;
 	});
-	text += `\n_Agenda_\n${agenda}\n`;
+	text += `\n_Agenda_\n\t${agenda}\n`;
 	text += `\n_Approach_\n`;
 	approach.forEach((e) => {
 		text += `\t${e}\n`;
