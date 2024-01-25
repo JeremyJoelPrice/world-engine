@@ -7,7 +7,9 @@ import npcTables, {
 	limits,
 	nonphysicalCharacterisation,
 	physicalCharacterisation,
-	relator
+	relator,
+	races,
+	nameFlavours
 } from "../datasource/npcGenerationTables";
 import { rollOnTable } from "../utils/utils";
 
@@ -19,16 +21,8 @@ const { names: npcNames } = npcTables;
 
 // options lists comprise the menus
 const sexOptions = ["Random", "Male", "Female"];
-const raceOptions = [
-	"Random",
-	"Human",
-	"Dwarf",
-	"Gnome",
-	"Elf",
-	"Tiefling",
-	"Goblin"
-];
-const flavourOptions = ["Random", "Celtic", "Latin", "Norse", "Persian"];
+const raceOptions = ["Random", ...races];
+const flavourOptions = ["Default", "Random", ...nameFlavours];
 const npcOptions = { sexOptions, raceOptions, flavourOptions };
 
 // map name lists from the db to the name options defined above
@@ -54,6 +48,15 @@ const npcFlavourOptionNameListMap = {
 	}
 };
 
+// map races to their default name flavours
+const raceToFlavourMap = {};
+raceToFlavourMap[races[0]] = flavourOptions[3];
+raceToFlavourMap[races[1]] = flavourOptions[4];
+raceToFlavourMap[races[2]] = flavourOptions[2];
+raceToFlavourMap[races[3]] = flavourOptions[2];
+raceToFlavourMap[races[4]] = flavourOptions[1];
+raceToFlavourMap[races[5]] = flavourOptions[1];
+
 /**
  * NPC Generator API
  */
@@ -61,13 +64,13 @@ const npcFlavourOptionNameListMap = {
 const getNpcs = (quantity, sex, flavour, race) => {
 	const npcs = [];
 	for (let i = 0; i < quantity; i++) {
-		// resolve "Random" values for sex, flavour and race
-		flavour =
-			flavour === "Random"
-				? resolveRandomOption(flavourOptions)
-				: flavour;
-		sex = sex === "Random" ? resolveRandomOption(sexOptions) : sex;
-		race = race === "Random" ? resolveRandomOption(raceOptions) : race;
+		// resolve "Random" values for sex and race
+		if (sex === "Random") sex = Math.random() > 0.5 ? "Male" : "Female";
+		if (race === "Random") race = races[Math.floor(Math.random() * (races.length))];
+
+		// resolve "Default" and "Random" values for flavour
+		if (flavour === "Default") flavour = raceToFlavourMap[race];
+		if (flavour === "Random") flavour = nameFlavours[Math.floor(Math.random() * (nameFlavours.length))]
 
 		// generate an npc
 		const npc = {};
@@ -86,10 +89,6 @@ const getNpcs = (quantity, sex, flavour, race) => {
 	}
 
 	return npcs;
-};
-
-const resolveRandomOption = (optionList) => {
-	return optionList[parseInt(Math.random() * (optionList.length - 1)) + 1];
 };
 
 /**

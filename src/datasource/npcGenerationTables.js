@@ -3306,3 +3306,7 @@ exports.limits = [
 	"Someone they love makes horrible choices",
 	"An underling plots to betray them"
 ];
+
+exports.races = ["Human", "Dwarf", "Gnome", "Elf", "Tiefling", "Dragonborn"];
+
+exports.nameFlavours = ["Celtic", "Latin", "Norse", "Persian"];
