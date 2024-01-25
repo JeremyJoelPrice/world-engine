@@ -124,8 +124,8 @@ const NpcCard = ({ npc }) => {
 				copied
 			</TooltipWrapper>
 			<NpcName>{npc.name}</NpcName>
-			<CeneteredText>{`${npc.sex} ${npc.race}`}</CeneteredText>
 			<CeneteredText>{npc.highConcept}</CeneteredText>
+			<CeneteredText>{`${npc.sex} ${npc.race}`}</CeneteredText>
 
 			<NpcHeader>Characterisation</NpcHeader>
 			{npc.characterisation.map((c) => (
@@ -170,8 +170,8 @@ function copyNpcText({
 	limits
 }) {
 	let text = `${name}
-${sex} ${race}
-${highConcept}\n`;
+${highConcept}
+${sex} ${race}\n`;
 
 	text += `\n_Characterisation_\n`;
 	characterisation.forEach((e) => {
@@ -181,7 +181,7 @@ ${highConcept}\n`;
 	relationships.forEach((e) => {
 		text += `\t${e}\n`;
 	});
-	text += `\n_Agenda_\n${agenda}\n`;
+	text += `\n_Agenda_\n\t${agenda}\n`;
 	text += `\n_Approach_\n`;
 	approach.forEach((e) => {
 		text += `\t${e}\n`;
