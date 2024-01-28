@@ -217,7 +217,7 @@ const OptionList = styled.div`
 `;
 
 const StyledOption = styled(BodyText)`
-	width: 80px;
+	width: 100px;
 	text-align: center;
 	padding: 5px 10px;
 	border: 1pt solid gold;
