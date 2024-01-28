@@ -3016,6 +3016,105 @@ names.persianNames = {
 	]
 };
 
+names.hebrewNames = {
+	"male forenames": [
+		"Arjhan",
+		"Bharash",
+		"Ghesh",
+		"Kriv",
+		"Medrash",
+		"Nadarr",
+		"Patrin",
+		"Rhogar",
+		"Shamash",
+		"Shedinn",
+		"Tarhun",
+		"Balasar",
+		"Heskan",
+		"Mehen",
+		"Pandjed",
+		"Shedinn",
+		"Tarhun",
+		"Balasar",
+		"Heskan",
+		"Mehen",
+		"Pandjed",
+		"Rhogar",
+		"Shamash",
+		"Daar",
+		"Farideh",
+		"Havilar",
+		"Jheri",
+		"Raiann",
+		"Thava",
+		"Uadjit"
+	],
+	"female forenames": [
+		"Akra",
+		"Biri",
+		"Daar",
+		"Harann",
+		"Kava",
+		"Korinn",
+		"Nala",
+		"Perra",
+		"Raiann",
+		"Sora",
+		"Surina",
+		"Thava",
+		"Uadjit",
+		"Farideh",
+		"Havilar",
+		"Jheri",
+		"Biri",
+		"Daar",
+		"Korinn",
+		"Raiann",
+		"Surina",
+		"Thava",
+		"Uadjit",
+		"Akra",
+		"Kava",
+		"Mishann",
+		"Nala",
+		"Perra",
+		"Sora",
+		"Surina"
+	],
+	surnames: [
+		"Nehoshet",
+		"Aviv",
+		"Zehav",
+		"Eshkol",
+		"Oren",
+		"Kesef",
+		"Shachar",
+		"Tamar",
+		"Shalheveth",
+		"Or",
+		"Nitzan",
+		"Gilboa",
+		"Atad",
+		"Tavor",
+		"Ilan",
+		"Hadas",
+		"Sela",
+		"Alon",
+		"Einav",
+		"Te'omim",
+		"Shai",
+		"Gomeh",
+		"Pered",
+		"Yavneh",
+		"Yarok",
+		"Shafan",
+		"Rimmon",
+		"Tzav",
+		"Keren",
+		"Sharvit"
+	]
+};
+
 exports.names = names;
 
 /* High Concepts */
@@ -3309,4 +3408,4 @@ exports.limits = [
 
 exports.races = ["Human", "Dwarf", "Gnome", "Elf", "Tiefling", "Dragonborn"];
 
-exports.nameFlavours = ["Celtic", "Latin", "Norse", "Persian"];
+exports.nameFlavours = ["Celtic", "Latin", "Norse", "Persian", "Hebrew"];

@@ -45,6 +45,11 @@ const npcFlavourOptionNameListMap = {
 		maleForenames: npcNames.persianNames["male forenames"],
 		femaleForenames: npcNames.persianNames["female forenames"],
 		surnames: npcNames.persianNames.surnames
+	},
+	Hebrew: {
+		maleForenames: npcNames.hebrewNames["male forenames"],
+		femaleForenames: npcNames.hebrewNames["female forenames"],
+		surnames: npcNames.hebrewNames.surnames
 	}
 };
 
@@ -55,7 +60,7 @@ raceToFlavourMap[races[1]] = flavourOptions[4];
 raceToFlavourMap[races[2]] = flavourOptions[2];
 raceToFlavourMap[races[3]] = flavourOptions[2];
 raceToFlavourMap[races[4]] = flavourOptions[1];
-raceToFlavourMap[races[5]] = flavourOptions[1];
+raceToFlavourMap[races[5]] = flavourOptions[6];
 
 /**
  * NPC Generator API
@@ -66,11 +71,14 @@ const getNpcs = (quantity, sex, flavour, race) => {
 	for (let i = 0; i < quantity; i++) {
 		// resolve "Random" values for sex and race
 		if (sex === "Random") sex = Math.random() > 0.5 ? "Male" : "Female";
-		if (race === "Random") race = races[Math.floor(Math.random() * (races.length))];
+		if (race === "Random")
+			race = races[Math.floor(Math.random() * races.length)];
 
 		// resolve "Default" and "Random" values for flavour
 		if (flavour === "Default") flavour = raceToFlavourMap[race];
-		if (flavour === "Random") flavour = nameFlavours[Math.floor(Math.random() * (nameFlavours.length))]
+		if (flavour === "Random")
+			flavour =
+				nameFlavours[Math.floor(Math.random() * nameFlavours.length)];
 
 		// generate an npc
 		const npc = {};
