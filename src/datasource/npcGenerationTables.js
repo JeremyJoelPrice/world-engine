@@ -3406,6 +3406,6 @@ exports.limits = [
 	"An underling plots to betray them"
 ];
 
-exports.races = ["Human", "Dwarf", "Gnome", "Elf", "Tiefling", "Dragonborn"];
+exports.races = ["Human", "Dwarf", "Gnome", "Elf", "Tiefling", "Dragonborn", "Half-Elf"];
 
 exports.nameFlavours = ["Celtic", "Latin", "Norse", "Persian", "Hebrew"];
