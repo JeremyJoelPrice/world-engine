@@ -62,6 +62,7 @@ raceToFlavourMap[races[3]] = flavourOptions[2];
 raceToFlavourMap[races[4]] = flavourOptions[1];
 raceToFlavourMap[races[5]] = flavourOptions[6];
 raceToFlavourMap[races[6]] = flavourOptions[2];
+raceToFlavourMap[races[7]] = flavourOptions[2];
 
 /**
  * NPC Generator API
