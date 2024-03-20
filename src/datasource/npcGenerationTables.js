@@ -1100,8 +1100,7 @@ names.norseNames = {
 		"Yngvild",
 		"Yri",
 		"Yrsa"
-	],
-	surnames: ["you forgot to generate a surname"]
+	]
 };
 
 names.latinNames = {
@@ -3204,7 +3203,8 @@ exports.nonphysicalCharacterisation = [
 	"Emblem of a faith or social group",
 	"Ill-kept, whether worn, dirty, or rumpled",
 	"Wears another group’s style of clothing",
-	"Abnormally risqué or modest for the society",
+	"Abnormally risqué for the society",
+	"Abnormally modest for the society",
 	"Shows regular dirt and marks of their trade",
 	"Fastidiously neat or tastefully adorned",
 	"Wears a very noticeable piece of jewelry",
@@ -3214,7 +3214,6 @@ exports.nonphysicalCharacterisation = [
 	"Their clothing is very unusual",
 	"They have distinct mannerisms of gesture",
 	"Their accent is unusual for the location",
-	"They’re abnormally friendly or reserved",
 	"They have signs of a chronic illness or wound",
 	"They have an unusual hair style or texture",
 	"They are very fat, thin, short, tall or such",
@@ -3247,14 +3246,11 @@ exports.nonphysicalCharacterisation = [
 	"Unusual skin coloration or texture",
 	"From a group not normally found here",
 	"Much older or younger than expected",
-	"Abnormal temperament for their trade",
 	"Overt devotee of an uncommon faith here",
 	"A pet animal not normally found here",
 	"They eat a cuisine that is not liked here",
-	"Abnormal hair texture or hue",
 	"They wear unusual tattoos or body jewelry",
 	"They’re uncommonly socially awkward",
-	"A physical build abnormal for the area",
 	"A distinct mutation or body alternation",
 	"Smooth, relaxed, efficient movement",
 	"Graceful and rhythmic gestures",
@@ -3406,15 +3402,11 @@ exports.physicalCharacterisation = [
 ];
 
 exports.disposition = [
-	"More than friendly",
-	"Friendly",
-	"Friendly",
-	"Neutral",
-	"Neutral",
-	"Neutral",
-	"Neutral",
+	"Hostile",
 	"Unfriendly",
-	"Hostile"
+	"Neutral",
+	"Agreeable",
+	"Hospitable"
 ];
 
 exports.relator = [
@@ -3425,70 +3417,82 @@ exports.relator = [
 	"romantic partner",
 	"animal or pet",
 	"friend",
-	"outsider"
+	"outsider",
+	"community pillar",
+	"guardian",
+	"town gossip",
+	"nephew",
+	"grandmother",
+	"youngster",
+	"ancestor",
+	"paramour",
+	"loyal companion",
+	"frenemy",
+	"stranger",
+	"business associate",
+	"business rival",
+	"landlord",
+	"tenant",
+	"teacher",
+	"mentor",
+	"ally",
+	"rival"
 ];
 
 exports.agenda = [
-	"They want someone murdered",
-	"They want to make a lot of money",
-	"They want to discredit a rival",
-	"They want to help a friend or ally in trouble",
-	"They want a mystery solved",
-	"They want a monster slain",
-	"They want to elevate their social standing",
-	"They want someone subverted to their cause",
-	"They want a crime committed",
-	"They want someone to be driven away",
-	"They want to obtain a particular object",
-	"They want a matter hushed up",
-	"To win the love or possession of someone",
-	"To obtain riches and personal wealth",
-	"To win political power or a particular ofﬁce",
-	"To obtain glory or get fame for a skill",
-	"To gain a particular property or piece of land",
-	"To go to or explore a far-off place",
-	"To become a difﬁcult-to-become profession",
-	"To kill or ruin a hated rival",
-	"To topple an institution, business, or faith",
-	"To repay some immeasurable debt"
+	"Murder someone",
+	"Make a lot of money",
+	"Discredit a rival",
+	"Help a friend or ally in trouble",
+	"A mystery solved",
+	"A monster slain",
+	"Elevate their social standing",
+	"Someone subverted to their cause",
+	"A crime committed",
+	"Someone to be driven away",
+	"Obtain a particular object",
+	"A matter hushed up",
+	"Win the love or possession of someone",
+	"Obtain riches and personal wealth",
+	"Win political power or a particular ofﬁce",
+	"Obtain glory or get fame for a skill",
+	"Gain a particular property or piece of land",
+	"Go to or explore a far-off place",
+	"Become a difﬁcult-to-become profession",
+	"Kill or ruin a hated rival",
+	"Topple an institution, business, or faith",
+	"Repay some immeasurable debt"
 ];
 
 exports.approach = [
-	"bargain",
-	"direct force",
-	"manipulation",
-	"begging",
-	"bribe/blackmail",
-	"ask benefactor",
-	"buy problems away",
-	"avoidance/denial",
-	"aggression/intimidation",
-	"acceptance/repression",
-	"blame/project onto others",
-	"espionage/subterfuge",
-	"seek support from a friend/the community",
-	"scheme & plot",
-	"Negotiation and compromise",
-	"Confrontation and assertiveness",
-	"Influence and persuasion",
-	"Appeal to their opponent's values",
-	"Financial transactions and incentives",
-	"Seeking assistance from a higher power",
-	"Material solutions to resolve issues",
-	"Avoiding or ignoring the problem",
-	"Assertive and forceful behavior",
-	"Embracing or suppressing emotions",
-	"Shifting responsibility onto others",
-	"Cunning and covert operations",
-	"Building alliances within the community",
-	"Problem-solving through collaboration",
-	"Strategic retreat or evasion",
-	"Imposing authority through fear",
-	"Information gathering and analysis",
-	"Rallying support from allies"
+	"Bargain / cut a deal",
+	"Reason / persuade",
+	"Use brute force",
+	"Lie or manipulate",
+	"Beg & plead",
+	"Threaten & blackmail",
+	"Seek help from a superior",
+	"Bribe or pay off",
+	"Avoid or deny that there's a problem",
+	"Intimidate or dominate others",
+	"Accept and repress their own feelings",
+	"Shift blame & avoid responsibility",
+	"Find a sneaky way to manipulate the situation",
+	"Seek support from a friend/the community",
+	"Disengage for now, while scheming and plotting for later",
+	"Negotiate and compromise",
+	"Assert themselves, unafraid of confrontation",
+	"Use their social influence",
+	"Put their faith in a higher power",
+	"Panic and fail to regulate themselves"
 ];
 
 exports.assets = [
+	"A network of friends/allies",
+	"A respected position in society",
+	"Personal strength",
+	"Wealth",
+	"Privileged access to certain places",
 	"A cache of saved or discovered wealth",
 	"A useful magical item",
 	"A book with critical information in it",
@@ -3551,16 +3555,3 @@ exports.limits = [
 	"Someone they love makes horrible choices",
 	"An underling plots to betray them"
 ];
-
-exports.races = [
-	"Human",
-	"Dwarf",
-	"Gnome",
-	"Elf",
-	"Tiefling",
-	"Dragonborn",
-	"Half-Elf",
-	"Halfling"
-];
-
-exports.nameFlavours = ["Celtic", "Latin", "Norse", "Persian", "Hebrew"];

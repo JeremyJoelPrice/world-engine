@@ -1,4 +1,5 @@
-import npcTables, {
+import config from "../config/config";
+import {
 	agenda,
 	approach,
 	assets,
@@ -7,67 +8,27 @@ import npcTables, {
 	limits,
 	nonphysicalCharacterisation,
 	physicalCharacterisation,
-	relator,
-	races,
-	nameFlavours
+	relator
 } from "../datasource/npcGenerationTables";
 import { rollOnTable } from "../utils/utils";
-
-const { names: npcNames } = npcTables;
 
 /**
  * NPC Generator Config
  */
-
+const npcGenTables = config["npc generator"];
 // options lists comprise the menus
 const sexOptions = ["Random", "Male", "Female"];
+const races = npcGenTables.race;
 const raceOptions = ["Random", ...races];
-const flavourOptions = ["Default", "Random", ...nameFlavours];
+const flavourOptions = [
+	"Default",
+	"Random",
+	...npcGenTables.flavour
+];
 const npcOptions = { sexOptions, raceOptions, flavourOptions };
-
-// map name lists from the db to the name options defined above
-const npcFlavourOptionNameListMap = {
-	Norse: {
-		maleForenames: npcNames.norseNames["male forenames"],
-		femaleForenames: npcNames.norseNames["female forenames"]
-	},
-	Latin: {
-		maleForenames: npcNames.latinNames["male forenames"],
-		femaleForenames: npcNames.latinNames["female forenames"],
-		surnames: npcNames.latinNames.surnames
-	},
-	Celtic: {
-		maleForenames: npcNames.celticNames["male forenames"],
-		femaleForenames: npcNames.celticNames["female forenames"],
-		surnames: npcNames.celticNames.surnames
-	},
-	Persian: {
-		maleForenames: npcNames.persianNames["male forenames"],
-		femaleForenames: npcNames.persianNames["female forenames"],
-		surnames: npcNames.persianNames.surnames
-	},
-	Hebrew: {
-		maleForenames: npcNames.hebrewNames["male forenames"],
-		femaleForenames: npcNames.hebrewNames["female forenames"],
-		surnames: npcNames.hebrewNames.surnames
-	}
-};
-
-// map races to their default name flavours
-const raceToFlavourMap = {};
-raceToFlavourMap[races[0]] = flavourOptions[3];
-raceToFlavourMap[races[1]] = flavourOptions[4];
-raceToFlavourMap[races[2]] = flavourOptions[2];
-raceToFlavourMap[races[3]] = flavourOptions[2];
-raceToFlavourMap[races[4]] = flavourOptions[1];
-raceToFlavourMap[races[5]] = flavourOptions[6];
-raceToFlavourMap[races[6]] = flavourOptions[2];
-raceToFlavourMap[races[7]] = flavourOptions[2];
-
 /**
  * NPC Generator API
  */
-
 const getNpcs = (quantity, sex, flavour, race) => {
 	const npcs = [];
 	for (let i = 0; i < quantity; i++) {
@@ -77,10 +38,17 @@ const getNpcs = (quantity, sex, flavour, race) => {
 			race = races[Math.floor(Math.random() * races.length)];
 
 		// resolve "Default" and "Random" values for flavour
-		if (flavour === "Default") flavour = raceToFlavourMap[race];
+		if (flavour === "Default")
+			flavour = npcGenTables.raceFlavourMap[race]
+				? npcGenTables.raceFlavourMap[race]
+				: "Random";
 		if (flavour === "Random")
 			flavour =
-				nameFlavours[Math.floor(Math.random() * nameFlavours.length)];
+				npcGenTables.flavour[
+					Math.floor(
+						Math.random() * npcGenTables.flavour.length
+					)
+				];
 
 		// generate an npc
 		const npc = {};
@@ -104,11 +72,16 @@ const getNpcs = (quantity, sex, flavour, race) => {
 /**
  * NPC Generator Utility Functions
  */
-
-// NPC Names
-
 const getName = (sex, flavour) => {
-	const { firstNames, surnames } = getNameTables(sex, flavour);
+	// get name table
+	const nameTables = npcGenTables.flavourNameMap[flavour];
+	const firstNames =
+		sex === "Male" ? nameTables.maleForenames : nameTables.femaleForenames;
+	let surnames = nameTables.surnames;
+	if (flavour === "Norse") {
+		const suffix = sex === "Male" ? "son" : "sdottir";
+		surnames = firstNames.map((n) => n + suffix);
+	}
 
 	// generate name
 	const firstName = rollOnTable(firstNames);
@@ -117,36 +90,16 @@ const getName = (sex, flavour) => {
 	return `${firstName} ${surname}`;
 };
 
-const getNameTables = (sex, flavour) => {
-	// get specific name tables
-	let { maleForenames, femaleForenames, surnames } =
-		npcFlavourOptionNameListMap[flavour];
-
-	const firstNames = sex === "Male" ? maleForenames : femaleForenames;
-
-	// create nametable for Norse flavour names
-	if (flavour === "Norse") {
-		const suffix = sex === "Male" ? "son" : "sdottir";
-		surnames = maleForenames.map((n) => n + suffix);
-	}
-
-	return { firstNames, surnames };
-};
-
 // Other NPC Details
-
 const getCharacterisation = () => {
 	return [
-		rollOnTable(physicalCharacterisation),
-		rollOnTable(nonphysicalCharacterisation)
+		rollOnTable(nonphysicalCharacterisation),
+		rollOnTable(physicalCharacterisation)
 	];
 };
 
 const getRelationships = () => {
-	return [
-		`${rollOnTable(disposition)} toward PCs`,
-		`${rollOnTable(disposition)} toward ${rollOnTable(relator)}`
-	];
+	return [`${rollOnTable(disposition)} toward ${rollOnTable(relator)}`];
 };
 
 export { npcOptions, getNpcs };
