@@ -2,31 +2,25 @@ import { names } from "../datasource/npcGenerationTables";
 
 const config = {
 	"npc generator": {
-		race: [
-			"Human",
-			"Dwarf",
-			"Gnome",
-			"Elf",
-			"Tiefling",
-			"Dragonborn",
-			"Half-Elf",
-			"Halfling"
-		],
-		flavour: ["Celtic", "Latin", "Norse", "Persian", "Hebrew"],
+		race: ["Human", "Halfling", "Half-Elf", "Dwarf", "Half-Orc"],
+		flavour: ["Victorian", "Celtic", "Norse", "Persian"],
 		raceFlavourMap: {
-			Human: "Latin",
+			Human: "Victorian",
 			Dwarf: "Norse",
-			Gnome: "Celtic",
-			Elf: "Celtic",
-			Tiefling: "Latin",
-			Dragonborn: "Persian",
-			Halfling: "Celtic"
+			"Half-Elf": "Celtic",
+			Halfling: "Celtic",
+			"Half-Orc": "Persian"
 		},
 		flavourNameMap: {
 			Celtic: {
 				maleForenames: names.celticNames["male forenames"],
 				femaleForenames: names.celticNames["female forenames"],
 				surnames: names.celticNames.surnames
+			},
+			Victorian: {
+				maleForenames: names.victorianNames["male forenames"],
+				femaleForenames: names.victorianNames["female forenames"],
+				surnames: names.victorianNames.surnames
 			},
 			Latin: {
 				maleForenames: names.latinNames["male forenames"],
