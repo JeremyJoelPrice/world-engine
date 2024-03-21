@@ -116,7 +116,7 @@ const NpcCard = ({ npc }) => {
 	return (
 		<StyledNpcCard onClick={handleClick}>
 			<TooltipWrapper
-				visible={tooltipVisible}
+				$visible={tooltipVisible}
 				style={{
 					top: tooltipPosition.y + "px",
 					left: tooltipPosition.x + "px"
