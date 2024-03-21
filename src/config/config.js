@@ -8,7 +8,7 @@ const config = {
 			Human: "Victorian",
 			Dwarf: "Norse",
 			"Half-Elf": "Celtic",
-			Halfling: "Celtic",
+			Halfling: "Victorian",
 			"Half-Orc": "Persian"
 		},
 		flavourNameMap: {
