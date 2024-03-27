@@ -137,7 +137,7 @@ const NpcCard = ({ npc }) => {
 				<BodyText key={uid()}>{c}</BodyText>
 			))}
 
-			<NpcHeader>Agenda</NpcHeader>
+			<NpcHeader>They want to</NpcHeader>
 			<BodyText>{npc.agenda}</BodyText>
 			<NpcHeader>Approach</NpcHeader>
 			{npc.approach.map((c) => (
@@ -181,7 +181,7 @@ ${sex} ${race}\n`;
 	relationships.forEach((e) => {
 		text += `\t${e}\n`;
 	});
-	text += `\n_Agenda_\n\t${agenda}\n`;
+	text += `\n_They want to_\n\t${agenda}\n`;
 	text += `\n_Approach_\n`;
 	approach.forEach((e) => {
 		text += `\t${e}\n`;
