@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { Header } from "../components/StyledText";
-import colors from "../components/Colors";
+import { Header } from "../../components/StyledText";
+import colors from "../../components/Colors";
 import {
 	crOptions,
 	getStats,
 	roleOptions
-} from "../services/combatStatsService";
+} from "./combatStatsService";
 import { useState } from "react";
-import { uid } from "../utils/utils";
+import { uid } from "../../utils";
 
 const CombatStats = () => {
 	const [rows, setRows] = useState([]);

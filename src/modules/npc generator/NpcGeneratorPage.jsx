@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { BodyText, Header, Subheader } from "../components/StyledText";
+import { BodyText, Header, Subheader } from "../../components/StyledText";
 import { useState } from "react";
-import { uid } from "../utils/utils";
-import { getNpcs, npcOptions } from "../services/npcGeneratorService";
-import colors from "../components/Colors";
+import { uid } from "../../utils";
+import { getNpcs, npcOptions } from "./npcGeneratorService";
+import colors from "../../components/Colors";
 const { sexOptions, raceOptions, flavourOptions } = npcOptions;
 
 const NpcGenerator = () => {

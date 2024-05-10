@@ -1,4 +1,4 @@
-import config from "../config/config";
+import config from "./config";
 import {
 	agenda,
 	approach,
@@ -9,8 +9,8 @@ import {
 	nonphysicalCharacterisation,
 	physicalCharacterisation,
 	relator
-} from "../datasource/npcGenerationTables";
-import { rollOnTable } from "../utils/utils";
+} from "./data/npcGenerationTables";
+import { rollOnTable } from "../../utils";
 
 /**
  * NPC Generator Config

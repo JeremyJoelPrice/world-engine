@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import NpcGenerator from "./pages/NpcGenerator";
+import NpcGenerator from "./modules/npc generator/NpcGeneratorPage";
 import Navbar from "./components/Navbar";
 
 const App = () => {

@@ -1,4 +1,4 @@
-import { names } from "../datasource/npcGenerationTables";
+import { names } from "./data/npcGenerationTables";
 
 const config = {
 	"npc generator": {

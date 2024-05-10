@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { Subheader } from "../components/StyledText";
 import colors from "./Colors";
-import NpcGenerator from "../pages/NpcGenerator";
-import CombatStats from "../pages/CombatStats";
-import XPCalculator from "../pages/XPCalculator";
+import NpcGenerator from "../modules/npc generator/NpcGeneratorPage";
+import CombatStats from "../modules/combat stats/CombatStatsPage";
+import XPCalculator from "../modules/xp calculator/XPCalculatorPage";
 
 const pageMap = {
 	"NPC Generator": <NpcGenerator />,

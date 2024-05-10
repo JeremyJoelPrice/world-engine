@@ -1,4 +1,4 @@
-import genericMonsterStats from "../datasource/genericMonsterStats";
+import genericMonsterStats from "./data/genericMonsterStats";
 
 /**
  * Combat Stats Config

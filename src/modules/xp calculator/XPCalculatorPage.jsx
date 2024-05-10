@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { BodyText, Subheader } from "../components/StyledText";
-import colors from "../components/Colors";
+import { BodyText, Subheader } from "../../components/StyledText";
+import colors from "../../components/Colors";
 import { useState } from "react";
-import xpLevels from "../datasource/xpLevels";
+import xpLevels from "./xpLevels";
 
 const XPCalculator = () => {
 	const [partyLevel, setPartyLevel] = useState(1);
