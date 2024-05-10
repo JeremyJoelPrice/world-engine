@@ -1,48 +1,52 @@
 import { names } from "./data/npcGenerationTables";
 
 const config = {
-	"npc generator": {
-		race: ["Human", "Halfling", "Half-Elf", "Dwarf", "Half-Orc"],
-		flavour: ["Victorian", "Celtic", "Norse", "Persian"],
-		raceFlavourMap: {
-			Human: "Victorian",
-			Dwarf: "Norse",
-			"Half-Elf": "Celtic",
-			Halfling: "Victorian",
-			"Half-Orc": "Persian"
+	menus: [
+		{
+			title: "Sex",
+			options: [{ name: "Random" }, { name: "Male" }, { name: "Female" }]
 		},
-		flavourNameMap: {
-			Celtic: {
-				maleForenames: names.celticNames["male forenames"],
-				femaleForenames: names.celticNames["female forenames"],
-				surnames: names.celticNames.surnames
-			},
-			Victorian: {
-				maleForenames: names.victorianNames["male forenames"],
-				femaleForenames: names.victorianNames["female forenames"],
-				surnames: names.victorianNames.surnames
-			},
-			Latin: {
-				maleForenames: names.latinNames["male forenames"],
-				femaleForenames: names.latinNames["female forenames"],
-				surnames: names.latinNames.surnames
-			},
-			Norse: {
-				maleForenames: names.norseNames["male forenames"],
-				femaleForenames: names.norseNames["female forenames"]
-			},
-			Persian: {
-				maleForenames: names.persianNames["male forenames"],
-				femaleForenames: names.persianNames["female forenames"],
-				surnames: names.persianNames.surnames
-			},
-			Hebrew: {
-				maleForenames: names.hebrewNames["male forenames"],
-				femaleForenames: names.hebrewNames["female forenames"],
-				surnames: names.hebrewNames.surnames
-			}
+		{
+			title: "Race",
+			options: [
+				{ name: "Random" },
+				{ name: "Human", defaultFlavour: "Victorian" },
+				{ name: "Halfling", defaultFlavour: "Victorian" },
+				{ name: "Half-Elf", defaultFlavour: "Celtic" },
+				{ name: "Dwarf", defaultFlavour: "Norse" },
+				{ name: "Half-Orc", defaultFlavour: "Persian" }
+			]
+		},
+		{
+			title: "Flavour",
+			options: [
+				{ name: "Default" },
+				{
+					name: "Victorian",
+					maleForenames: names.victorianNames["male forenames"],
+					femaleForenames: names.victorianNames["female forenames"],
+					surnames: names.victorianNames.surnames
+				},
+				{
+					name: "Celtic",
+					maleForenames: names.celticNames["male forenames"],
+					femaleForenames: names.celticNames["female forenames"],
+					surnames: names.celticNames.surnames
+				},
+				{
+					name: "Norse",
+					maleForenames: names.norseNames["male forenames"],
+					femaleForenames: names.norseNames["female forenames"]
+				},
+				{
+					name: "Persian",
+					maleForenames: names.persianNames["male forenames"],
+					femaleForenames: names.persianNames["female forenames"],
+					surnames: names.persianNames.surnames
+				}
+			]
 		}
-	}
+	]
 };
 
 export default config;

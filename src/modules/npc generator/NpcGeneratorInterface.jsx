@@ -1,57 +1,36 @@
 import styled from "styled-components";
 import { BodyText, Header, Subheader } from "../../components/StyledText";
-import { useState } from "react";
 import { uid } from "../../utils";
-import { getNpcs, npcOptions } from "./npcGeneratorService";
 import colors from "../../components/Colors";
-const { sexOptions, raceOptions, flavourOptions } = npcOptions;
+import { useState } from "react";
 
-const NpcGenerator = () => {
-	const [npcs, setNpcs] = useState();
-	const [chosenSex, setChosenSex] = useState(sexOptions[0]); // the 0th element is "random"
-	const [chosenRace, setChosenRace] = useState(raceOptions[0]);
-	const [chosenFlavour, setChosenFlavour] = useState(flavourOptions[0]);
-
-	const menus = [
-		{
-			title: "Sex",
-			options: sexOptions,
-			state: chosenSex,
-			stateChange: setChosenSex
-		},
-		{
-			title: "Race",
-			options: raceOptions,
-			state: chosenRace,
-			stateChange: setChosenRace
-		},
-		{
-			title: "Flavour",
-			options: flavourOptions,
-			state: chosenFlavour,
-			stateChange: setChosenFlavour
-		}
-	];
-
-	const getRandomNpc = () => {
-		setNpcs(getNpcs(1, chosenSex, chosenFlavour, chosenRace));
-	};
-
+const NpcGeneratorInterface = ({
+	menus,
+	npcParameters,
+	generatedNpc,
+	generateFunc,
+	copyNpcAsText
+}) => {
 	return (
 		<>
 			<Header>NPC Generator</Header>
 			<MenusContainer>
-				{menus.map(({ title, options, state, stateChange }) => (
+				{menus.map(({ title, options, handleChange }) => (
 					<Menu key={uid()}>
 						<Subheader>{title}</Subheader>
 						<OptionList>
-							{options.map((optionName) => {
+							{options.map(({ name: optionName }) => {
 								return (
 									<Option
-										isActive={optionName === state}
+										isActive={
+											npcParameters[title]
+												? optionName ===
+												  npcParameters[title]
+												: optionName === options[0].name
+										}
 										label={optionName}
 										key={uid()}
-										onClick={() => stateChange(optionName)}
+										onClick={() => handleChange(optionName)}
 									/>
 								);
 							})}
@@ -61,15 +40,19 @@ const NpcGenerator = () => {
 			</MenusContainer>
 			<br />
 			<br />
-			<GenerateButton onClick={getRandomNpc}>Generate</GenerateButton>
-			{npcs?.map((npc) => {
-				return <NpcCard key={uid()} npc={npc} />;
-			})}
+			<GenerateButton onClick={generateFunc}>Generate</GenerateButton>
+			{generatedNpc === undefined ? null : (
+				<NpcCard
+					key={uid()}
+					displayNpc={generatedNpc}
+					copyNpcAsText={copyNpcAsText}
+				/>
+			)}
 		</>
 	);
 };
 
-export default NpcGenerator;
+export default NpcGeneratorInterface;
 
 /* Other Components */
 
@@ -81,7 +64,7 @@ const Option = ({ label, isActive, onClick }) => {
 	);
 };
 
-const NpcCard = ({ npc }) => {
+const NpcCard = ({ displayNpc, copyNpcAsText }) => {
 	/* 'copied' tooltip text */
 	const [tooltipVisible, setTooltipVisible] = useState("false");
 	const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -110,7 +93,7 @@ const NpcCard = ({ npc }) => {
 		}, 1000);
 
 		// Copy the actual text
-		copyNpcText(npc);
+		copyNpcAsText();
 	};
 
 	return (
@@ -123,79 +106,16 @@ const NpcCard = ({ npc }) => {
 				}}>
 				copied
 			</TooltipWrapper>
-			<NpcName>{npc.name}</NpcName>
-			<CeneteredText>{npc.highConcept}</CeneteredText>
-			<CeneteredText>{`${npc.sex} ${npc.race}`}</CeneteredText>
-
-			<NpcHeader>Characterisation</NpcHeader>
-			{npc.characterisation.map((c) => (
-				<BodyText key={uid()}>{c}</BodyText>
-			))}
-
-			<NpcHeader>Relationships</NpcHeader>
-			{npc.relationships.map((c) => (
-				<BodyText key={uid()}>{c}</BodyText>
-			))}
-
-			<NpcHeader>They want to</NpcHeader>
-			<BodyText>{npc.agenda}</BodyText>
-			<NpcHeader>Approach</NpcHeader>
-			{npc.approach.map((c) => (
-				<BodyText key={uid()}>{c}</BodyText>
-			))}
-
-			<NpcHeader>Assets</NpcHeader>
-			{npc.assets.map((c) => (
-				<BodyText key={uid()}>{c}</BodyText>
-			))}
-
-			<NpcHeader>Limits</NpcHeader>
-			{npc.limits.map((c) => (
-				<BodyText key={uid()}>{c}</BodyText>
-			))}
+			<NpcName>{displayNpc.name}</NpcName>
+			<CeneteredText>{`${displayNpc.sex} ${displayNpc.race}`}</CeneteredText>
+			<CeneteredText>{displayNpc.highConcept.name}</CeneteredText>
+			<CeneteredSubText>{`(${displayNpc.highConcept.description})`}</CeneteredSubText>
+			<CeneteredText>{displayNpc.characterisation}</CeneteredText>
+			<CeneteredText>{`${displayNpc.approach1}/${displayNpc.approach2}`}</CeneteredText>
+			<CeneteredText>{`In: ${displayNpc.vulnerability}`}</CeneteredText>
 		</StyledNpcCard>
 	);
 };
-
-function copyNpcText({
-	name,
-	sex,
-	race,
-	highConcept,
-	characterisation,
-	relationships,
-	agenda,
-	approach,
-	assets,
-	limits
-}) {
-	let text = `${name}
-${highConcept}
-${sex} ${race}\n`;
-
-	text += `\n_Characterisation_\n`;
-	characterisation.forEach((e) => {
-		text += `\t${e}\n`;
-	});
-	text += `\n_Relationships_\n`;
-	relationships.forEach((e) => {
-		text += `\t${e}\n`;
-	});
-	text += `\n_They want to_\n\t${agenda}\n`;
-	text += `\n_Approach_\n`;
-	approach.forEach((e) => {
-		text += `\t${e}\n`;
-	});
-	text += `\n_Assets_\n`;
-	assets.forEach((e) => {
-		text += `\t${e}\n`;
-	});
-	text += `\n_Limits_\n`;
-	limits.forEach((e) => {
-		text += `\t${e}\n`;
-	});
-	navigator.clipboard.writeText(text);
-}
 
 /* Styled Components */
 
@@ -267,6 +187,11 @@ const CeneteredText = styled(BodyText)`
 	text-align: center;
 `;
 
+const CeneteredSubText = styled(CeneteredText)`
+	font-size: 12pt;
+	font-style: italic;
+`;
+
 const NpcHeader = styled(BodyText)`
 	color: ${colors.cream2};
 `;
@@ -278,5 +203,5 @@ const TooltipWrapper = styled(NpcHeader)`
 	font-family: Helvetica, sans serif;
 
 	transition: opacity 0.5s;
-	opacity: ${(props) => (props.visible === "true" ? 1 : 0)};
+	opacity: ${(props) => (props.$visible === "true" ? 1 : 0)};
 `;
