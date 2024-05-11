@@ -73,13 +73,13 @@ const NpcCard = ({ displayNpc, copyNpcAsText }) => {
 		setTooltipVisible("true");
 
 		setTooltipPosition({
-			x: e.clientX + window.scrollX,
+			x: e.clientX + window.scrollX + 10,
 			y: e.clientY + window.scrollY
 		});
 		// Update tooltip position while the mouse moves
 		const moveHandler = (e) => {
 			setTooltipPosition({
-				x: e.clientX + window.scrollX,
+				x: e.clientX + window.scrollX + 10,
 				y: e.clientY + window.scrollY
 			});
 		};

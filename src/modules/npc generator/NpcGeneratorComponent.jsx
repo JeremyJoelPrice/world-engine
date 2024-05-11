@@ -43,7 +43,7 @@ const NpcGeneratorComponent = () => {
 			npcParameters={npcParameters}
 			generatedNpc={generatedNpc}
 			generateFunc={() => generateNpc(npcParameters, setGeneratedNpc)}
-			copyNpcAsText={() => copyNpcAsText()}
+			copyNpcAsText={() => copyNpcAsText(generatedNpc)}
 		/>
 	);
 };
@@ -109,9 +109,10 @@ const getName = (sex, flavour) => {
 	return `${forename} ${surname}`;
 };
 
-const copyNpcAsText = () => {
-	console.log("copying npc");
-	navigator.clipboard.writeText("cheeseballs");
+const copyNpcAsText = (generatedNpc) => {
+	let npcString = `${generatedNpc.name}\n${generatedNpc.sex} ${generatedNpc.race}\n${generatedNpc.highConcept.name}\n${generatedNpc.highConcept.description}\n${generatedNpc.approach1}/${generatedNpc.approach2}\nLeverage: ${generatedNpc.leverage}`;
+	console.log(npcString);
+	navigator.clipboard.writeText(npcString);
 };
 
 export default NpcGeneratorComponent;
