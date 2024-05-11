@@ -170,6 +170,7 @@ const GenerateButton = styled.button`
 
 const StyledNpcCard = styled.div`
 	width: fit-content;
+	max-width: 60%;
 	margin: 40px auto 0;
 	padding: 10px 30px;
 	background-color: ${colors.bluegrey};
