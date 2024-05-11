@@ -4,11 +4,13 @@ import colors from "./Colors";
 import NpcGeneratorComponent from "../modules/npc generator/NpcGeneratorComponent";
 import CombatStats from "../modules/combat stats/CombatStatsPage";
 import XPCalculator from "../modules/xp calculator/XPCalculatorPage";
+import OutdoorsComponent from "../modules/outdoors/OutdoorsComponent";
 
 const pageMap = {
 	"NPC Generator": <NpcGeneratorComponent />,
 	"Combat Stats": <CombatStats />,
-	"XP Calculator": <XPCalculator />
+	"XP Calculator": <XPCalculator />,
+	Outdoors: <OutdoorsComponent />
 };
 
 const Navbar = ({ setCurrentPage }) => {

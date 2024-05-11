@@ -1,10 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
-import NpcGeneratorComponent from "./modules/npc generator/NpcGeneratorComponent";
+// import NpcGeneratorComponent from "./modules/npc generator/NpcGeneratorComponent";
 import Navbar from "./components/Navbar";
+import OutdoorsComponent from "./modules/outdoors/OutdoorsComponent";
 
 const App = () => {
-	const [currentPage, setCurrentPage] = useState(<NpcGeneratorComponent />);
+	const [currentPage, setCurrentPage] = useState(<OutdoorsComponent />);
 	return (
 		<div className="App">
 			<AppContainer>
