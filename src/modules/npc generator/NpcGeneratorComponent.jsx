@@ -6,7 +6,7 @@ import {
 	approach,
 	characterisation,
 	highConcepts,
-	vulnerability
+	leverage
 } from "./data/npcGenerationTables";
 
 const NpcGeneratorComponent = () => {
@@ -85,7 +85,7 @@ const generateNpc = (npcParameters, setGeneratedNpc) => {
 		approach1,
 		approach2,
 		characterisation: rollOnTable(characterisation),
-		vulnerability: rollOnTable(vulnerability)
+		leverage: rollOnTable(leverage)
 	};
 	actualNpc.name = getName(npcTemplate["Sex"], npcTemplate["Flavour"]);
 

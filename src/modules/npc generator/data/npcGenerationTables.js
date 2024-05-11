@@ -15794,4 +15794,4 @@ const limits = [
 	"an underling plots to betray them"
 ];
 
-exports.vulnerability = [...agenda, ...limits, ...assets];
+exports.leverage = [...agenda, ...limits, ...assets];

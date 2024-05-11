@@ -112,7 +112,7 @@ const NpcCard = ({ displayNpc, copyNpcAsText }) => {
 			<CeneteredSubText>{`(${displayNpc.highConcept.description})`}</CeneteredSubText>
 			<CeneteredText>{displayNpc.characterisation}</CeneteredText>
 			<CeneteredText>{`${displayNpc.approach1}/${displayNpc.approach2}`}</CeneteredText>
-			<CeneteredText>{`In: ${displayNpc.vulnerability}`}</CeneteredText>
+			<CeneteredText>{`Leverage: ${displayNpc.leverage}`}</CeneteredText>
 		</StyledNpcCard>
 	);
 };
