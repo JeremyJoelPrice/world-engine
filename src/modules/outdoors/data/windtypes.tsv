@@ -1,0 +1,14 @@
+Dice Min Result	Dice Max Result	Wind	MPH min	MPH max	Description
+1	1	Calm	0	0	Smoke rises vertically
+2	3	Light air	1	3	Wind direction shown by smoke but not wind vanes
+4	5	Light breeze	4	7	Wind felt on face, leaves rustle, vanes move
+6	7	Gentle breeze	8	12	Leaves and small twigs sway and banners flap
+8	9	Moderate breeze	13	18	Small branches move, and dust and small branches are raised
+10	11	Fresh breeze	19	24	Small trees sway and small waves form on inland waters
+12	13	Strong breeze	25	31	Large branches move
+14	15	Moderate gale	32	38	Whole trees sway and walking against wind takes some effort
+16	17	Fresh gale	39	46	Twigs break off trees and general progress is impeded
+18	18	Strong gale	47	54	Slight structural damage occurs
+19	19	Storm	55	63	Trees are uprooted and considerable structural damage occurs
+20	20	Violent storm	64	72	Widespread damage occurs
+20	20	Hurricane	73	136	Widespread devastation occurs

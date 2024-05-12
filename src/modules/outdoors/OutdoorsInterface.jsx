@@ -2,24 +2,8 @@ import styled from "styled-components";
 import { BodyText, Header, Subheader } from "../../components/StyledText";
 import colors from "../../components/Colors";
 
-const OutdoorsInterface = ({ weather, weatherButtonFunc }) => {
-	return (
-		<>
-			<div
-				style={{
-					border: "1pt solid pink",
-					padding: "10px",
-					marginBottom: "20px"
-				}}>
-				<Header>Weather</Header>
-				<Subheader>{weather.label}</Subheader>
-				<CenteredBodyText>{weather.description}</CenteredBodyText>
-				<GenerateButton onClick={weatherButtonFunc}>
-					Get Next Weather
-				</GenerateButton>
-			</div>
-		</>
-	);
+const OutdoorsInterface = () => {
+	return <>cheeseBalls</>;
 };
 
 export default OutdoorsInterface;
