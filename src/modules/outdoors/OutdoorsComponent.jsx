@@ -5,6 +5,8 @@ import { rollOnTable } from "../../util/common";
 import roll from "../../util/roll";
 import windTypes from "./data/windTypes";
 import skyTable from "./data/skyTable";
+import climateCategories from "./data/climateCategories";
+import { getClimate } from "./util";
 
 const OutdoorsComponent = () => {
 	/* Where the party happens to be */
@@ -22,12 +24,17 @@ const OutdoorsComponent = () => {
 	const temperature = 25; // having called a function to calculate
 
 	return (
-		<button
-			onClick={() => {
-				getConditions();
-			}}>
-			get conditions
-		</button>
+		<>
+			<button
+				onClick={() => {
+					getConditions();
+				}}>
+				get conditions
+			</button>
+			<button onClick={() => getClimate(300, "Grassland", 30, false)}>
+				get climate
+			</button>
+		</>
 	);
 };
 
