@@ -7,7 +7,7 @@ import {
 	roleOptions
 } from "./combatStatsService";
 import { useState } from "react";
-import { uid } from "../../utils";
+import { uid } from "../../util/common";
 
 const CombatStats = () => {
 	const [rows, setRows] = useState([]);

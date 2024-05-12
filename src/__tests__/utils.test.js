@@ -1,4 +1,4 @@
-const { rollOnTable, expect_or } = require("../utils/utils");
+const { rollOnTable, expect_or } = require("../utils/common");
 
 const table = [
 	"Unusually short or slender",
@@ -90,6 +90,8 @@ describe("rollOnTable()", () => {
 		});
 	});
 });
+
+describe("roll()", () => {});
 
 expect_or(
 	() => expect("something").toBe("something"),

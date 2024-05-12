@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import NpcGeneratorInterface from "./NpcGeneratorInterface";
 import config from "./config";
-import { rollOnTable } from "../../utils";
 import {
 	approach,
 	characterisation,
 	highConcepts,
 	leverage
 } from "./data/npcGenerationTables";
+import { rollOnTable } from "../../util/common";
 
 const NpcGeneratorComponent = () => {
 	const [npcParameters, setNpcParameters] = useState();

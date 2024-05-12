@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BodyText, Header, Subheader } from "../../components/StyledText";
-import { uid } from "../../utils";
+import { uid } from "../../util/common";
 import colors from "../../components/Colors";
 import { useState } from "react";
 
