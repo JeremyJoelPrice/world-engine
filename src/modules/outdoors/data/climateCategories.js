@@ -1,5 +1,3 @@
-import terrainTypes from "./terrainTypes";
-
 const climateCategories = [
 	{
 		terrainType: "broken land",
