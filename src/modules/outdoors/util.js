@@ -32,12 +32,14 @@ function getSeasonAndPrecipitationWindow(climateCategory, dayOfYear) {
 		throw new Error("Invalid day of year");
 	}
 
+	// get the climate object which contains all season and precipitation windows
 	const climateObj = seasonsByClimateCategory.filter(
 		({ climateCategoryName }) => {
 			return climateCategoryName === climateCategory;
 		}
 	)[0];
 
+	// filter the correct season
 	const season = climateObj.seasons.filter((season) => {
 		const { firstDay, lastDay } = season;
 		if (!lastDay) return true;
@@ -51,6 +53,7 @@ function getSeasonAndPrecipitationWindow(climateCategory, dayOfYear) {
 		}
 	})[0];
 
+	// filter the correct precipitation window
 	const precipitationWindow = climateObj.precipitationWindows.filter(
 		(window) => {
 			const { firstDay, lastDay } = window;
