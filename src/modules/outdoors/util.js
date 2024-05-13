@@ -10,7 +10,7 @@ function getClimate(dayOfYear, terrainType, lattitude, isCoastal) {
 		isCoastal
 	);
 
-	const season = getSeason(climateCategory, dayOfYear);
+	const season = getSeasonAndPrecipitationWindow(climateCategory, dayOfYear);
 
 	// get precipitation chance
 }
@@ -26,39 +26,47 @@ function getClimateCategory(terrainType, lattitude, isCoastal) {
 	})[0].climateCategory;
 }
 
-function getSeason(climateCategory, dayOfYear) {
+function getSeasonAndPrecipitationWindow(climateCategory, dayOfYear) {
 	// check dayOfYear is valid
 	if (dayOfYear > getDaysPerYear() || dayOfYear < 1) {
 		throw new Error("Invalid day of year");
 	}
-	// console.log(climateCategory);
-	// console.log(dayOfYear);
+
 	const climateObj = seasonsByClimateCategory.filter(
 		({ climateCategoryName }) => {
 			return climateCategoryName === climateCategory;
 		}
 	)[0];
-	const season = climateObj.seasons.filter((climate) => {
-		const { firstDay, lastDay } = climate;
+
+	const season = climateObj.seasons.filter((season) => {
+		const { firstDay, lastDay } = season;
 		if (!lastDay) return true;
 		if (firstDay > lastDay) {
-			// console.log(climate);
-			// console.log(
-			// 	(dayOfYear <= lastDay && dayOfYear > 1) ||
-			// 		(dayOfYear >= firstDay && dayOfYear < getDaysPerYear())
-			// );
 			return (
 				(dayOfYear <= lastDay && dayOfYear >= 1) ||
 				(dayOfYear >= firstDay && dayOfYear <= getDaysPerYear())
 			);
 		} else {
-			// console.log(climate);
-			// console.log(dayOfYear >= firstDay && dayOfYear < lastDay);
 			return dayOfYear >= firstDay && dayOfYear < lastDay;
 		}
 	})[0];
 
-	return season;
+	const precipitationWindow = climateObj.precipitationWindows.filter(
+		(window) => {
+			const { firstDay, lastDay } = window;
+			if (!lastDay) return true;
+			if (firstDay > lastDay) {
+				return (
+					(dayOfYear <= lastDay && dayOfYear >= 1) ||
+					(dayOfYear >= firstDay && dayOfYear <= getDaysPerYear())
+				);
+			} else {
+				return dayOfYear >= firstDay && dayOfYear < lastDay;
+			}
+		}
+	)[0];
+
+	return { season, precipitationWindow };
 }
 
 function getDaysPerYear() {
@@ -68,4 +76,9 @@ function getDaysPerYear() {
 	);
 }
 
-export { getClimate, getClimateCategory, getDaysPerYear, getSeason };
+export {
+	getClimate,
+	getClimateCategory,
+	getDaysPerYear,
+	getSeasonAndPrecipitationWindow
+};

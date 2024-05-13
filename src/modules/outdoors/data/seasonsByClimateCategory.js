@@ -22,7 +22,8 @@ const seasonsByClimateCategory = [
 					{ name: "very hot", percentChance: 5, temperature: 43 }
 				]
 			}
-		]
+		],
+		precipitationWindows: [{ firstDay: 1, percentChance: 5 }]
 	},
 	{
 		climateCategoryName: "tropical savanna",
@@ -35,6 +36,32 @@ const seasonsByClimateCategory = [
 					{ name: "hot", percentChance: 90, temperature: "32-41" },
 					{ name: "very hot", percentChance: 5, temperature: 46 }
 				]
+			}
+		],
+		precipitationWindows: [
+			{
+				firstDay: 305,
+				lastDay: 90,
+				disregardHemisphere: true,
+				percentChance: 10
+			},
+			{
+				firstDay: 91,
+				lastDay: 120,
+				disregardHemisphere: true,
+				percentChance: 35
+			},
+			{
+				firstDay: 121,
+				lastDay: 273,
+				disregardHemisphere: true,
+				percentChance: 85
+			},
+			{
+				firstDay: 274,
+				lastDay: 304,
+				disregardHemisphere: true,
+				percentChance: 35
 			}
 		]
 	},
@@ -81,10 +108,14 @@ const seasonsByClimateCategory = [
 					{ name: "hot", percentChance: 5, temperature: 27 }
 				]
 			}
+		],
+		precipitationWindows: [
+			{ firstDay: 182, lastDay: 243, percentChance: 5 },
+			{ firstDay: 244, lastDay: 181, percentChance: 20 }
 		]
 	},
 	{
-		climateCategoryName: "equator",
+		climateCategoryName: "equatorial",
 		seasons: [
 			{
 				name: "winter/spring/summer/autumn",
@@ -98,6 +129,26 @@ const seasonsByClimateCategory = [
 					{ name: "hot", percentChance: 90, temperature: "21-29" },
 					{ name: "very hot", percentChance: 5, temperature: 38 }
 				]
+			}
+		],
+		precipitationWindows: [
+			{
+				firstDay: 60,
+				lastDay: 151,
+				disregardHemisphere: true,
+				percentChance: 50
+			},
+			{
+				firstDay: 152,
+				lastDay: 365,
+				disregardHemisphere: true,
+				percentChance: 40
+			},
+			{
+				firstDay: 1,
+				lastDay: 59,
+				disregardHemisphere: true,
+				percentChance: 30
 			}
 		]
 	},
@@ -121,6 +172,20 @@ const seasonsByClimateCategory = [
 					},
 					{ name: "extremely hot", percentChance: 5, temperature: 49 }
 				]
+			}
+		],
+		precipitationWindows: [
+			{
+				firstDay: 152,
+				lastDay: 304,
+				disregardHemisphere: true,
+				percentChance: 90
+			},
+			{
+				firstDay: 305,
+				lastDay: 151,
+				disregardHemisphere: true,
+				percentChance: 15
 			}
 		]
 	},
@@ -175,7 +240,8 @@ const seasonsByClimateCategory = [
 					{ name: "very warm", percentChance: 5, temperature: 18 }
 				]
 			}
-		]
+		],
+		precipitationWindows: [{ firstDay: 1, percentChance: 40 }]
 	},
 	{
 		climateCategoryName: "warm with dry summer",
@@ -228,6 +294,10 @@ const seasonsByClimateCategory = [
 					{ name: "very warm", percentChance: 5, temperature: 21 }
 				]
 			}
+		],
+		precipitationWindows: [
+			{ firstDay: 152, lastDay: 243, percentChance: 10 },
+			{ firstDay: 244, lastDay: 151, percentChance: 30 }
 		]
 	},
 	{
@@ -273,6 +343,10 @@ const seasonsByClimateCategory = [
 					{ name: "hot", percentChance: 5, temperature: 21 }
 				]
 			}
+		],
+		precipitationWindows: [
+			{ firstDay: 182, lastDay: 243, percentChance: 45 },
+			{ firstDay: 244, lastDay: 181, percentChance: 15 }
 		]
 	},
 	{
@@ -326,7 +400,8 @@ const seasonsByClimateCategory = [
 					{ name: "warm", percentChance: 5, temperature: 18 }
 				]
 			}
-		]
+		],
+		precipitationWindows: [{ firstDay: 1, percentChance: 35 }]
 	},
 	{
 		climateCategoryName: "cool with dry winter",
@@ -383,6 +458,12 @@ const seasonsByClimateCategory = [
 					{ name: "warm", percentChance: 5, temperature: 18 }
 				]
 			}
+		],
+		precipitationWindows: [
+			{ firstDay: 182, lastDay: 273, percentChance: 35 },
+			{ firstDay: 274, lastDay: 304, percentChance: 20 },
+			{ firstDay: 305, lastDay: 120, percentChance: 10 },
+			{ firstDay: 121, lastDay: 181, percentChance: 20 }
 		]
 	},
 	{
@@ -452,7 +533,8 @@ const seasonsByClimateCategory = [
 					{ name: "chilly", percentChance: 5, temperature: 2 }
 				]
 			}
-		]
+		],
+		precipitationWindows: [{ firstDay: 1, percentChance: 10 }]
 	},
 	{
 		climateCategoryName: "polar",
@@ -521,7 +603,8 @@ const seasonsByClimateCategory = [
 					{ name: "cool", percentChance: 5, temperature: 4 }
 				]
 			}
-		]
+		],
+		precipitationWindows: [{ firstDay: 1, percentChance: 10 }]
 	}
 ];
 
