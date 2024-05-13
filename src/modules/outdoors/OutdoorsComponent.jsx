@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
-import OutdoorsInterface from "./OutdoorsInterface";
-import config from "./config";
 import { rollOnTable } from "../../util/common";
 import roll from "../../util/roll";
 import windTypes from "./data/windTypes";
 import skyTable from "./data/skyTable";
-import climateCategories from "./data/climateCategories";
-import { getClimate } from "./util";
+import { getWeatherParametersOfCurrentDay } from "./util";
 
 const OutdoorsComponent = () => {
 	/* Where the party happens to be */
@@ -27,11 +23,21 @@ const OutdoorsComponent = () => {
 		<>
 			<button
 				onClick={() => {
-					getConditions();
+					console.log(getConditions());
 				}}>
 				get conditions
 			</button>
-			<button onClick={() => getClimate(300, "Grassland", 30, false)}>
+			<button
+				onClick={() =>
+					console.log(
+						getWeatherParametersOfCurrentDay(
+							300,
+							"grassland",
+							30,
+							false
+						)
+					)
+				}>
 				get climate
 			</button>
 		</>
@@ -54,12 +60,5 @@ function getConditions() {
 		)
 	);
 	conditions.wind = windType;
-
-	// optionally prune unneeded data
-	delete conditions.sky.windTypeFactor;
-	delete conditions.wind.diceMaxResult;
-	delete conditions.wind.diceMinResult;
-
-	console.log(conditions);
 	return conditions;
 }
