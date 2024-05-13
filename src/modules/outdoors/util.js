@@ -1,7 +1,10 @@
 import { rollOnTable } from "../../util/common";
+import roll from "../../util/roll";
 import config from "./config";
 import climateCategories from "./data/climateCategories";
 import seasonsByClimateCategory from "./data/seasonsByClimateCategory";
+import skyTable from "./data/skyTable";
+import windTypes from "./data/windTypes";
 
 /**
  * getWeatherParametersOfCurrentDay() uses the other utility functions here to generate the parameters
@@ -99,9 +102,30 @@ function getDaysPerYear() {
 	);
 }
 
+/**
+ * getConditions() returns wind and sky (rain, snow, cloud) conditions for the current day. While cloud conditions are
+ */
+
+function getConditions() {
+	const conditions = {};
+	conditions.sky = rollOnTable(skyTable);
+
+	const windTypeIndex = roll(conditions.sky.windTypeFactor).value;
+	const windType = rollOnTable(
+		windTypes.filter(
+			({ diceMinResult, diceMaxResult }) =>
+				diceMinResult === windTypeIndex ||
+				diceMaxResult === windTypeIndex
+		)
+	);
+	conditions.wind = windType;
+	return conditions;
+}
+
 export {
 	getWeatherParametersOfCurrentDay,
 	getClimateCategory,
+	getConditions,
 	getDaysPerYear,
 	getSeasonAndPrecipitationWindow
 };

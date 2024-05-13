@@ -1,8 +1,4 @@
-import { rollOnTable } from "../../util/common";
-import roll from "../../util/roll";
-import windTypes from "./data/windTypes";
-import skyTable from "./data/skyTable";
-import { getWeatherParametersOfCurrentDay } from "./util";
+import { getConditions, getWeatherParametersOfCurrentDay } from "./util";
 
 const OutdoorsComponent = () => {
 	/* Where the party happens to be */
@@ -45,20 +41,3 @@ const OutdoorsComponent = () => {
 };
 
 export default OutdoorsComponent;
-
-/* Utility Funcitons */
-function getConditions() {
-	const conditions = {};
-	conditions.sky = rollOnTable(skyTable);
-
-	const windTypeIndex = roll(conditions.sky.windTypeFactor).value;
-	const windType = rollOnTable(
-		windTypes.filter(
-			({ diceMinResult, diceMaxResult }) =>
-				diceMinResult === windTypeIndex ||
-				diceMaxResult === windTypeIndex
-		)
-	);
-	conditions.wind = windType;
-	return conditions;
-}
