@@ -1,18 +1,38 @@
+import { rollOnTable } from "../../util/common";
 import config from "./config";
 import climateCategories from "./data/climateCategories";
 import seasonsByClimateCategory from "./data/seasonsByClimateCategory";
 
-function getClimate(dayOfYear, terrainType, lattitude, isCoastal) {
-	// get climate category
-	const climateCategory = getClimateCategory(
-		terrainType,
-		lattitude,
-		isCoastal
-	);
+/**
+ * getWeatherParametersOfCurrentDay() uses the other utility functions here to generate the parameters
+ * for what kind of weather you should generate on a given day.
+ *
+ * It takes a dayOfYear, a terrainType (from /data/terrainTypes.js), a lattitude, isCoastal boolean flag,
+ * and an optional climateCategory (if no climateCategory is provided, it will choose randomly
+ * in those rare cases where two options are returned).
+ *
+ * This final parameters object will be returned so that some other part of the program can
+ * generate the actual weather.
+ */
 
-	const season = getSeasonAndPrecipitationWindow(climateCategory, dayOfYear);
+function getWeatherParametersOfCurrentDay(
+	dayOfYear,
+	terrainType,
+	lattitude,
+	isCoastal,
+	climateCategory // optional
+) {
+	// get climate category, if not given one
+	if (!climateCategory) {
+		climateCategory = rollOnTable(
+			getClimateCategory(terrainType, lattitude, isCoastal)
+		);
+	}
 
 	// get precipitation chance
+	const season = getSeasonAndPrecipitationWindow(climateCategory, dayOfYear);
+
+	return season;
 }
 
 function getClimateCategory(terrainType, lattitude, isCoastal) {
@@ -80,7 +100,7 @@ function getDaysPerYear() {
 }
 
 export {
-	getClimate,
+	getWeatherParametersOfCurrentDay,
 	getClimateCategory,
 	getDaysPerYear,
 	getSeasonAndPrecipitationWindow

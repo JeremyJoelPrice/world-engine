@@ -1,7 +1,8 @@
 import {
 	getClimateCategory,
 	getDaysPerYear,
-	getSeasonAndPrecipitationWindow
+	getSeasonAndPrecipitationWindow,
+	getWeatherParametersOfCurrentDay
 } from "../modules/outdoors/util";
 
 describe("getClimateCategory()", () => {
@@ -183,6 +184,31 @@ describe("getSeasonAndPrecipitationWindow()", () => {
 				]
 			},
 			precipitationWindow: { firstDay: 1, percentChance: 10 }
+		});
+	});
+});
+
+describe("getWeatherParametersOfCurrentDay()", () => {
+	test.only("returns weather parameters object", () => {
+		expect(
+			getWeatherParametersOfCurrentDay(1, "grassland", 60, false)
+		).toEqual({
+			season: {
+				name: "winter",
+				firstDay: 305,
+				lastDay: 59,
+				averageTemperatureOptions: [
+					{ name: "very cold", percentChance: 5, temperature: -15 },
+					{ name: "cold", percentChance: 45, temperature: "-9--4" },
+					{
+						name: "freezing",
+						percentChance: 45,
+						temperature: "-3-0"
+					},
+					{ name: "chilly", percentChance: 5, temperature: 4 }
+				]
+			},
+			precipitationWindow: { firstDay: 1, percentChance: 35 }
 		});
 	});
 });
