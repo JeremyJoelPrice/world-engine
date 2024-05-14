@@ -7952,7 +7952,7 @@ const victorianProfessions = [
 	{
 		name: "Fettler",
 		description:
-			"cleaned the machinery in woollen mills, removing accumulated fibres,grease, etc, or one who sharpened the fustian cutters knives, or aneedlemaker who filed the needle to a point."
+			"cleaned the machinery in woollen mills, removing accumulated fibres, grease, etc, or one who sharpened the fustian cutters knives, or aneedlemaker who filed the needle to a point."
 	},
 	{ name: "Feuar", description: "a holder of lands granted for services" },
 	{ name: "Fever", description: "a blacksmith." },
@@ -7960,7 +7960,7 @@ const victorianProfessions = [
 	{
 		name: "Fewterer",
 		description:
-			"the keeper of hounds, for hunting or coursing. A keeper ofgreyhounds."
+			"the keeper of hounds, for hunting or coursing. A keeper of greyhounds."
 	},
 	{ name: "Feydur Beater", description: "a feather beater." },
 	{
@@ -7972,7 +7972,7 @@ const victorianProfessions = [
 	{
 		name: "Fine Drawer",
 		description:
-			"one who is employed in tailoring to repair tears in the cloth.Invisible mending."
+			"one who is employed in tailoring to repair tears in the cloth. Invisible mending."
 	},
 	{
 		name: "Finisher",
