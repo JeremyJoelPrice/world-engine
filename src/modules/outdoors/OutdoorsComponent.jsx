@@ -1,4 +1,4 @@
-import { getConditions, getWeatherParametersOfCurrentDay } from "./util";
+import { getSkyAndWind } from "./weather/util";
 
 const OutdoorsComponent = () => {
 	/* Where the party happens to be */
@@ -19,22 +19,16 @@ const OutdoorsComponent = () => {
 		<>
 			<button
 				onClick={() => {
-					console.log(getConditions());
+					console.log(getSkyAndWind());
 				}}>
-				get conditions
+				get sky and wind
 			</button>
 			<button
 				onClick={() =>
-					console.log(
-						getWeatherParametersOfCurrentDay(
-							300,
-							"grassland",
-							30,
-							false
-						)
-					)
+					// console.log(getSeasonAndPrecipitationPeriod(300, "grassland", 30, false))
+					console.log("feature offline")
 				}>
-				get climate
+				get season and precipitation period
 			</button>
 		</>
 	);

@@ -1,6 +1,6 @@
-const seasonsByClimateCategory = [
+const seasonsAndPrecipByClimate = [
 	{
-		climateCategoryName: "desert",
+		climateName: "desert",
 		seasons: [
 			{
 				name: "winter",
@@ -23,10 +23,10 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [{ firstDay: 1, percentChance: 5 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 5 }]
 	},
 	{
-		climateCategoryName: "tropical savanna",
+		climateName: "tropical savanna",
 		seasons: [
 			{
 				name: "winter/spring/summer/autumn",
@@ -38,7 +38,7 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [
+		precipPeriods: [
 			{
 				firstDay: 305,
 				lastDay: 90,
@@ -66,7 +66,7 @@ const seasonsByClimateCategory = [
 		]
 	},
 	{
-		climateCategoryName: "steppe",
+		climateName: "steppe",
 		seasons: [
 			{
 				name: "winter",
@@ -109,13 +109,13 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [
+		precipPeriods: [
 			{ firstDay: 182, lastDay: 243, percentChance: 5 },
 			{ firstDay: 244, lastDay: 181, percentChance: 20 }
 		]
 	},
 	{
-		climateCategoryName: "equatorial",
+		climateName: "equatorial",
 		seasons: [
 			{
 				name: "winter/spring/summer/autumn",
@@ -131,7 +131,7 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [
+		precipPeriods: [
 			{
 				firstDay: 60,
 				lastDay: 151,
@@ -153,7 +153,7 @@ const seasonsByClimateCategory = [
 		]
 	},
 	{
-		climateCategoryName: "monsoon",
+		climateName: "monsoon",
 		seasons: [
 			{
 				name: "winter/spring/summer/autumn",
@@ -174,7 +174,7 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [
+		precipPeriods: [
 			{
 				firstDay: 152,
 				lastDay: 304,
@@ -190,7 +190,7 @@ const seasonsByClimateCategory = [
 		]
 	},
 	{
-		climateCategoryName: "warm & rainy",
+		climateName: "warm & rainy",
 		seasons: [
 			{
 				name: "winter",
@@ -241,10 +241,10 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [{ firstDay: 1, percentChance: 40 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 40 }]
 	},
 	{
-		climateCategoryName: "warm with dry summer",
+		climateName: "warm with dry summer",
 		seasons: [
 			{
 				name: "winter",
@@ -295,13 +295,13 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [
+		precipPeriods: [
 			{ firstDay: 152, lastDay: 243, percentChance: 10 },
 			{ firstDay: 244, lastDay: 151, percentChance: 30 }
 		]
 	},
 	{
-		climateCategoryName: "warm with dry winter",
+		climateName: "warm with dry winter",
 		seasons: [
 			{
 				name: "winter",
@@ -344,13 +344,13 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [
+		precipPeriods: [
 			{ firstDay: 182, lastDay: 243, percentChance: 45 },
 			{ firstDay: 244, lastDay: 181, percentChance: 15 }
 		]
 	},
 	{
-		climateCategoryName: "cool & rainy",
+		climateName: "cool & rainy",
 		seasons: [
 			{
 				name: "winter",
@@ -401,10 +401,10 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [{ firstDay: 1, percentChance: 35 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 35 }]
 	},
 	{
-		climateCategoryName: "cool with dry winter",
+		climateName: "cool with dry winter",
 		seasons: [
 			{
 				name: "winter",
@@ -459,7 +459,7 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [
+		precipPeriods: [
 			{ firstDay: 182, lastDay: 273, percentChance: 35 },
 			{ firstDay: 274, lastDay: 304, percentChance: 20 },
 			{ firstDay: 305, lastDay: 120, percentChance: 10 },
@@ -467,7 +467,7 @@ const seasonsByClimateCategory = [
 		]
 	},
 	{
-		climateCategoryName: "tundra",
+		climateName: "tundra",
 		seasons: [
 			{
 				name: "winter",
@@ -534,10 +534,10 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [{ firstDay: 1, percentChance: 10 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 10 }]
 	},
 	{
-		climateCategoryName: "polar",
+		climateName: "polar",
 		seasons: [
 			{
 				name: "winter",
@@ -604,8 +604,8 @@ const seasonsByClimateCategory = [
 				]
 			}
 		],
-		precipitationWindows: [{ firstDay: 1, percentChance: 10 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 10 }]
 	}
 ];
 
-export default seasonsByClimateCategory;
+export default seasonsAndPrecipByClimate;
