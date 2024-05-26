@@ -1,4 +1,5 @@
-const { rollOnTable, expect_or } = require("../utils/common");
+const { biasedSelection } = require("../util/common");
+const { expect_or, rollOnTable } = require("../util/common");
 
 const table = [
 	"Unusually short or slender",
@@ -93,8 +94,25 @@ describe("rollOnTable()", () => {
 
 describe("roll()", () => {});
 
-expect_or(
-	() => expect("something").toBe("something"),
-	() => expect("something").toBe("something"),
-	() => expect("something").toBe("something")
-);
+describe("biasedSelection", () => {
+	test("returns results biased toward given index", () => {
+		const array = ["a", "b", "c", "d", "e"];
+		const totals = { a: 0, b: 0, c: 0, d: 0, e: 0 };
+
+		for (let i = 0; i < 10000; i++) {
+			const result = biasedSelection(array, 1, 2);
+			totals[result]++;
+		}
+		expect(Math.max(...Object.values(totals))).toEqual(totals.c);
+	});
+	test("demo of biasing toward two different values", () => {
+		const array = ["a", "b", "c", "d", "e"];
+		const totals = { a: 0, b: 0, c: 0, d: 0, e: 0 };
+
+		for (let i = 0; i < 10000; i++) {
+			const result = biasedSelection(array, 1, 2, 4);
+			totals[result]++;
+		}
+		console.log(totals);
+	});
+});

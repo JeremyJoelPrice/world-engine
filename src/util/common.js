@@ -46,4 +46,56 @@ const expect_or = (...tests) => {
 	}
 };
 
-export { expect_or, rollOnTable, uid };
+/**
+ * biasedSelect() returns a random element from an array,
+ * but with a heavy bias towards the specific index.
+ * Each neighbouring element has a lower probability.
+ */
+
+function biasedSelection(arr, stdDev = 1, targetIndex, prevIndex = null) {
+	const n = arr.length;
+	const probabilities = new Array(n);
+
+	// Calculate individual biases
+	let sum = 0;
+	for (let i = 0; i < n; i++) {
+		const targetBias = gaussian(i, targetIndex, stdDev);
+		const prevBias =
+			prevIndex !== null ? gaussian(i, prevIndex, stdDev) : 1;
+		probabilities[i] = targetBias * prevBias; // Combine biases by multiplying
+		sum += probabilities[i];
+	}
+
+	// Normalize probabilities
+	for (let i = 0; i < n; i++) {
+		probabilities[i] /= sum;
+	}
+
+	// Create a cumulative probability array
+	const cumulativeProbabilities = new Array(n);
+	cumulativeProbabilities[0] = probabilities[0];
+	for (let i = 1; i < n; i++) {
+		cumulativeProbabilities[i] =
+			cumulativeProbabilities[i - 1] + probabilities[i];
+	}
+
+	// Generate a random number
+	const randomValue = Math.random();
+
+	// Select the element based on the random number
+	for (let i = 0; i < n; i++) {
+		if (randomValue < cumulativeProbabilities[i]) {
+			return arr[i];
+		}
+	}
+
+	// In case of rounding errors, return the last element
+	return arr[n - 1];
+}
+
+function gaussian(x, mean, stdDev) {
+	const exponent = -((x - mean) ** 2) / (2 * stdDev ** 2);
+	return Math.exp(exponent) / (stdDev * Math.sqrt(2 * Math.PI));
+}
+
+export { biasedSelection, expect_or, rollOnTable, uid };
