@@ -98,100 +98,55 @@ describe("getCurrentSeason()", () => {
 		{
 			name: "winter",
 			firstDay: 335,
-			lastDay: 59,
-			averageTemperatureOptions: [
-				{ name: "cold", percentChance: 5, temperature: 2 },
-				{ name: "chilly", percentChance: 90, temperature: "4-7" },
-				{ name: "cool", percentChance: 5, temperature: 10 }
-			]
+			lastDay: 59
 		},
 		{
 			name: "spring",
 			firstDay: 60,
-			lastDay: 151,
-			averageTemperatureOptions: [
-				{ name: "cool", percentChance: 5, temperature: 10 },
-				{ name: "warm", percentChance: 90, temperature: "16-21" },
-				{ name: "hot", percentChance: 5, temperature: 27 }
-			]
+			lastDay: 151
 		},
 		{
 			name: "summer",
 			firstDay: 152,
-			lastDay: 243,
-			averageTemperatureOptions: [
-				{ name: "warm", percentChance: 5, temperature: 21 },
-				{ name: "hot", percentChance: 90, temperature: "29-35" },
-				{ name: "very hot", percentChance: 5, temperature: 43 }
-			]
+			lastDay: 243
 		},
 		{
 			name: "autumn",
 			firstDay: 244,
-			lastDay: 334,
-			averageTemperatureOptions: [
-				{ name: "cool", percentChance: 5, temperature: 10 },
-				{ name: "warm", percentChance: 90, temperature: "16-21" },
-				{ name: "hot", percentChance: 5, temperature: 27 }
-			]
+			lastDay: 334
 		}
 	];
 	test("returns valid season object", () => {
 		expect(getCurrentSeason(1, seasons)).toEqual({
 			name: "winter",
 			firstDay: 335,
-			lastDay: 59,
-			averageTemperatureOptions: [
-				{ name: "cold", percentChance: 5, temperature: 2 },
-				{ name: "chilly", percentChance: 90, temperature: "4-7" },
-				{ name: "cool", percentChance: 5, temperature: 10 }
-			]
+			lastDay: 59
 		});
 	});
 	test("handles season starts on day of year", () => {
 		expect(getCurrentSeason(151, seasons)).toEqual({
 			name: "spring",
 			firstDay: 60,
-			lastDay: 151,
-			averageTemperatureOptions: [
-				{ name: "cool", percentChance: 5, temperature: 10 },
-				{ name: "warm", percentChance: 90, temperature: "16-21" },
-				{ name: "hot", percentChance: 5, temperature: 27 }
-			]
+			lastDay: 151
 		});
 	});
 	test("handles season ends of day of year", () => {
 		expect(getCurrentSeason(152, seasons)).toEqual({
 			name: "summer",
 			firstDay: 152,
-			lastDay: 243,
-			averageTemperatureOptions: [
-				{ name: "warm", percentChance: 5, temperature: 21 },
-				{ name: "hot", percentChance: 90, temperature: "29-35" },
-				{ name: "very hot", percentChance: 5, temperature: 43 }
-			]
+			lastDay: 243
 		});
 	});
 	test("handles season containing end of year", () => {
 		expect(getCurrentSeason(1, seasons)).toEqual({
 			name: "winter",
 			firstDay: 335,
-			lastDay: 59,
-			averageTemperatureOptions: [
-				{ name: "cold", percentChance: 5, temperature: 2 },
-				{ name: "chilly", percentChance: 90, temperature: "4-7" },
-				{ name: "cool", percentChance: 5, temperature: 10 }
-			]
+			lastDay: 59
 		});
 		expect(getCurrentSeason(365, seasons)).toEqual({
 			name: "winter",
 			firstDay: 335,
-			lastDay: 59,
-			averageTemperatureOptions: [
-				{ name: "cold", percentChance: 5, temperature: 2 },
-				{ name: "chilly", percentChance: 90, temperature: "4-7" },
-				{ name: "cool", percentChance: 5, temperature: 10 }
-			]
+			lastDay: 59
 		});
 	});
 });
@@ -201,19 +156,16 @@ describe("getCurrentPrecipChance()", () => {
 		{
 			firstDay: 60,
 			lastDay: 151,
-			disregardHemisphere: true,
 			percentChance: 50
 		},
 		{
 			firstDay: 152,
 			lastDay: 1,
-			disregardHemisphere: true,
 			percentChance: 40
 		},
 		{
 			firstDay: 2,
 			lastDay: 59,
-			disregardHemisphere: true,
 			percentChance: 30
 		}
 	];
@@ -230,4 +182,10 @@ describe("getCurrentPrecipChance()", () => {
 		expect(getCurrentPrecipChance(1, precipPeriods)).toEqual(40);
 		expect(getCurrentPrecipChance(365, precipPeriods)).toEqual(40);
 	});
+});
+
+describe("getCurrentSky", () => {
+	// returns a random sky
+	test("returns a random sky", () => {});
+	// returns a clear sky given zero chance of precipitation
 });
