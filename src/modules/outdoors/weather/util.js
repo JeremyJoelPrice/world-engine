@@ -1,27 +1,8 @@
 import { biasedSelection } from "../../../util/common";
-import climates from "../data/climates";
+import climates from "../data/climatesByTerrain";
 import seasonsAndPrecipByClimate from "../data/seasonsAndPrecipByClimate";
 import skyTable from "../data/skyTable";
 import windTypes from "../data/windTypes";
-
-/**
- * getSeasonAndPrecipitationPeriod() uses the other utility functions here to generate the parameters
- * for what kind of weather you should generate on a given day.
- *
- * It takes a dayOfYear, a terrainType (from /data/terrainTypes.js), a lattitude, isCoastal boolean flag,
- * and an optional climate (if no climate is provided, it will choose randomly
- * in those rare cases where two options are returned).
- *
- * This final parameters object will be returned so that some other part of the program can
- * generate the actual weather.
- */
-
-function getSeasonsAndPrecipByClimate(climate) {
-	const { seasons, precipPeriods } = seasonsAndPrecipByClimate.filter(
-		({ climateName }) => climateName === climate
-	)[0];
-	return JSON.parse(JSON.stringify({ seasons, precipPeriods }));
-}
 
 function getClimate(terrainType, lattitude, isCoastal) {
 	return climates.filter((c) => {
@@ -32,6 +13,13 @@ function getClimate(terrainType, lattitude, isCoastal) {
 			(c.isCoastal === isCoastal || c.isCoastal === "all")
 		);
 	})[0].climate;
+}
+
+function getSeasonsAndPrecipByClimate(climate) {
+	const { seasons, precipPeriods } = seasonsAndPrecipByClimate.filter(
+		({ climateName }) => climateName === climate
+	)[0];
+	return JSON.parse(JSON.stringify({ seasons, precipPeriods }));
 }
 
 function getCurrentSeason(dayOfYear, seasons) {
@@ -62,10 +50,6 @@ function getCurrentSky(precipChance, currentSky) {
 	return sky;
 }
 
-function getDaysPerYear() {
-	return 365; // hardcoded because custom calendars are not yet supported
-}
-
 function getWind(diceResult) {
 	return windTypes.filter(
 		({ diceMinResult, diceMaxResult }) =>
@@ -85,6 +69,10 @@ export {
 /**
  * Generic helper functions
  */
+
+function getDaysPerYear() {
+	return 365; // hardcoded because custom calendars are not yet supported
+}
 
 // takes a number n, and returns whether it is within the rangeStart and rangeEnd values inclusive.
 // if rangeStart is greater than rangeEnd, returns whether it is outside the range
