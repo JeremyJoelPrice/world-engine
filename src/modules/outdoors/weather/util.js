@@ -1,5 +1,4 @@
-import { biasedSelection, rollOnTable } from "../../../util/common";
-import roll from "../../../util/roll";
+import { biasedSelection } from "../../../util/common";
 import climates from "../data/climates";
 import seasonsAndPrecipByClimate from "../data/seasonsAndPrecipByClimate";
 import skyTable from "../data/skyTable";
@@ -67,26 +66,6 @@ function getDaysPerYear() {
 	return 365; // hardcoded because custom calendars are not yet supported
 }
 
-/**
- * getSkyAndWind() returns wind and sky (rain, snow, cloud) conditions for the current day.
- */
-
-function getSkyAndWind() {
-	const skyAndWind = {};
-	skyAndWind.sky = rollOnTable(skyTable);
-
-	const windTypeIndex = roll(skyAndWind.sky.windTypeFactor).value;
-	const windType = rollOnTable(
-		windTypes.filter(
-			({ diceMinResult, diceMaxResult }) =>
-				diceMinResult === windTypeIndex ||
-				diceMaxResult === windTypeIndex
-		)
-	);
-	skyAndWind.wind = windType;
-	return skyAndWind;
-}
-
 function getWind(diceResult) {
 	return windTypes.filter(
 		({ diceMinResult, diceMaxResult }) =>
@@ -99,7 +78,6 @@ export {
 	getCurrentPrecipChance,
 	getCurrentSeason,
 	getCurrentSky,
-	// getSkyAndWind,
 	getSeasonsAndPrecipByClimate,
 	getWind
 };
