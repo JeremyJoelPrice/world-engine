@@ -12,9 +12,11 @@ advantage/disadvantage on certain checks perception, following tracks, Dexterity
 
 ## Do Next
 
-implement creating a new sky based on current sky
+overhaul weather data
 
 Implement daily average temperatures
+
+Implement special weather (wind hurricanes, precip thunderstorms, hail, and fog)
 
 ## Current Implementation
 
