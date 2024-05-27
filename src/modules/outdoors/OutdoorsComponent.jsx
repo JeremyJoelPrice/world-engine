@@ -19,7 +19,8 @@ const OutdoorsComponent = () => {
 		<>
 			<button
 				onClick={() => {
-					console.log(getSkyAndWind());
+					// console.log(getSkyAndWind());
+					console.log("feature offline");
 				}}>
 				get sky and wind
 			</button>
