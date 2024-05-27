@@ -49,27 +49,17 @@ function getCurrentPrecipChance(dayOfYear, precipPeriods) {
 }
 
 function getCurrentSky(precipChance, currentSky) {
-	const indexOfCurrentSky = currentSky
-		? skyTable.findIndex((sky) => sky.cloud === currentSky.cloud)
-		: undefined;
-	let sky;
-	if (Math.random() <= precipChance / 100) {
-		sky = Object.assign(
-			{},
-			indexOfCurrentSky
-				? biasedSelection(skyTable, indexOfCurrentSky, 0.2)
-				: biasedSelection(skyTable, 1, 0.2)
-		);
-	} else {
-		sky = Object.assign(
-			{},
-			indexOfCurrentSky
-				? biasedSelection(skyTable, indexOfCurrentSky, 0.2)
-				: biasedSelection(skyTable, 0, 0.4)
-		);
+	if (currentSky) {
+		if (Math.random() <= 0.4) return currentSky;
+	}
+
+	const sky = Object.assign({}, biasedSelection(skyTable, 0, 0.1));
+
+	if (Math.random() > precipChance / 100) {
 		sky.rain = "none";
 		sky.snow = "none";
 	}
+
 	return sky;
 }
 

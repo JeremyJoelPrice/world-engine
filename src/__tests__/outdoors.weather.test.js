@@ -6,7 +6,6 @@ import {
 	getCurrentSky,
 	getSeasonsAndPrecipByClimate
 } from "../modules/outdoors/weather/util";
-import { biasedSelection } from "../util/common";
 
 describe("getClimate()", () => {
 	test("returns array containing expected climate type, or multiple types", () => {
@@ -203,6 +202,22 @@ describe("getCurrentSky", () => {
 			).toEqual(true);
 		}
 	});
+	test("handles a 50% chance of precipitation", () => {
+		const totals = {};
+		totals[skyTable[0].rain] = 0;
+		totals[skyTable[1].rain] = 0;
+		totals[skyTable[2].rain] = 0;
+		totals[skyTable[3].rain] = 0;
+		totals[skyTable[4].rain] = 0;
+		totals[skyTable[5].rain] = 0;
+		totals["none"] = 0;
+
+		for (let i = 0; i < 10000; i++) {
+			const { rain } = getCurrentSky(50, skyTable[2]);
+			totals[rain]++;
+		}
+		expect(totals.none).toBeGreaterThan(0);
+	});
 	test("returns rain/snow given a 100% precipitation chance", () => {
 		for (let i = 0; i < 1000; i++) {
 			const { rain, snow } = getCurrentSky(100);
@@ -220,20 +235,20 @@ describe("getCurrentSky", () => {
 		}
 	});
 	test("bias toward clearer skies when no precipitation", () => {
-		const totals = {
-			"clear/a few clouds": 0,
-			"mostly cloudy": 0,
-			"grey, slightly overcast": 0,
-			"grey, highly overcast": 0,
-			"dark storm clouds": 0
-		};
+		const totals = {};
+		totals[skyTable[0].cloud] = 0;
+		totals[skyTable[1].cloud] = 0;
+		totals[skyTable[2].cloud] = 0;
+		totals[skyTable[3].cloud] = 0;
+		totals[skyTable[4].cloud] = 0;
+		totals[skyTable[5].cloud] = 0;
 
 		for (let i = 0; i < 10000; i++) {
 			const { cloud } = getCurrentSky(0);
 			totals[cloud]++;
 		}
 		expect(Math.max(...Object.values(totals))).toEqual(
-			totals["clear/a few clouds"]
+			totals[skyTable[0].cloud]
 		);
 	});
 	test("bias toward current sky", () => {
@@ -249,7 +264,6 @@ describe("getCurrentSky", () => {
 			const { rain } = getCurrentSky(100, skyTable[2]);
 			totals[rain]++;
 		}
-		console.log(totals);
 		expect(Math.max(...Object.values(totals))).toEqual(
 			totals[skyTable[2].rain]
 		);
@@ -273,17 +287,37 @@ describe("getCurrentSky", () => {
 		output = "Rain		Snow		Cloud		WindFactor\n";
 		let sky = undefined;
 		for (let i = 0; i < 10000; i++) {
-			// const sky = getCurrentSky(100); // precipitation no bias
-			// const sky = getCurrentSky(0); // no precipitation no bias
-			// const sky = getCurrentSky(1000, skyTable[1]); // precipitation w/bias
-			// const sky = getCurrentSky(0, skyTable[1]); // no precipitation w/bias
-			// realistic use case
-			sky = getCurrentSky(25, sky);
+			// sky = getCurrentSky(100); // precipitation no bias
+			// sky = getCurrentSky(0); // no precipitation no bias
+			// sky = getCurrentSky(100, skyTable[1]); // precipitation w/bias
+			// sky = getCurrentSky(0, skyTable[1]); // no precipitation w/bias
+			sky = getCurrentSky(50, sky); // realistic use case
 			totals.rain[sky.rain]++;
 			totals.cloud[sky.cloud]++;
 			output += `${sky.rain}		${sky.snow}		${sky.cloud}		${sky.windTypeFactor}\n`;
 		}
 		console.log(output);
 		console.log(totals);
+	});
+	test.skip("binary bias", () => {
+		const totals = { a: 0, b: 0 };
+		let isA = Math.random() <= 0.5;
+
+		let output = "";
+		for (let i = 0; i < 1000; i++) {
+			if (!(Math.random() <= 0.4)) {
+				isA = !isA;
+			}
+			if (isA) {
+				totals.a++;
+				output += "A";
+			} else {
+				totals.b++;
+				output += "B";
+			}
+		}
+		console.log(totals);
+		console.log(totals.a / totals.b);
+		console.log(output);
 	});
 });
