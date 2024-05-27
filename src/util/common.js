@@ -51,51 +51,58 @@ const expect_or = (...tests) => {
  * but with a heavy bias towards the specific index.
  * Each neighbouring element has a lower probability.
  */
-
-function biasedSelection(arr, stdDev = 1, targetIndex, prevIndex = null) {
-	const n = arr.length;
-	const probabilities = new Array(n);
-
-	// Calculate individual biases
-	let sum = 0;
-	for (let i = 0; i < n; i++) {
-		const targetBias = gaussian(i, targetIndex, stdDev);
-		const prevBias =
-			prevIndex !== null ? gaussian(i, prevIndex, stdDev) : 1;
-		probabilities[i] = targetBias * prevBias; // Combine biases by multiplying
-		sum += probabilities[i];
+function biasedSelection(array, biasIndex, biasStrength = 0.5) {
+	if (!Array.isArray(array) || array.length === 0) {
+		throw new Error("The first argument must be a non-empty array.");
+	}
+	if (
+		typeof biasIndex !== "number" ||
+		biasIndex < 0 ||
+		biasIndex >= array.length
+	) {
+		throw new Error(
+			"The bias index must be a valid index within the array."
+		);
+	}
+	if (
+		typeof biasStrength !== "number" ||
+		biasStrength <= 0 ||
+		biasStrength >= 1
+	) {
+		throw new Error(
+			"The bias strength must be a number between 0 and 1 (exclusive)."
+		);
 	}
 
-	// Normalize probabilities
-	for (let i = 0; i < n; i++) {
-		probabilities[i] /= sum;
-	}
+	const totalElements = array.length;
 
-	// Create a cumulative probability array
-	const cumulativeProbabilities = new Array(n);
-	cumulativeProbabilities[0] = probabilities[0];
-	for (let i = 1; i < n; i++) {
-		cumulativeProbabilities[i] =
-			cumulativeProbabilities[i - 1] + probabilities[i];
-	}
+	// Calculate weights for each element based on distance from biasIndex and biasStrength
+	const weights = array.map((_, index) => {
+		return Math.pow(1 - biasStrength, Math.abs(index - biasIndex));
+	});
 
-	// Generate a random number
-	const randomValue = Math.random();
+	// Calculate the total weight
+	const totalWeight = weights.reduce((acc, weight) => acc + weight, 0);
 
-	// Select the element based on the random number
-	for (let i = 0; i < n; i++) {
-		if (randomValue < cumulativeProbabilities[i]) {
-			return arr[i];
+	// Calculate cumulative weights for weighted random selection
+	const cumulativeWeights = [];
+	weights.reduce((acc, weight, index) => {
+		cumulativeWeights[index] = acc + weight;
+		return cumulativeWeights[index];
+	}, 0);
+
+	// Get a random number between 0 and totalWeight
+	const random = Math.random() * totalWeight;
+
+	// Find the index based on the random number
+	for (let i = 0; i < cumulativeWeights.length; i++) {
+		if (random < cumulativeWeights[i]) {
+			return array[i];
 		}
 	}
 
-	// In case of rounding errors, return the last element
-	return arr[n - 1];
-}
-
-function gaussian(x, mean, stdDev) {
-	const exponent = -((x - mean) ** 2) / (2 * stdDev ** 2);
-	return Math.exp(exponent) / (stdDev * Math.sqrt(2 * Math.PI));
+	// Fallback in case of rounding errors
+	return array[totalElements - 1];
 }
 
 export { biasedSelection, expect_or, rollOnTable, uid };

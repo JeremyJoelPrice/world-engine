@@ -1,4 +1,4 @@
-import { rollOnTable } from "../../../util/common";
+import { biasedSelection, rollOnTable } from "../../../util/common";
 import roll from "../../../util/roll";
 import climates from "../data/climates";
 import seasonsAndPrecipByClimate from "../data/seasonsAndPrecipByClimate";
@@ -48,6 +48,31 @@ function getCurrentPrecipChance(dayOfYear, precipPeriods) {
 	return period.percentChance;
 }
 
+function getCurrentSky(precipChance, currentSky) {
+	const indexOfCurrentSky = currentSky
+		? skyTable.findIndex((sky) => sky.cloud === currentSky.cloud)
+		: undefined;
+	let sky;
+	if (Math.random() <= precipChance / 100) {
+		sky = Object.assign(
+			{},
+			indexOfCurrentSky
+				? biasedSelection(skyTable, indexOfCurrentSky, 0.2)
+				: biasedSelection(skyTable, 1, 0.2)
+		);
+	} else {
+		sky = Object.assign(
+			{},
+			indexOfCurrentSky
+				? biasedSelection(skyTable, indexOfCurrentSky, 0.2)
+				: biasedSelection(skyTable, 0, 0.4)
+		);
+		sky.rain = "none";
+		sky.snow = "none";
+	}
+	return sky;
+}
+
 function getDaysPerYear() {
 	// return config.monthsOfTheYear.reduce(
 	// 	(accumulator, month) => (accumulator += month.numOfDays),
@@ -80,6 +105,7 @@ export {
 	getClimate,
 	getCurrentPrecipChance,
 	getCurrentSeason,
+	getCurrentSky,
 	getSkyAndWind,
 	getDaysPerYear,
 	getSeasonsAndPrecipByClimate

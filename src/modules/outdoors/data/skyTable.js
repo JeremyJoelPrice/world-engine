@@ -2,7 +2,7 @@ const skyTable = [
 	{
 		rain: "light mist",
 		snow: "few flakes",
-		cloud: "a few clouds",
+		cloud: "clear/a few clouds",
 		windTypeFactor: "1d4"
 	},
 	{

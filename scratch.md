@@ -12,7 +12,7 @@ advantage/disadvantage on certain checks perception, following tracks, Dexterity
 
 ## Do Next
 
-Refactor code for clarity and separation of concerns
+implement creating a new sky based on current sky
 
 Implement daily average temperatures
 
