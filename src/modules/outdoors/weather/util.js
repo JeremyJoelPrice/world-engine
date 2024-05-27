@@ -64,10 +64,6 @@ function getCurrentSky(precipChance, currentSky) {
 }
 
 function getDaysPerYear() {
-	// return config.monthsOfTheYear.reduce(
-	// 	(accumulator, month) => (accumulator += month.numOfDays),
-	// 	0
-	// );
 	return 365; // hardcoded because custom calendars are not yet supported
 }
 
@@ -91,14 +87,21 @@ function getSkyAndWind() {
 	return skyAndWind;
 }
 
+function getWind(diceResult) {
+	return windTypes.filter(
+		({ diceMinResult, diceMaxResult }) =>
+			diceMinResult === diceResult || diceMaxResult === diceResult
+	)[0];
+}
+
 export {
 	getClimate,
 	getCurrentPrecipChance,
 	getCurrentSeason,
 	getCurrentSky,
-	getSkyAndWind,
-	getDaysPerYear,
-	getSeasonsAndPrecipByClimate
+	// getSkyAndWind,
+	getSeasonsAndPrecipByClimate,
+	getWind
 };
 
 /**

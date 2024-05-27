@@ -1,10 +1,12 @@
 import skyTable from "../modules/outdoors/data/skyTable";
+import windTypes from "../modules/outdoors/data/windTypes";
 import {
 	getClimate,
 	getCurrentPrecipChance,
 	getCurrentSeason,
 	getCurrentSky,
-	getSeasonsAndPrecipByClimate
+	getSeasonsAndPrecipByClimate,
+	getWind
 } from "../modules/outdoors/weather/util";
 
 describe("getClimate()", () => {
@@ -319,5 +321,22 @@ describe("getCurrentSky", () => {
 		console.log(totals);
 		console.log(totals.a / totals.b);
 		console.log(output);
+	});
+});
+
+describe("getWind()", () => {
+	test("returns wind based on give dice result", () => {
+		expect(getWind(1)).toEqual(windTypes[0]);
+		expect(getWind(2)).toEqual(windTypes[1]);
+		expect(getWind(4)).toEqual(windTypes[2]);
+		expect(getWind(6)).toEqual(windTypes[3]);
+		expect(getWind(8)).toEqual(windTypes[4]);
+		expect(getWind(10)).toEqual(windTypes[5]);
+		expect(getWind(12)).toEqual(windTypes[6]);
+		expect(getWind(14)).toEqual(windTypes[7]);
+		expect(getWind(16)).toEqual(windTypes[8]);
+		expect(getWind(18)).toEqual(windTypes[9]);
+		expect(getWind(19)).toEqual(windTypes[10]);
+		expect(getWind(20)).toEqual(windTypes[11]);
 	});
 });

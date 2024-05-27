@@ -97,14 +97,6 @@ const windTypes = [
 		mphMin: 64,
 		mphMax: 72,
 		description: "Widespread damage occurs"
-	},
-	{
-		diceMinResult: 20,
-		diceMaxResult: 20,
-		wind: "Hurricane",
-		mphMin: 73,
-		mphMax: 136,
-		description: "Widespread devastation occurs"
 	}
 ];
 
