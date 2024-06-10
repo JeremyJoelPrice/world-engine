@@ -45,6 +45,7 @@ describe("getClimateName()", () => {
 		]);
 		expect(getClimateName("forest", 51, false)).toEqual(["cool & rainy"]);
 		expect(getClimateName("forest", 70, false)).toEqual(["cool & rainy"]);
+		expect(() => getClimateName("forest", 71, false)).toThrow(/undefined/);
 		expect(() => getClimateName("forest", -1, false)).toThrow(/undefined/);
 		expect(() => getClimateName("forest", 91, false)).toThrow(/undefined/);
 	});
@@ -64,9 +65,6 @@ describe("getClimateName()", () => {
 			"warm with dry summer",
 			"warm & rainy"
 		]);
-	});
-	test("returns n/a for an empty option, but does not error", () => {
-		expect(getClimateName("desert", 31, false)).toEqual(["n/a"]);
 	});
 });
 

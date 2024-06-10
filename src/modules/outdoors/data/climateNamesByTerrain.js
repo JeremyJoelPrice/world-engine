@@ -56,13 +56,6 @@ const climates = [
 		climate: ["desert"]
 	},
 	{
-		terrainType: "desert",
-		isCoastal: "all",
-		latitudeMin: 31,
-		latitudeMax: 90,
-		climate: ["n/a"]
-	},
-	{
 		terrainType: "forest",
 		isCoastal: "all",
 		latitudeMin: 0,
@@ -96,13 +89,6 @@ const climates = [
 		latitudeMin: 51,
 		latitudeMax: 70,
 		climate: ["cool with dry winter"]
-	},
-	{
-		terrainType: "forest",
-		isCoastal: "all",
-		latitudeMin: 71,
-		latitudeMax: 90,
-		climate: ["n/a"]
 	},
 	{
 		terrainType: "grassland",
@@ -305,7 +291,7 @@ const climates = [
 		isCoastal: "all",
 		latitudeMin: 41,
 		latitudeMax: 90,
-		climate: ["(as per surrounding terrain)"]
+		climate: ["tundra"]
 	}
 ];
 
