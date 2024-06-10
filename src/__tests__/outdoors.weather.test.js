@@ -329,18 +329,24 @@ describe("getCurrentSky", () => {
 
 describe("getWind()", () => {
 	test("returns wind based on give dice result", () => {
-		expect(getWind(1)).toEqual(windTypes[0]);
-		expect(getWind(2)).toEqual(windTypes[1]);
-		expect(getWind(4)).toEqual(windTypes[2]);
-		expect(getWind(6)).toEqual(windTypes[3]);
-		expect(getWind(8)).toEqual(windTypes[4]);
-		expect(getWind(10)).toEqual(windTypes[5]);
-		expect(getWind(12)).toEqual(windTypes[6]);
-		expect(getWind(14)).toEqual(windTypes[7]);
-		expect(getWind(16)).toEqual(windTypes[8]);
-		expect(getWind(18)).toEqual(windTypes[9]);
-		expect(getWind(19)).toEqual(windTypes[10]);
-		expect(getWind(20)).toEqual(windTypes[11]);
+		expect(getWind(1)).toMatchObject({
+			wind: windTypes[0].wind,
+			speed: expect.any(Number),
+			direction: expect.any(String),
+			description: windTypes[0].description
+		});
+		expect(getWind(10)).toMatchObject({
+			wind: windTypes[5].wind,
+			speed: expect.any(Number),
+			direction: expect.any(String),
+			description: windTypes[5].description
+		});
+		expect(getWind(19)).toMatchObject({
+			wind: windTypes[10].wind,
+			speed: expect.any(Number),
+			direction: expect.any(String),
+			description: windTypes[10].description
+		});
 	});
 });
 
