@@ -52,10 +52,12 @@ function getCurrentSky(precipChance, currentSky) {
 }
 
 function getWind(diceResult) {
-	return windTypes.filter(
+	const { description, mphMin, mphMax, wind } = windTypes.filter(
 		({ diceMinResult, diceMaxResult }) =>
 			diceMinResult === diceResult || diceMaxResult === diceResult
 	)[0];
+	const speed = Math.round(Math.random() * (mphMax - mphMin) + mphMin);
+	return JSON.parse(JSON.stringify({ wind, description, speed }));
 }
 
 function getAverageDailyTemperature(climate, dayOfYear) {
