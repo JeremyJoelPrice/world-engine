@@ -4,6 +4,7 @@ import seasonsAndPrecipByClimate from "../data/seasonsAndPrecipByClimate";
 import skyTable from "../data/skyTable";
 import windTypes from "../data/windTypes";
 import roll from "../../../util/roll";
+import config from "../config";
 
 function getClimateName(terrainType, latitude, isCoastal) {
 	return climateNamesByTerrain.filter((c) => {
@@ -20,7 +21,6 @@ function getClimateByName(climateName) {
 	const climate = seasonsAndPrecipByClimate.filter(
 		({ name }) => name === climateName
 	)[0];
-	// console.log(climate);
 	return JSON.parse(JSON.stringify(climate));
 }
 
@@ -179,6 +179,24 @@ function getCurrentTemperature(dailyAverageTemp) {
 	};
 }
 
+function getDayOfYearFromMonthDay(month, day) {
+	// for each month
+	// check if it's the current
+	// if so, add day to dayOfYear and return
+	// if not, add month.numOfDays to dayOfYear, and continue
+	let dayOfYear = 0;
+	for (let i = 0; i < config.monthsOfTheYear.length; i++) {
+		const cursorMonth = config.monthsOfTheYear[i];
+		if (cursorMonth.name === month) {
+			dayOfYear += day;
+			return dayOfYear;
+		} else {
+			dayOfYear += cursorMonth.numOfDays;
+			continue;
+		}
+	}
+}
+
 export {
 	getClimateName,
 	getClimateByName,
@@ -186,7 +204,8 @@ export {
 	getCurrentSky,
 	getWind,
 	getAverageDailyTemperature,
-	getCurrentTemperature
+	getCurrentTemperature,
+	getDayOfYearFromMonthDay
 };
 
 /**
