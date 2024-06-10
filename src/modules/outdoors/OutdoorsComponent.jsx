@@ -8,7 +8,6 @@ import {
 	getWind
 } from "./weather/util";
 import roll from "../../util/roll";
-import config from "./config";
 import { useEffect, useState } from "react";
 import OutdoorsInterface from "./OutdoorsInterface";
 
@@ -33,7 +32,9 @@ const OutdoorsComponent = () => {
 		);
 	}, [terrainType, isCoastal, latitude]);
 
-	useEffect(() => refreshSky(), [currentTemp]);
+	useEffect(() => {
+		refreshSky();
+	}, [currentTemp]);
 
 	/* recalculates currentTemp, and uses useEffect to prompt the other values to refresh also */
 	function getWeather() {

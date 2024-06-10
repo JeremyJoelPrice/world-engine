@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BodyText, Header, Subheader } from "../../components/StyledText";
+import { Subheader } from "../../components/StyledText";
 import colors from "../../components/Colors";
 import { useEffect, useState } from "react";
 import config from "./config";
@@ -54,11 +54,11 @@ const OutdoorsInterface = ({
 			// data
 			let date;
 			let dayNum = dayOfYear;
-			outerloop: for (let i = 0; i < config.monthsOfTheYear.length; i++) {
+			for (let i = 0; i < config.monthsOfTheYear.length; i++) {
 				const currentMonth = config.monthsOfTheYear[i];
 				if (currentMonth.numOfDays >= dayNum) {
 					date = `${dayNum} ${currentMonth.name}`;
-					break outerloop;
+					break;
 				} else {
 					dayNum -= currentMonth.numOfDays;
 				}
@@ -111,11 +111,11 @@ const OutdoorsInterface = ({
 		for (let i = 0; i < yearOfWeather.length; i++) {
 			const currentDay = yearOfWeather[i];
 			let date;
-			outerloop: for (let i = 0; i < config.monthsOfTheYear.length; i++) {
+			for (let i = 0; i < config.monthsOfTheYear.length; i++) {
 				const currentMonth = config.monthsOfTheYear[i];
 				if (currentMonth.numOfDays >= currentDay.dayOfYear) {
 					date = `${currentDay.dayOfYear} ${currentMonth.name}`;
-					break outerloop;
+					break;
 				} else {
 					currentDay.dayOfYear -= currentMonth.numOfDays;
 				}
@@ -171,10 +171,6 @@ export default OutdoorsInterface;
 const StateLabel = styled(Subheader)`
 	text-align: left;
 	padding-left: 80px;
-`;
-
-const CenteredBodyText = styled(BodyText)`
-	text-align: center;
 `;
 
 const GenerateButton = styled.button`
