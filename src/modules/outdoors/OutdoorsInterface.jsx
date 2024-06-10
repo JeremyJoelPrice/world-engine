@@ -288,15 +288,27 @@ const StyledDropDown = styled.select`
 	color: ${colors.cream2};
 
 	font-size: 18pt;
+
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
 const StyledCheckbox = styled.input`
 	margin-left: 10px;
 	width: 25px;
+
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
 const StyledRange = styled.input`
 	margin-left: 20px;
+
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
 const StyledWarning = styled.div`
