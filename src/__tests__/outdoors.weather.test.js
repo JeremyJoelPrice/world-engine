@@ -4,7 +4,6 @@ import {
 	getAverageDailyTemperature,
 	getClimateName,
 	getCurrentPrecipChance,
-	getCurrentSeason,
 	getCurrentSky,
 	getClimateByName,
 	getWind
@@ -91,65 +90,6 @@ describe("getClimateByName()", () => {
 				winter: { high: 10, low: 4 }
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 35 }]
-		});
-	});
-});
-
-// deprecated
-describe.skip("getCurrentSeason()", () => {
-	const seasons = [
-		{
-			name: "winter",
-			firstDay: 335,
-			lastDay: 59
-		},
-		{
-			name: "spring",
-			firstDay: 60,
-			lastDay: 151
-		},
-		{
-			name: "summer",
-			firstDay: 152,
-			lastDay: 243
-		},
-		{
-			name: "autumn",
-			firstDay: 244,
-			lastDay: 334
-		}
-	];
-	test("returns valid season object", () => {
-		expect(getCurrentSeason(1, seasons)).toEqual({
-			name: "winter",
-			firstDay: 335,
-			lastDay: 59
-		});
-	});
-	test("handles season starts on day of year", () => {
-		expect(getCurrentSeason(151, seasons)).toEqual({
-			name: "spring",
-			firstDay: 60,
-			lastDay: 151
-		});
-	});
-	test("handles season ends of day of year", () => {
-		expect(getCurrentSeason(152, seasons)).toEqual({
-			name: "summer",
-			firstDay: 152,
-			lastDay: 243
-		});
-	});
-	test("handles season containing end of year", () => {
-		expect(getCurrentSeason(1, seasons)).toEqual({
-			name: "winter",
-			firstDay: 335,
-			lastDay: 59
-		});
-		expect(getCurrentSeason(365, seasons)).toEqual({
-			name: "winter",
-			firstDay: 335,
-			lastDay: 59
 		});
 	});
 });

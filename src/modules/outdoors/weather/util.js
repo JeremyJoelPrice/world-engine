@@ -23,12 +23,6 @@ function getClimateByName(climateName) {
 	return JSON.parse(JSON.stringify({ seasons, precipPeriods }));
 }
 
-function getCurrentSeason(dayOfYear, seasons) {
-	return seasons.filter(({ firstDay, lastDay }) =>
-		isWithinRange(dayOfYear, firstDay, lastDay)
-	)[0];
-}
-
 function getCurrentPrecipChance(dayOfYear, precipPeriods) {
 	const period = precipPeriods.filter(({ firstDay, lastDay }) =>
 		isWithinRange(dayOfYear, firstDay, lastDay)
@@ -169,7 +163,7 @@ function getAverageDailyTemperature(climate, dayOfYear) {
 	return climate.seasons[currentSeason];
 }
 
-function getActualTemperatureFromDailyAverage(dailyAverageTemp) {
+function getCurrentTemperature(dailyAverageTemp) {
 	const { high, low } = dailyAverageTemp;
 	return {
 		high: high + roll("2d12-13").value,
@@ -181,11 +175,10 @@ export {
 	getClimateName,
 	getClimateByName,
 	getCurrentPrecipChance,
-	getCurrentSeason,
 	getCurrentSky,
 	getWind,
 	getAverageDailyTemperature,
-	getActualTemperatureFromDailyAverage
+	getCurrentTemperature
 };
 
 /**
