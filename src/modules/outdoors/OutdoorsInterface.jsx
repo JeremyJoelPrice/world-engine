@@ -75,6 +75,7 @@ const OutdoorsInterface = ({
 			html += "</table>";
 			setDisplayTable(html);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentTemp, currentSky]);
 
 	// this function only exists for debugging reasons,
@@ -148,6 +149,7 @@ const OutdoorsInterface = ({
 		setDayOfYear(
 			getDayOfYearFromMonthDay(currentMonth.name, parseInt(dayOfMonth))
 		);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentMonth, dayOfMonth]);
 
 	return (

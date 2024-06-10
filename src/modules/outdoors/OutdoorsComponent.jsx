@@ -8,7 +8,7 @@ import {
 	getWind
 } from "./weather/util";
 import roll from "../../util/roll";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import OutdoorsInterface from "./OutdoorsInterface";
 
 const OutdoorsComponent = ({
@@ -55,10 +55,12 @@ const OutdoorsComponent = ({
 		} catch (error) {
 			setInvalidClimate(true);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [terrainType, isCoastal, latitude]);
 
 	useEffect(() => {
 		refreshSky();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentTemp]);
 
 	/* recalculates currentTemp, and uses useEffect to prompt the other values to refresh also */
