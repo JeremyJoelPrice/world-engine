@@ -45,9 +45,15 @@ describe("getClimateName()", () => {
 		]);
 		expect(getClimateName("forest", 51, false)).toEqual(["cool & rainy"]);
 		expect(getClimateName("forest", 70, false)).toEqual(["cool & rainy"]);
-		expect(() => getClimateName("forest", 71, false)).toThrow(/undefined/);
-		expect(() => getClimateName("forest", -1, false)).toThrow(/undefined/);
-		expect(() => getClimateName("forest", 91, false)).toThrow(/undefined/);
+		expect(() => getClimateName("forest", 71, false)).toThrow(
+			/no valid climate/
+		);
+		expect(() => getClimateName("forest", -1, false)).toThrow(
+			/no valid climate/
+		);
+		expect(() => getClimateName("forest", 91, false)).toThrow(
+			/no valid climate/
+		);
 	});
 	test("handles isCoastal", () => {
 		expect(getClimateName("mountains", 21, false)).toEqual([
@@ -65,6 +71,11 @@ describe("getClimateName()", () => {
 			"warm with dry summer",
 			"warm & rainy"
 		]);
+	});
+	test("throws error when given invalid inputs", () => {
+		expect(() => getClimateName("forest", 71, false)).toThrow(
+			/no valid climate/
+		);
 	});
 });
 

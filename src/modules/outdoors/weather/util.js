@@ -7,14 +7,20 @@ import roll from "../../../util/roll";
 import config from "../config";
 
 function getClimateName(terrainType, latitude, isCoastal) {
-	return climateNamesByTerrain.filter((c) => {
+	const climateObj = climateNamesByTerrain.filter((c) => {
 		return (
 			c.terrainType === terrainType &&
 			c.latitudeMin <= latitude &&
 			c.latitudeMax >= latitude &&
 			(c.isCoastal === isCoastal || c.isCoastal === "all")
 		);
-	})[0].climate;
+	})[0];
+
+	if (!climateObj) {
+		throw new Error("no valid climate");
+	} else {
+		return climateObj.climate;
+	}
 }
 
 function getClimateByName(climateName) {
