@@ -79,6 +79,13 @@ describe("getSeasonsAndPrecipByClimate()", () => {
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 5 }]
 		});
+		expect(getSeasonsAndPrecipByClimate("cool & rainy")).toEqual({
+			seasons: {
+				summer: { high: 20, low: 13 },
+				winter: { high: 10, low: 4 }
+			},
+			precipPeriods: [{ firstDay: 1, percentChance: 35 }]
+		});
 	});
 });
 
@@ -160,17 +167,21 @@ describe("getCurrentPrecipChance()", () => {
 		}
 	];
 	test("returns valid precip period", () => {
-		expect(getCurrentPrecipChance(65, precipPeriods)).toEqual(50);
+		expect(getCurrentPrecipChance(65, precipPeriods)).toBe(50);
 	});
 	test("handles period starts on day of year", () => {
-		expect(getCurrentPrecipChance(152, precipPeriods)).toEqual(40);
+		expect(getCurrentPrecipChance(152, precipPeriods)).toBe(40);
 	});
 	test("handles period ends on day of year", () => {
-		expect(getCurrentPrecipChance(59, precipPeriods)).toEqual(30);
+		expect(getCurrentPrecipChance(59, precipPeriods)).toBe(30);
 	});
 	test("handles period contains end of year", () => {
-		expect(getCurrentPrecipChance(1, precipPeriods)).toEqual(40);
-		expect(getCurrentPrecipChance(365, precipPeriods)).toEqual(40);
+		expect(getCurrentPrecipChance(1, precipPeriods)).toBe(40);
+		expect(getCurrentPrecipChance(365, precipPeriods)).toBe(40);
+	});
+	test("handles array with a single precipPeriod", () => {
+		const preciPeriods = [{ firstDay: 1, percentChance: 40 }];
+		expect(getCurrentPrecipChance(50, preciPeriods)).toEqual(40);
 	});
 });
 

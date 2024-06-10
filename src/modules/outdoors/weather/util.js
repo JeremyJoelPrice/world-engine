@@ -166,6 +166,7 @@ function getDaysPerYear() {
 // if no rangeEnd is given, infinite range is assumed and the function returns true
 // (it is assumed that there is a maximum value, after which the range wraps back around to 1)
 function isWithinRange(n, rangeStart, rangeEnd) {
+	if (!rangeEnd) return true;
 	if (rangeStart > rangeEnd) {
 		return (
 			(n <= rangeEnd && n >= 1) ||
