@@ -16,7 +16,7 @@ const OutdoorsComponent = () => {
 	const [dayOfYear, setDayOfYear] = useState(1);
 	const [terrainType, setTerrainType] = useState("hills");
 	const [isCoastal, setIsCoastal] = useState(true);
-	const [latitude, setLatitude] = useState(80);
+	const [latitude, setLatitude] = useState(20);
 
 	/* internal states */
 	const [currentClimate, setCurrentClimate] = useState();

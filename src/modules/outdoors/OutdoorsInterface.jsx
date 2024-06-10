@@ -3,6 +3,9 @@ import { Subheader } from "../../components/StyledText";
 import colors from "../../components/Colors";
 import { useEffect, useState } from "react";
 import config from "./config";
+import { uid } from "../../util/common";
+import { getDayOfYearFromMonthDay } from "./weather/util";
+import terrainTypes from "./data/terrainTypes";
 
 const OutdoorsInterface = ({
 	dayOfYear,
@@ -27,7 +30,7 @@ const OutdoorsInterface = ({
 }) => {
 	const [displayTable, setDisplayTable] = useState();
 
-	// render results table
+	/* Rendering results */
 	useEffect(() => {
 		if (currentTemp && currentSky && currentWind) {
 			const headers = [
@@ -79,8 +82,8 @@ const OutdoorsInterface = ({
 		}
 	}, [currentTemp, currentSky]);
 
-	/* this function only exists for debugging reasons,
-	and won't be part of the finished app */
+	// this function only exists for debugging reasons,
+	// and won't be part of the finished app
 	function renderYearOfWeather() {
 		const yearOfWeather = getYearOfWeather();
 
@@ -137,13 +140,90 @@ const OutdoorsInterface = ({
 		setDisplayTable(html);
 	}
 
+	/* Controlled Component: Date Selector */
+
+	// month
+	const [currentMonth, setCurrentMonth] = useState(config.monthsOfTheYear[0]);
+	const [daysInMonth, setDaysInMonth] = useState([1]);
+
+	// day of month
+	const [dayOfMonth, setDayOfMonth] = useState(1);
+
+	useEffect(() => {
+		const dayNumbers = [];
+		for (let day = 1; day <= currentMonth.numOfDays; day++) {
+			dayNumbers.push(day);
+		}
+		setDaysInMonth(dayNumbers);
+	}, [currentMonth]);
+
+	useEffect(() => {
+		setDayOfYear(
+			getDayOfYearFromMonthDay(currentMonth.name, parseInt(dayOfMonth))
+		);
+	}, [currentMonth, dayOfMonth]);
+
 	return (
 		<>
-			<StateLabel>Day of Year: {dayOfYear}</StateLabel>
-			<StateLabel>Terrain Type: {terrainType}</StateLabel>
-			<StateLabel>Is Coastal: {isCoastal ? "true" : "false"}</StateLabel>
+			<FlexRow>
+				<StateLabel>Date: </StateLabel>
+				<StyledDropDown
+					value={dayOfMonth}
+					onChange={(event) => setDayOfMonth(event.target.value)}>
+					{daysInMonth.map((day) => {
+						return (
+							<option key={uid()} value={day}>
+								{day}
+							</option>
+						);
+					})}
+				</StyledDropDown>
+				<StyledDropDown
+					value={currentMonth.name}
+					onChange={(event) => {
+						setCurrentMonth(
+							config.monthsOfTheYear.filter(
+								({ name }) => name === event.target.value
+							)[0]
+						);
+					}}>
+					{config.monthsOfTheYear.map(({ name }) => {
+						return (
+							<option value={name} key={uid()}>
+								{name}
+							</option>
+						);
+					})}
+				</StyledDropDown>
+			</FlexRow>
+			<FlexRow>
+				<StateLabel>Terrain Type: </StateLabel>
+				<StyledDropDown
+					value={terrainType}
+					onChange={(event) => {
+						setTerrainType(event.target.value);
+					}}>
+					{terrainTypes.map((t) => {
+						return (
+							<option value={t} key={uid()}>
+								{t}
+							</option>
+						);
+					})}
+				</StyledDropDown>
+			</FlexRow>
+			<FlexRow>
+				<StateLabel>Is Coastal: </StateLabel>
+				<StyledCheckbox
+					type="checkbox"
+					checked={isCoastal}
+					onChange={() =>
+						setIsCoastal((prev) => !prev)
+					}></StyledCheckbox>
+			</FlexRow>
 			<StateLabel>Latitude: {latitude}</StateLabel>
 			<StateLabel>Current Climate: {currentClimate?.name}</StateLabel>
+
 			<GenerateButton onClick={getWeather}>
 				New Day's Weather
 			</GenerateButton>
@@ -187,4 +267,29 @@ const GenerateButton = styled.button`
 	&:hover {
 		cursor: pointer;
 	}
+`;
+
+const FlexRow = styled.div`
+	display: flex;
+`;
+
+const StyledDropDown = styled.select`
+	margin-left: 10px;
+
+	background: none;
+	border: none;
+	text-decoration: underline;
+
+	font-family: Georgia, "Times New Roman", Times, serif;
+	white-space: pre-line;
+
+	text-align: center;
+	color: ${colors.cream2};
+
+	font-size: 18pt;
+`;
+
+const StyledCheckbox = styled.input`
+	margin-left: 10px;
+	width: 25px;
 `;
