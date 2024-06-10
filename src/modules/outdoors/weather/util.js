@@ -5,12 +5,12 @@ import skyTable from "../data/skyTable";
 import windTypes from "../data/windTypes";
 import roll from "../../../util/roll";
 
-function getClimate(terrainType, lattitude, isCoastal) {
+function getClimate(terrainType, latitude, isCoastal) {
 	return climates.filter((c) => {
 		return (
 			c.terrainType === terrainType &&
-			c.lattitudeMin <= lattitude &&
-			c.lattitudeMax >= lattitude &&
+			c.latitudeMin <= latitude &&
+			c.latitudeMax >= latitude &&
 			(c.isCoastal === isCoastal || c.isCoastal === "all")
 		);
 	})[0].climate;
@@ -134,7 +134,8 @@ function getAverageDailyTemperature(climate, dayOfYear) {
 	return climate.seasons[currentSeason];
 }
 
-function getActualTemperatureFromDailyAverage({ high, low }) {
+function getActualTemperatureFromDailyAverage(dailyAverageTemp) {
+	const { high, low } = dailyAverageTemp;
 	return {
 		high: high + roll("2d12-13").value,
 		low: low + roll("2d12-13").value
