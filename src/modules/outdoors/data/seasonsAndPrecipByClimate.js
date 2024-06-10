@@ -7,7 +7,7 @@ const seasonsAndPrecipByClimate = [
 				low: 25
 			},
 			winter: {
-				temp: 20,
+				high: 20,
 				low: 7
 			}
 		},

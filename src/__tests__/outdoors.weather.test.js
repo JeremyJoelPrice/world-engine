@@ -6,7 +6,8 @@ import {
 	getCurrentPrecipChance,
 	getCurrentSky,
 	getClimateByName,
-	getWind
+	getWind,
+	getDayOfYearFromMonthDay
 } from "../modules/outdoors/weather/util";
 
 describe("getClimateName()", () => {
@@ -79,7 +80,7 @@ describe("getClimateByName()", () => {
 					low: 25
 				},
 				winter: {
-					temp: 20,
+					high: 20,
 					low: 7
 				}
 			},
@@ -326,6 +327,30 @@ describe("getAverageDailyTemperature()", () => {
 			low: 23
 		});
 	});
+	test("production data", () => {
+		expect(
+			getAverageDailyTemperature(
+				{
+					name: "desert",
+					seasons: {
+						summer: {
+							high: 39,
+							low: 25
+						},
+						winter: {
+							high: 20,
+							low: 7
+						}
+					},
+					precipPeriods: [{ firstDay: 1, percentChance: 5 }]
+				},
+				1
+			)
+		).toEqual({
+			high: 20,
+			low: 7
+		});
+	});
 	test.skip("log some results", () => {
 		const climate = {
 			seasons: {
@@ -342,5 +367,13 @@ describe("getAverageDailyTemperature()", () => {
 			text += `${dayOfYear}		High ${high}, Low ${low}\n`;
 		}
 		console.log(text);
+	});
+});
+
+describe("getDayOfYearFromMonthDay()", () => {
+	test("", () => {
+		expect(getDayOfYearFromMonthDay("January", 1)).toBe(1);
+		expect(getDayOfYearFromMonthDay("April", 16)).toBe(106);
+		expect(getDayOfYearFromMonthDay("December", 12)).toBe(346);
 	});
 });
