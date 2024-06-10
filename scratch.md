@@ -1,76 +1,85 @@
 # Weather
 
 An app to produce weather which:
-* Is reatlistic or at least plausible
-* Impacts gameplay (visibility, exposure, etc.)
 
-Examples of impacting gameplay slightly:
-advantage/disadvantage on certain checks perception, following tracks, Dexterity (sleight of hand, ranged weapons) if too cold, spellcasting (maybe using magic during a thunderstorm makes it erratic somehow) extra checks required slippery ground, wet rope/equipment/tools chance of mishap torches/exposed flames extinguished
+-   Is reatlistic or at least plausible
+-   Impacts gameplay (visibility, exposure, etc.)
+
+Examples of impacting gameplay slightly: advantage/disadvantage on certain
+checks perception, following tracks, Dexterity (sleight of hand, ranged weapons)
+if too cold, spellcasting (maybe using magic during a thunderstorm makes it
+erratic somehow) extra checks required slippery ground, wet rope/equipment/tools
+chance of mishap torches/exposed flames extinguished
 
 ## Do Next
 
-implement calculating actual temperatures for a given day
+double check climate categories, beacuse:
 
-Implement special weather (wind hurricanes, precip thunderstorms, hail, and fog)
+-   snow seems too rare
+-   terrains ideally shouldn't have multiple climate options
+-   all input combinations should ideally yield a valid climate
+
+implement extrapolating daily average temperature when the year ends during the
+extrapolated ranged (e.g. get winter temp when only spring and summer are
+defined)
 
 ## Current Implementation
 
 This app takes as input:
-* Day of year
-* Terrain (and weather that terrain is coastal)
-* Lattitude
+
+-   Day of year
+-   Terrain (and weather that terrain is coastal)
+-   Lattitude
 
 This app outputs:
-* A sky (rain/snow options, preciptation chance, and cloud coverage)
-* A wind strength
 
-\*except for precipitation chance, these values are independent of time of year and terrain/lattitude
+-   Cloud coveragte & precipitation (if any)
+-   Wind strength & direction
+-   High and low temperatures for the current day
 
-* A climate for the current time of year: chance of precipitation per day, and average temperature ranges
+The app begins by using the inputs to select a climate, loosely based on the
+Köpping system. This climate informs average seasonal temperatures, which are
+used to calulate a specific temperature for the current day.
 
-### Why Day Of Year Instead Of Month-Day?
+Cloud, precipitation options, and wind probabilities are bundled together as a
+"Sky". Which precipitation option is realised depends on the precipitation
+chance (pass/fail), and the temperature (rain vs snow). Wind is rolled randomly,
+but each sky has its own wind bias.
 
-This module uses days of the year to specify ranges for seasons (e.g. summer) and for precipitation (e.g. wet/dry seasons).
-
-This is so that, in the future, I can more easily implment southern hemisphere values and custom calendars.
-
-For custom calendar to work, I'll have to change the days of the year to something like a percentage duration of the year.
-
-For southern hemisphere to work, I'll have to convert some but not all days of the year so that day 1 is effectively July 1st. Those values that are independent of hemisphere are currently flagges with `regardlessOfHemisphere: true`, so anything which lacks that value will be considered `false` by default.
-
-## Design Spec
-
-App takes the following inputs via the UI:
-* Day of Year
-* Time of Day
-* Latitude
-* Terrain
-* Coastal / near large bodies of water
-
-When the button is pressed, app provides the following outputs:
-* Temperature
-* Wind (speed & direction)
-* Cloud coverage
-* Rain/snow, if any
-* Gameplay implications
+The sky is 40% likely to be a repeat of the previous sky, including actual
+precipitation and potential wind, but is otherwise chosen randomly. If chosen
+randomly, and if there is no precipitation, then there is a bias toward clearer
+skies.
 
 ### Data Validity
 
-If you suspect the weather generated is not realistc, you can query real world data [here](https://www.visualcrossing.com/weather/weather-data-services).
+If you suspect the weather generated is not realistc, you can query real world
+data [here](https://www.visualcrossing.com/weather/weather-data-services).
 
 ## Future Features
 
 ### Special Weather
-implement getting special weather (inc. chance of fog, thunderstorm, hail mixed with
-snow from wind table)
 
-### Custome Calendars
+implement getting special weather (inc. chance of fog, thunderstorm, hail mixed
+with snow from wind table)
+
+### Custom Calendars
 
 There are two ways:
-* eschew months and even days, relying on percentages wherever possible to accomodate years of different lengths
-	- without the convention of months, when do we switch from one average temperature to the next?
-		- if we just place each average where the 15th of the month would be, we're still using months just not by name
-		- if we use percentages while creating the parameters, and only use days of the year when creating specific actual weather, then the system will remain customisable for other calendars
 
-* stick to tracking no longer than a season, generating weather for a generic summer month without specifying which month it is
-	- this could lead to jarring weather changes where one month meets another; it seems like a month has to be able to look ahead and behind to see what weather they should entertain
+-   eschew months and even days, relying on percentages wherever possible to
+    accomodate years of different lengths
+
+    -   without the convention of months, when do we switch from one average
+        temperature to the next?
+        -   if we just place each average where the 15th of the month would be,
+            we're still using months just not by name
+        -   if we use percentages while creating the parameters, and only use
+            days of the year when creating specific actual weather, then the
+            system will remain customisable for other calendars
+
+-   stick to tracking no longer than a season, generating weather for a generic
+    summer month without specifying which month it is
+    -   this could lead to jarring weather changes where one month meets
+        another; it seems like a month has to be able to look ahead and behind
+        to see what weather they should entertain

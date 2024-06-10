@@ -1,18 +1,75 @@
 import { useState } from "react";
 import styled from "styled-components";
-// import NpcGeneratorComponent from "./modules/npc generator/NpcGeneratorComponent";
 import Navbar from "./components/Navbar";
 import OutdoorsComponent from "./modules/outdoors/OutdoorsComponent";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import NpcGeneratorComponent from "./modules/npc generator/NpcGeneratorComponent";
+import CombatStats from "./modules/combat stats/CombatStatsPage";
 
 const App = () => {
-	const [currentPage, setCurrentPage] = useState(<OutdoorsComponent />);
+	/**
+	 * States
+	 *  */
+
+	/* Outdoor */
+	const [dayOfYear, setDayOfYear] = useState(1);
+	const [terrainType, setTerrainType] = useState("hills");
+	const [isCoastal, setIsCoastal] = useState(true);
+	const [latitude, setLatitude] = useState(20);
+	const [currentClimate, setCurrentClimate] = useState();
+	const [currentTemp, setCurrentTemp] = useState();
+	const [currentSky, setCurrentSky] = useState();
+	const [currentWind, setCurrentWind] = useState();
+	const [invalidClimate, setInvalidClimate] = useState(false);
+
+	const outdoorProps = {
+		dayOfYear,
+		terrainType,
+		isCoastal,
+		latitude,
+		currentClimate,
+		currentTemp,
+		currentSky,
+		currentWind,
+		invalidClimate,
+		setDayOfYear,
+		setTerrainType,
+		setIsCoastal,
+		setLatitude,
+		setCurrentClimate,
+		setCurrentTemp,
+		setCurrentSky,
+		setCurrentWind,
+		setInvalidClimate
+	};
+
 	return (
-		<div className="App">
-			<AppContainer>
-				<Navbar setCurrentPage={setCurrentPage} />
-				<PageContainer>{currentPage}</PageContainer>
-			</AppContainer>
-		</div>
+		<Router>
+			<div className="App">
+				<AppContainer>
+					<Navbar />
+					<PageContainer>
+						<Switch>
+							<Route
+								path="/npc-generator"
+								component={NpcGeneratorComponent}
+							/>
+							<Route
+								path="/outdoors"
+								render={() => (
+									<OutdoorsComponent {...outdoorProps} />
+								)}
+								// component={OutdoorsComponent}
+							/>
+							<Route
+								path="/combat-stats"
+								component={CombatStats}
+							/>
+						</Switch>
+					</PageContainer>
+				</AppContainer>
+			</div>
+		</Router>
 	);
 };
 

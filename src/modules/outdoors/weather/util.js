@@ -203,6 +203,21 @@ function getDayOfYearFromMonthDay(month, day) {
 	}
 }
 
+function getMonthAndDayFromDayOfYear(dayOfYear) {
+	const result = {};
+	for (let i = 0; i < config.monthsOfTheYear.length; i++) {
+		const currentMonth = config.monthsOfTheYear[i];
+		if (currentMonth.numOfDays >= dayOfYear) {
+			result.monthName = currentMonth.name;
+			result.dayNum = dayOfYear;
+			break;
+		} else {
+			dayOfYear -= currentMonth.numOfDays;
+		}
+	}
+	return result;
+}
+
 export {
 	getClimateName,
 	getClimateByName,
@@ -211,7 +226,8 @@ export {
 	getWind,
 	getAverageDailyTemperature,
 	getCurrentTemperature,
-	getDayOfYearFromMonthDay
+	getDayOfYearFromMonthDay,
+	getMonthAndDayFromDayOfYear
 };
 
 /**

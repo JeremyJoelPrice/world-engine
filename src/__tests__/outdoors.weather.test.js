@@ -7,7 +7,8 @@ import {
 	getCurrentSky,
 	getClimateByName,
 	getWind,
-	getDayOfYearFromMonthDay
+	getDayOfYearFromMonthDay,
+	getMonthAndDayFromDayOfYear
 } from "../modules/outdoors/weather/util";
 
 describe("getClimateName()", () => {
@@ -384,5 +385,22 @@ describe("getDayOfYearFromMonthDay()", () => {
 		expect(getDayOfYearFromMonthDay("January", 1)).toBe(1);
 		expect(getDayOfYearFromMonthDay("April", 16)).toBe(106);
 		expect(getDayOfYearFromMonthDay("December", 12)).toBe(346);
+	});
+});
+
+describe("getMonthAndDayFromDayOfYear()", () => {
+	test("", () => {
+		expect(getMonthAndDayFromDayOfYear(1)).toEqual({
+			monthName: "January",
+			dayNum: 1
+		});
+		expect(getMonthAndDayFromDayOfYear(106)).toEqual({
+			monthName: "April",
+			dayNum: 16
+		});
+		expect(getMonthAndDayFromDayOfYear(346)).toEqual({
+			monthName: "December",
+			dayNum: 12
+		});
 	});
 });

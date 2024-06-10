@@ -1,31 +1,20 @@
 import styled from "styled-components";
 import { Subheader } from "../components/StyledText";
 import colors from "./Colors";
-import NpcGeneratorComponent from "../modules/npc generator/NpcGeneratorComponent";
-import CombatStats from "../modules/combat stats/CombatStatsPage";
-import XPCalculator from "../modules/xp calculator/XPCalculatorPage";
-import OutdoorsComponent from "../modules/outdoors/OutdoorsComponent";
+import { Link } from "react-router-dom";
 
-const pageMap = {
-	"NPC Generator": <NpcGeneratorComponent />,
-	"Combat Stats": <CombatStats />,
-	"XP Calculator": <XPCalculator />,
-	Outdoors: <OutdoorsComponent />
-};
-
-const Navbar = ({ setCurrentPage }) => {
+const Navbar = () => {
 	return (
 		<Background>
-			{Object.keys(pageMap).map((key) => {
-				return (
-					<NavbarItem
-						key={key}
-						page={pageMap[key]}
-						setCurrentPage={setCurrentPage}>
-						{key}
-					</NavbarItem>
-				);
-			})}
+			<StyledReactLink to="/npc-generator">
+				<NavbarItem>NPC Generator</NavbarItem>
+			</StyledReactLink>
+			<StyledReactLink to="/outdoors">
+				<NavbarItem>Outdoors</NavbarItem>
+			</StyledReactLink>
+			<StyledReactLink to="/combat-stats">
+				<NavbarItem>Combat Stats</NavbarItem>
+			</StyledReactLink>
 		</Background>
 	);
 };
@@ -34,10 +23,7 @@ export default Navbar;
 
 const NavbarItem = ({ children, page, setCurrentPage }) => {
 	return (
-		<StyledNavbarItem
-			onClick={() => {
-				setCurrentPage(page);
-			}}>
+		<StyledNavbarItem>
 			<NavbarText>{children}</NavbarText>
 		</StyledNavbarItem>
 	);
@@ -60,7 +46,9 @@ const StyledNavbarItem = styled.div`
 	}
 `;
 
-/* Styled Components */
+const StyledReactLink = styled(Link)`
+	text-decoration: none;
+`;
 
 const NavbarText = styled(Subheader)`
 	text-align: center;

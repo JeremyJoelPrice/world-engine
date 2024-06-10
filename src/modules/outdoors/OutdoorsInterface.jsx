@@ -4,7 +4,10 @@ import colors from "../../components/Colors";
 import { useEffect, useState } from "react";
 import config from "./config";
 import { uid } from "../../util/common";
-import { getDayOfYearFromMonthDay } from "./weather/util";
+import {
+	getDayOfYearFromMonthDay,
+	getMonthAndDayFromDayOfYear
+} from "./weather/util";
 import terrainTypes from "./data/terrainTypes";
 
 const OutdoorsInterface = ({
@@ -56,18 +59,9 @@ const OutdoorsInterface = ({
 			});
 			html += "</tr>";
 			// data
-			let date;
-			let dayNum = dayOfYear;
-			for (let i = 0; i < config.monthsOfTheYear.length; i++) {
-				const currentMonth = config.monthsOfTheYear[i];
-				if (currentMonth.numOfDays >= dayNum) {
-					date = `${dayNum} ${currentMonth.name}`;
-					break;
-				} else {
-					dayNum -= currentMonth.numOfDays;
-				}
-			}
-			html += `<tr><td style="width: 100px;">${date}</td>
+			const { monthName, dayNum } =
+				getMonthAndDayFromDayOfYear(dayOfYear);
+			html += `<tr><td style="width: 100px;">${dayNum} ${monthName}</td>
 			<td style="width: 100px;">${currentTemp.high}</td>
 			<td style="width: 100px;">${currentTemp.low}</td>
 			<td style="width: 100px;">${currentSky.cloud}</td>
@@ -114,17 +108,10 @@ const OutdoorsInterface = ({
 		// data
 		for (let i = 0; i < yearOfWeather.length; i++) {
 			const currentDay = yearOfWeather[i];
-			let date;
-			for (let i = 0; i < config.monthsOfTheYear.length; i++) {
-				const currentMonth = config.monthsOfTheYear[i];
-				if (currentMonth.numOfDays >= currentDay.dayOfYear) {
-					date = `${currentDay.dayOfYear} ${currentMonth.name}`;
-					break;
-				} else {
-					currentDay.dayOfYear -= currentMonth.numOfDays;
-				}
-			}
-			html += `<tr><td style="width: 100px;">${date}</td>
+			const { dayNum, monthName } = getMonthAndDayFromDayOfYear(
+				currentDay.dayOfYear
+			);
+			html += `<tr><td style="width: 100px;">${dayNum} ${monthName}</td>
 			<td style="width: 100px;">${currentDay.temp.high}</td>
 			<td style="width: 100px;">${currentDay.temp.low}</td>
 			<td style="width: 100px;">${currentDay.sky.cloud}</td>
@@ -142,13 +129,15 @@ const OutdoorsInterface = ({
 	}
 
 	/* Controlled Component: Date Selector */
-
 	// month
-	const [currentMonth, setCurrentMonth] = useState(config.monthsOfTheYear[0]);
+	const { monthName, dayNum } = getMonthAndDayFromDayOfYear(dayOfYear);
+	const [currentMonth, setCurrentMonth] = useState(
+		config.monthsOfTheYear.filter(({ name }) => name === monthName)[0]
+	);
 	const [daysInMonth, setDaysInMonth] = useState([1]);
 
 	// day of month
-	const [dayOfMonth, setDayOfMonth] = useState(1);
+	const [dayOfMonth, setDayOfMonth] = useState(dayNum);
 
 	useEffect(() => {
 		const dayNumbers = [];

@@ -11,19 +11,38 @@ import roll from "../../util/roll";
 import { useEffect, useState } from "react";
 import OutdoorsInterface from "./OutdoorsInterface";
 
-const OutdoorsComponent = () => {
-	/* inputs */
-	const [dayOfYear, setDayOfYear] = useState(1);
-	const [terrainType, setTerrainType] = useState("hills");
-	const [isCoastal, setIsCoastal] = useState(true);
-	const [latitude, setLatitude] = useState(20);
+const OutdoorsComponent = ({
+	dayOfYear,
+	terrainType,
+	isCoastal,
+	latitude,
+	currentClimate,
+	currentTemp,
+	currentSky,
+	currentWind,
+	invalidClimate,
+	setDayOfYear,
+	setTerrainType,
+	setIsCoastal,
+	setLatitude,
+	setCurrentClimate,
+	setCurrentTemp,
+	setCurrentSky,
+	setCurrentWind,
+	setInvalidClimate
+}) => {
+	// /* inputs */
+	// const [dayOfYear, setDayOfYear] = useState(1);
+	// const [terrainType, setTerrainType] = useState("hills");
+	// const [isCoastal, setIsCoastal] = useState(true);
+	// const [latitude, setLatitude] = useState(20);
 
-	/* internal states */
-	const [currentClimate, setCurrentClimate] = useState();
-	const [currentTemp, setCurrentTemp] = useState();
-	const [currentSky, setCurrentSky] = useState();
-	const [currentWind, setCurrentWind] = useState();
-	const [invalidClimate, setInvalidClimate] = useState(false);
+	// /* internal states */
+	// const [currentClimate, setCurrentClimate] = useState();
+	// const [currentTemp, setCurrentTemp] = useState();
+	// const [currentSky, setCurrentSky] = useState();
+	// const [currentWind, setCurrentWind] = useState();
+	// const [invalidClimate, setInvalidClimate] = useState(false);
 
 	useEffect(() => {
 		try {
