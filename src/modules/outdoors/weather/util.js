@@ -33,11 +33,8 @@ function getCurrentPrecipChance(dayOfYear, precipPeriods) {
 
 function getCurrentSky(precipChance, currentSky, currentTemp) {
 	// 40% chance to repeat the previous sky
-	// console.log(currentSky);
 	if (currentSky) {
-		// console.log("repeat");
 		if (Math.random() <= 0.4) {
-			// console.log("cheese");
 			return currentSky;
 		}
 	}
@@ -51,7 +48,6 @@ function getCurrentSky(precipChance, currentSky, currentTemp) {
 		return sky;
 	} else {
 		// if there is precipitation, choose randomly
-		// console.log("hi");
 		sky = rollOnTable(skyTable);
 	}
 

@@ -1,37 +1,95 @@
-import { getSkyAndWind } from "./weather/util";
+import {
+	getCurrentTemperature,
+	getAverageDailyTemperature,
+	getClimateName,
+	getCurrentPrecipChance,
+	getCurrentSky,
+	getClimateByName,
+	getWind
+} from "./weather/util";
+import roll from "../../util/roll";
+import config from "./config";
+import { useEffect, useState } from "react";
+import OutdoorsInterface from "./OutdoorsInterface";
 
 const OutdoorsComponent = () => {
-	/* Where the party happens to be */
-	// set these variables to describe the time of year
-	const dayOfYear = 91; // 1st April
-	// set these variables to describe the party's location
-	const terrainType = "Desert";
-	const isCoastal = false;
-	const lattitude = 60;
-	// calculate climate category
-	const getClimateCategory = "Desert"; // having called a function to look this up from the data tables
-	// calculate temperature
-	const isNight = false; // this comes from the clock
-	const isStrongWind = false; // not sure how this is determined
-	const temperature = 25; // having called a function to calculate
+	/* inputs */
+	const [dayOfYear, setDayOfYear] = useState(1);
+	const [terrainType, setTerrainType] = useState("hills");
+	const [isCoastal, setIsCoastal] = useState(true);
+	const [latitude, setLatitude] = useState(80);
+
+	/* internal states */
+	const [currentClimate, setCurrentClimate] = useState();
+	const [currentTemp, setCurrentTemp] = useState();
+	const [currentSky, setCurrentSky] = useState();
+	const [currentWind, setCurrentWind] = useState();
+
+	useEffect(() => {
+		setCurrentClimate(
+			getClimateByName(
+				getClimateName(terrainType, latitude, isCoastal)[0]
+			)
+		);
+	}, [terrainType, isCoastal, latitude]);
+
+	useEffect(() => refreshSky(), [currentTemp]);
+
+	/* recalculates currentTemp, and uses useEffect to prompt the other values to refresh also */
+	function getWeather() {
+		setCurrentTemp(
+			getCurrentTemperature(
+				getAverageDailyTemperature(currentClimate, dayOfYear)
+			)
+		);
+	}
+
+	/* generate new weather with the current parameters,
+	except leave temperature untouched */
+	function refreshSky() {
+		if (!currentTemp) return;
+		// update current Sky
+		const nextSky = {};
+		const { rain, snow, cloud, windTypeFactor } = getCurrentSky(
+			getCurrentPrecipChance(dayOfYear, currentClimate.precipPeriods),
+			currentSky,
+			currentTemp
+		);
+		// including rain and snow as options in case the sky repeats
+		// but the precipitation chance rolls a different result
+		nextSky.rain = rain;
+		nextSky.snow = snow;
+
+		nextSky.precipitation = currentTemp.high <= 0 ? snow : rain;
+		nextSky.cloud = cloud;
+
+		setCurrentSky(nextSky);
+
+		// update Wind
+		setCurrentWind(getWind(roll(windTypeFactor).value));
+	}
 
 	return (
-		<>
-			<button
-				onClick={() => {
-					// console.log(getSkyAndWind());
-					console.log("feature offline");
-				}}>
-				get sky and wind
-			</button>
-			<button
-				onClick={() =>
-					// console.log(getSeasonAndPrecipitationPeriod(300, "grassland", 30, false))
-					console.log("feature offline")
-				}>
-				get season and precipitation period
-			</button>
-		</>
+		<OutdoorsInterface
+			dayOfYear={dayOfYear}
+			setDayOfYear={setDayOfYear}
+			terrainType={terrainType}
+			setTerrainType={setTerrainType}
+			isCoastal={isCoastal}
+			setIsCoastal={setIsCoastal}
+			latitude={latitude}
+			setLatitude={setLatitude}
+			currentClimate={currentClimate}
+			setCurrentClimate={setCurrentClimate}
+			currentTemp={currentTemp}
+			setCurrentTemp={setCurrentTemp}
+			currentSky={currentSky}
+			setCurrentSky={setCurrentSky}
+			currentWind={currentWind}
+			setCurrentWind={setCurrentWind}
+			getWeather={getWeather}
+			refreshSky={refreshSky}
+		/>
 	);
 };
 
