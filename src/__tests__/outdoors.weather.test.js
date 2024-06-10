@@ -356,7 +356,6 @@ describe("getAverageDailyTemperature()", () => {
 			low: -10
 		});
 	});
-
 	test("calulates linear values for seasons with no explicit data", () => {
 		expect(getAverageDailyTemperature(climate, 245)).toEqual({
 			high: 10,
@@ -367,7 +366,6 @@ describe("getAverageDailyTemperature()", () => {
 			low: -4
 		});
 	});
-
 	test("handles climates with only a single season specified", () => {
 		const climate = {
 			seasons: {
@@ -378,5 +376,22 @@ describe("getAverageDailyTemperature()", () => {
 			high: 33,
 			low: 23
 		});
+	});
+	test.skip("log some results", () => {
+		const climate = {
+			seasons: {
+				summer: { high: 34, low: 20 },
+				winter: { high: 17, low: 6 }
+			}
+		};
+		let text = "day of year		temp\n";
+		for (let dayOfYear = 1; dayOfYear < 365; dayOfYear++) {
+			const { high, low } = getAverageDailyTemperature(
+				climate,
+				dayOfYear
+			);
+			text += `${dayOfYear}		High ${high}, Low ${low}\n`;
+		}
+		console.log(text);
 	});
 });
