@@ -57,13 +57,90 @@ function getWind(diceResult) {
 	)[0];
 }
 
+function getAverageDailyTemperature(climate, dayOfYear) {
+	// if climate has only 1 season, return that season
+	if (Object.keys(climate.seasons).length === 1) {
+		return climate.seasons.summer;
+	}
+
+	// find which season today is in
+	const seasonDurations = [
+		{ name: "spring", firstDay: 60 },
+		{ name: "summer", firstDay: 152 },
+		{ name: "autumn", firstDay: 244 },
+		{ name: "winter", firstDay: 335 }
+	];
+	let currentSeason = "winter";
+	for (let i = 0; i < seasonDurations.length; i++) {
+		if (dayOfYear >= seasonDurations[i].firstDay) {
+			currentSeason = seasonDurations[i].name;
+		}
+	}
+
+	// calculate temp if it's not specified
+	if (!climate.seasons[currentSeason]) {
+		// get neighbouring seasons
+		let neighbours;
+
+		switch (currentSeason) {
+			case "spring":
+				neighbours = ["winter", "summer"];
+				break;
+			case "summer":
+				neighbours = ["spring", "autumn"];
+				break;
+			case "autumn":
+				neighbours = ["summer", "winter"];
+				break;
+			case "winter":
+			default:
+				neighbours = ["autumn", "spring"];
+				break;
+		}
+
+		// get starting temp
+		const prevHigh = climate.seasons[neighbours[0]].high;
+		const prevLow = climate.seasons[neighbours[0]].low;
+		// get ending temp
+		const nextHigh = climate.seasons[neighbours[1]].high;
+		const nextLow = climate.seasons[neighbours[1]].low;
+		// calulate step size
+		const lastDayOfPrevTemp =
+			seasonDurations.filter(({ name }) => name === currentSeason)[0]
+				.firstDay - 1;
+		const firstDayOfNextTemp = seasonDurations.filter(
+			({ name }) => name === neighbours[1]
+		)[0].firstDay;
+
+		const highStepSize =
+			(nextHigh - prevHigh) / (firstDayOfNextTemp - lastDayOfPrevTemp);
+		const lowStepSize =
+			(nextLow - prevLow) / (firstDayOfNextTemp - lastDayOfPrevTemp);
+
+		// apply step size * days since start temp
+		const daysSincePreviousSeason = dayOfYear - lastDayOfPrevTemp;
+		const high = Math.round(
+			prevHigh + daysSincePreviousSeason * highStepSize
+		);
+		const low = Math.round(prevLow + daysSincePreviousSeason * lowStepSize);
+
+		return {
+			high: high === 0 ? 0 : high,
+			low: low === 0 ? 0 : low
+		};
+	}
+
+	return climate.seasons[currentSeason];
+}
+
 export {
 	getClimate,
 	getCurrentPrecipChance,
 	getCurrentSeason,
 	getCurrentSky,
 	getSeasonsAndPrecipByClimate,
-	getWind
+	getWind,
+	getAverageDailyTemperature
 };
 
 /**

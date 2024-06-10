@@ -3,18 +3,13 @@
 An app to produce weather which:
 * Is reatlistic or at least plausible
 * Impacts gameplay (visibility, exposure, etc.)
-The ideal weather system produces weathers which:, generally impact gameplay
-slightly, occasionally impact gameplay greatly, is plausible and realistic, each
-generated weather is a short step away from the previous weather
 
 Examples of impacting gameplay slightly:
 advantage/disadvantage on certain checks perception, following tracks, Dexterity (sleight of hand, ranged weapons) if too cold, spellcasting (maybe using magic during a thunderstorm makes it erratic somehow) extra checks required slippery ground, wet rope/equipment/tools chance of mishap torches/exposed flames extinguished
 
 ## Do Next
 
-overhaul weather data
-
-Implement daily average temperatures
+Implement calculating actual temperatures for a given day
 
 Implement special weather (wind hurricanes, precip thunderstorms, hail, and fog)
 

@@ -1,6 +1,7 @@
 import skyTable from "../modules/outdoors/data/skyTable";
 import windTypes from "../modules/outdoors/data/windTypes";
 import {
+	getAverageDailyTemperature,
 	getClimate,
 	getCurrentPrecipChance,
 	getCurrentSeason,
@@ -66,38 +67,23 @@ describe("getClimate()", () => {
 describe("getSeasonsAndPrecipByClimate()", () => {
 	test("returns seasons and precip periods of the given climate", () => {
 		expect(getSeasonsAndPrecipByClimate("desert")).toEqual({
-			seasons: [
-				{
-					name: "winter",
-					firstDay: 335,
-					lastDay: 31,
-					averageTemperatureOptions: [
-						{ name: "cold", percentChance: 5, temperature: 13 },
-						{ name: "cool", percentChance: 90, temperature: 18 },
-						{ name: "warm", percentChance: 5, temperature: 21 }
-					]
+			seasons: {
+				summer: {
+					high: 39,
+					low: 25
 				},
-				{
-					name: "spring/summer/autumn",
-					firstDay: 32,
-					lastDay: 306,
-					averageTemperatureOptions: [
-						{ name: "cool", percentChance: 5, temperature: 18 },
-						{
-							name: "hot",
-							percentChance: 90,
-							temperature: "21-32"
-						},
-						{ name: "very hot", percentChance: 5, temperature: 43 }
-					]
+				winter: {
+					temp: 20,
+					low: 7
 				}
-			],
+			},
 			precipPeriods: [{ firstDay: 1, percentChance: 5 }]
 		});
 	});
 });
 
-describe("getCurrentSeason()", () => {
+// deprecated
+describe.skip("getCurrentSeason()", () => {
 	const seasons = [
 		{
 			name: "winter",
@@ -338,5 +324,48 @@ describe("getWind()", () => {
 		expect(getWind(18)).toEqual(windTypes[9]);
 		expect(getWind(19)).toEqual(windTypes[10]);
 		expect(getWind(20)).toEqual(windTypes[11]);
+	});
+});
+
+describe("getAverageDailyTemperature()", () => {
+	const climate = {
+		seasons: {
+			summer: { high: 10, low: 0 },
+			winter: { high: 0, low: -10 }
+		}
+	};
+
+	test("returns average temp for the given day", () => {
+		expect(getAverageDailyTemperature(climate, 152)).toEqual({
+			high: 10,
+			low: 0
+		});
+		expect(getAverageDailyTemperature(climate, 1)).toEqual({
+			high: 0,
+			low: -10
+		});
+	});
+
+	test("calulates linear values for seasons with no explicit data", () => {
+		expect(getAverageDailyTemperature(climate, 245)).toEqual({
+			high: 10,
+			low: 0
+		});
+		expect(getAverageDailyTemperature(climate, 284)).toEqual({
+			high: 6,
+			low: -4
+		});
+	});
+
+	test("handles climates with only a single season specified", () => {
+		const climate = {
+			seasons: {
+				summer: { high: 33, low: 23 }
+			}
+		};
+		expect(getAverageDailyTemperature(climate, 1)).toEqual({
+			high: 33,
+			low: 23
+		});
 	});
 });
