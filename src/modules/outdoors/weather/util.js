@@ -52,12 +52,24 @@ function getCurrentSky(precipChance, currentSky) {
 }
 
 function getWind(diceResult) {
+	// get wind obj
 	const { description, mphMin, mphMax, wind } = windTypes.filter(
 		({ diceMinResult, diceMaxResult }) =>
 			diceMinResult === diceResult || diceMaxResult === diceResult
 	)[0];
+
+	// determind speed
 	const speed = Math.round(Math.random() * (mphMax - mphMin) + mphMin);
-	return JSON.parse(JSON.stringify({ wind, description, speed }));
+
+	// determine direction
+	// this assumes northern hemisphere
+	const direction = biasedSelection(
+		["SW", "W", "NW", "N", "NE", "E", "SE", "S"],
+		0,
+		0.4
+	);
+
+	return JSON.parse(JSON.stringify({ wind, description, speed, direction }));
 }
 
 function getAverageDailyTemperature(climate, dayOfYear) {
