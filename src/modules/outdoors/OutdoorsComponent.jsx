@@ -69,6 +69,46 @@ const OutdoorsComponent = () => {
 		setCurrentWind(getWind(roll(windTypeFactor).value));
 	}
 
+	/* this function only exists for debugging reasons,
+	and won't be part of the finished app */
+	function getYearOfWeather() {
+		// returns weather without changing state
+		const weather = [];
+		let prevSky;
+		for (let dayOfYear = 1; dayOfYear <= 365; dayOfYear++) {
+			const day = {};
+			day.dayOfYear = dayOfYear;
+
+			day.temp = getCurrentTemperature(
+				getAverageDailyTemperature(currentClimate, dayOfYear)
+			);
+
+			// update current Sky
+			const nextSky = {};
+			const { rain, snow, cloud, windTypeFactor } = getCurrentSky(
+				getCurrentPrecipChance(dayOfYear, currentClimate.precipPeriods),
+				prevSky,
+				day.temp
+			);
+			// including rain and snow as options in case the sky repeats
+			// but the precipitation chance rolls a different result
+			nextSky.rain = rain;
+			nextSky.snow = snow;
+
+			nextSky.precipitation = day.temp.high <= 0 ? snow : rain;
+			nextSky.cloud = cloud;
+
+			day.sky = nextSky;
+			prevSky = nextSky;
+
+			// update Wind
+			day.wind = getWind(roll(windTypeFactor).value);
+
+			weather.push(day);
+		}
+		return weather;
+	}
+
 	return (
 		<OutdoorsInterface
 			dayOfYear={dayOfYear}
@@ -89,6 +129,7 @@ const OutdoorsComponent = () => {
 			setCurrentWind={setCurrentWind}
 			getWeather={getWeather}
 			refreshSky={refreshSky}
+			getYearOfWeather={getYearOfWeather}
 		/>
 	);
 };

@@ -22,7 +22,8 @@ const OutdoorsInterface = ({
 	currentWind,
 	getCurrentWind,
 	getWeather,
-	refreshSky
+	refreshSky,
+	getYearOfWeather
 }) => {
 	const [displayTable, setDisplayTable] = useState();
 
@@ -78,6 +79,64 @@ const OutdoorsInterface = ({
 		}
 	}, [currentTemp, currentSky]);
 
+	/* this function only exists for debugging reasons,
+	and won't be part of the finished app */
+	function renderYearOfWeather() {
+		const yearOfWeather = getYearOfWeather();
+
+		// open table
+		let html = `<div style="color: bisque; text-align: center; font-size: 24pt;">Weather for a ${currentClimate.name} climate</div>`;
+		html +=
+			"<table style='border-color: bisque; border-style: ridge; color: bisque; text-align: center;'>";
+
+		// headers
+		const headers = [
+			"Date",
+			"Temp High",
+			"Temp Low",
+			"Cloud",
+			"Precip",
+			"Wind",
+			"Description",
+			"Wind Speed",
+			"Direction"
+		];
+		html += "<tr>";
+		headers.forEach((header) => {
+			html += `<th style='padding: 5px 10px;'>${header}</th>`;
+		});
+		html += "</tr>";
+
+		// data
+		for (let i = 0; i < yearOfWeather.length; i++) {
+			const currentDay = yearOfWeather[i];
+			let date;
+			outerloop: for (let i = 0; i < config.monthsOfTheYear.length; i++) {
+				const currentMonth = config.monthsOfTheYear[i];
+				if (currentMonth.numOfDays >= currentDay.dayOfYear) {
+					date = `${currentDay.dayOfYear} ${currentMonth.name}`;
+					break outerloop;
+				} else {
+					currentDay.dayOfYear -= currentMonth.numOfDays;
+				}
+			}
+			html += `<tr><td style="width: 100px;">${date}</td>
+			<td style="width: 100px;">${currentDay.temp.high}</td>
+			<td style="width: 100px;">${currentDay.temp.low}</td>
+			<td style="width: 100px;">${currentDay.sky.cloud}</td>
+			<td style="width: 100px;">${currentDay.sky.precipitation}</td>
+			<td style="width: 100px;">${currentDay.wind.wind}</td>
+			<td style="width: 380px;">${currentDay.wind.description}</td>
+			<td style="width: 100px;">${currentDay.wind.speed}</td>
+			<td style="width: 100px;">${currentDay.wind.direction}</td></tr>`;
+		}
+
+		// close table
+		html += "</table>";
+
+		setDisplayTable(html);
+	}
+
 	return (
 		<>
 			<StateLabel>Day of Year: {dayOfYear}</StateLabel>
@@ -89,7 +148,9 @@ const OutdoorsInterface = ({
 				New Day's Weather
 			</GenerateButton>
 			<GenerateButton onClick={refreshSky}>Refresh Sky</GenerateButton>
-			<GenerateButton>Get a year of weather</GenerateButton>
+			<GenerateButton onClick={renderYearOfWeather}>
+				Get a year of weather
+			</GenerateButton>
 			<GenerateButton
 				onClick={() => {
 					setDisplayTable("");
