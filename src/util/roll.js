@@ -77,6 +77,7 @@ function executeDiceElement(diceElement) {
 		do {
 			result = rollDie(numOfSides);
 			faces.push(result);
+		// eslint-disable-next-line eqeqeq
 		} while (explode && result == numOfSides);
 	}
 
