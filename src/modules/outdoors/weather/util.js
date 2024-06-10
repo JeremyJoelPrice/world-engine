@@ -3,6 +3,7 @@ import climates from "../data/climatesByTerrain";
 import seasonsAndPrecipByClimate from "../data/seasonsAndPrecipByClimate";
 import skyTable from "../data/skyTable";
 import windTypes from "../data/windTypes";
+import roll from "../../../util/roll";
 
 function getClimate(terrainType, lattitude, isCoastal) {
 	return climates.filter((c) => {
@@ -133,6 +134,13 @@ function getAverageDailyTemperature(climate, dayOfYear) {
 	return climate.seasons[currentSeason];
 }
 
+function getActualTemperatureFromDailyAverage({ high, low }) {
+	return {
+		high: high + roll("2d12-13").value,
+		low: low + roll("2d12-13").value
+	};
+}
+
 export {
 	getClimate,
 	getCurrentPrecipChance,
@@ -140,7 +148,8 @@ export {
 	getCurrentSky,
 	getSeasonsAndPrecipByClimate,
 	getWind,
-	getAverageDailyTemperature
+	getAverageDailyTemperature,
+	getActualTemperatureFromDailyAverage
 };
 
 /**
