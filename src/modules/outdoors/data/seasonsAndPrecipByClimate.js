@@ -88,10 +88,6 @@ const seasonsAndPrecipByClimate = [
 	{
 		name: "monsoon",
 		seasons: {
-			spring: {
-				high: 34,
-				low: 22
-			},
 			summer: {
 				high: 30,
 				low: 20
