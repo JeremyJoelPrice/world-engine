@@ -52,6 +52,7 @@ function getCurrentSky(precipChance, currentSky, currentTemp) {
 	// chance of fog
 	if (
 		sky.rain === "light mist" &&
+		currentTemp &&
 		currentTemp.high > 0 &&
 		Math.random() < 0.4
 	) {

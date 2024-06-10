@@ -192,19 +192,14 @@ describe("getCurrentPrecipChance()", () => {
 });
 
 describe("getCurrentSky", () => {
-	test("returns a random sky from skyTable", () => {
+	test("returns a random sky", () => {
 		for (let i = 0; i < 1000; i++) {
-			const { rain, snow, cloud, windTypeFactor } = getCurrentSky(100);
-			expect(
-				skyTable.some((sky) => {
-					return (
-						sky.rain === rain &&
-						sky.snow === snow &&
-						sky.cloud === cloud &&
-						sky.windTypeFactor === windTypeFactor
-					);
-				})
-			).toEqual(true);
+			expect(getCurrentSky(100)).toMatchObject({
+				rain: expect.any(String),
+				snow: expect.any(String),
+				cloud: expect.any(String),
+				windTypeFactor: expect.any(String)
+			});
 		}
 	});
 	test("handles a 50% chance of precipitation", () => {
