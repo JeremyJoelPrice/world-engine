@@ -221,7 +221,17 @@ const OutdoorsInterface = ({
 						setIsCoastal((prev) => !prev)
 					}></StyledCheckbox>
 			</FlexRow>
-			<StateLabel>Latitude: {latitude}</StateLabel>
+			<FlexRow>
+				<StateLabel>Latitude: {latitude}</StateLabel>
+				<StyledRange
+					type="range"
+					min="0"
+					max="90"
+					value={latitude}
+					onChange={(event) => {
+						setLatitude(event.target.value);
+					}}></StyledRange>
+			</FlexRow>
 			<StateLabel>Current Climate: {currentClimate?.name}</StateLabel>
 
 			<GenerateButton onClick={getWeather}>
@@ -292,4 +302,8 @@ const StyledDropDown = styled.select`
 const StyledCheckbox = styled.input`
 	margin-left: 10px;
 	width: 25px;
+`;
+
+const StyledRange = styled.input`
+	margin-left: 20px;
 `;
