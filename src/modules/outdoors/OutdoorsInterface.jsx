@@ -26,7 +26,8 @@ const OutdoorsInterface = ({
 	getCurrentWind,
 	getWeather,
 	refreshSky,
-	getYearOfWeather
+	getYearOfWeather,
+	invalidClimate
 }) => {
 	const [displayTable, setDisplayTable] = useState();
 
@@ -234,6 +235,10 @@ const OutdoorsInterface = ({
 			</FlexRow>
 			<StateLabel>Current Climate: {currentClimate?.name}</StateLabel>
 
+			{invalidClimate ? (
+				<StyledWarning>No Such Climate</StyledWarning>
+			) : null}
+
 			<GenerateButton onClick={getWeather}>
 				New Day's Weather
 			</GenerateButton>
@@ -306,4 +311,13 @@ const StyledCheckbox = styled.input`
 
 const StyledRange = styled.input`
 	margin-left: 20px;
+`;
+
+const StyledWarning = styled.div`
+	background-color: #ee5e5e;
+	width: fit-content;
+	color: ${colors.cream};
+	font-size: 18pt;
+	margin-left: 80px;
+	padding: 5px 10px;
 `;

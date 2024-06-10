@@ -23,13 +23,19 @@ const OutdoorsComponent = () => {
 	const [currentTemp, setCurrentTemp] = useState();
 	const [currentSky, setCurrentSky] = useState();
 	const [currentWind, setCurrentWind] = useState();
+	const [invalidClimate, setInvalidClimate] = useState(false);
 
 	useEffect(() => {
-		setCurrentClimate(
-			getClimateByName(
-				getClimateName(terrainType, latitude, isCoastal)[0]
-			)
-		);
+		try {
+			setCurrentClimate(
+				getClimateByName(
+					getClimateName(terrainType, latitude, isCoastal)[0]
+				)
+			);
+			setInvalidClimate(false);
+		} catch (error) {
+			setInvalidClimate(true);
+		}
 	}, [terrainType, isCoastal, latitude]);
 
 	useEffect(() => {
@@ -131,6 +137,7 @@ const OutdoorsComponent = () => {
 			getWeather={getWeather}
 			refreshSky={refreshSky}
 			getYearOfWeather={getYearOfWeather}
+			invalidClimate={invalidClimate}
 		/>
 	);
 };
