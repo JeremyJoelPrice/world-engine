@@ -2,71 +2,77 @@ import skyTable from "../modules/outdoors/data/skyTable";
 import windTypes from "../modules/outdoors/data/windTypes";
 import {
 	getAverageDailyTemperature,
-	getClimate,
+	getClimateName,
 	getCurrentPrecipChance,
 	getCurrentSeason,
 	getCurrentSky,
-	getSeasonsAndPrecipByClimate,
+	getClimateByName,
 	getWind
 } from "../modules/outdoors/weather/util";
 
-describe("getClimate()", () => {
+describe("getClimateName()", () => {
 	test("returns array containing expected climate type, or multiple types", () => {
-		expect(getClimate("broken land", 21, false)).toEqual([
+		expect(getClimateName("broken land", 21, false)).toEqual([
 			"warm with dry winter"
 		]);
-		expect(getClimate("broken land", 21, true)).toEqual([
+		expect(getClimateName("broken land", 21, true)).toEqual([
 			"warm & rainy",
 			"warm with dry summer"
 		]);
 	});
 	test("handles terrain type", () => {
-		expect(getClimate("desert", 21, false)).toEqual(["desert"]);
-		expect(getClimate("grassland", 21, false)).toEqual(["steppe"]);
+		expect(getClimateName("desert", 21, false)).toEqual(["desert"]);
+		expect(getClimateName("grassland", 21, false)).toEqual(["steppe"]);
 	});
 	test("handles lattitude", () => {
-		expect(getClimate("forest", 0, false)).toEqual(["tropical savanna"]);
-		expect(getClimate("forest", 1, false)).toEqual(["tropical savanna"]);
-		expect(getClimate("forest", 20, false)).toEqual(["tropical savanna"]);
-		expect(getClimate("forest", 21, false)).toEqual([
+		expect(getClimateName("forest", 0, false)).toEqual([
+			"tropical savanna"
+		]);
+		expect(getClimateName("forest", 1, false)).toEqual([
+			"tropical savanna"
+		]);
+		expect(getClimateName("forest", 20, false)).toEqual([
+			"tropical savanna"
+		]);
+		expect(getClimateName("forest", 21, false)).toEqual([
 			"warm with dry winter"
 		]);
-		expect(getClimate("forest", 50, false)).toEqual([
+		expect(getClimateName("forest", 50, false)).toEqual([
 			"warm with dry winter"
 		]);
-		expect(getClimate("forest", 50, false)).toEqual([
+		expect(getClimateName("forest", 50, false)).toEqual([
 			"warm with dry winter"
 		]);
-		expect(getClimate("forest", 51, false)).toEqual(["cool & rainy"]);
-		expect(getClimate("forest", 70, false)).toEqual(["cool & rainy"]);
-		expect(() => getClimate("forest", -1, false)).toThrow(/undefined/);
-		expect(() => getClimate("forest", 91, false)).toThrow(/undefined/);
+		expect(getClimateName("forest", 51, false)).toEqual(["cool & rainy"]);
+		expect(getClimateName("forest", 70, false)).toEqual(["cool & rainy"]);
+		expect(() => getClimateName("forest", -1, false)).toThrow(/undefined/);
+		expect(() => getClimateName("forest", 91, false)).toThrow(/undefined/);
 	});
 	test("handles isCoastal", () => {
-		expect(getClimate("mountains", 21, false)).toEqual([
+		expect(getClimateName("mountains", 21, false)).toEqual([
 			"warm with dry winter"
 		]);
-		expect(getClimate("mountains", 21, true)).toEqual([
+		expect(getClimateName("mountains", 21, true)).toEqual([
 			"warm & rainy",
 			"warm with dry summer"
 		]);
-		expect(getClimate("mountains", 0, false)).toEqual([
+		expect(getClimateName("mountains", 0, false)).toEqual([
 			"warm with dry summer",
 			"warm & rainy"
 		]);
-		expect(getClimate("mountains", 0, true)).toEqual([
+		expect(getClimateName("mountains", 0, true)).toEqual([
 			"warm with dry summer",
 			"warm & rainy"
 		]);
 	});
 	test("returns n/a for an empty option, but does not error", () => {
-		expect(getClimate("desert", 31, false)).toEqual(["n/a"]);
+		expect(getClimateName("desert", 31, false)).toEqual(["n/a"]);
 	});
 });
 
-describe("getSeasonsAndPrecipByClimate()", () => {
+describe("getClimateByName()", () => {
 	test("returns seasons and precip periods of the given climate", () => {
-		expect(getSeasonsAndPrecipByClimate("desert")).toEqual({
+		expect(getClimateByName("desert")).toEqual({
 			seasons: {
 				summer: {
 					high: 39,
@@ -79,7 +85,7 @@ describe("getSeasonsAndPrecipByClimate()", () => {
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 5 }]
 		});
-		expect(getSeasonsAndPrecipByClimate("cool & rainy")).toEqual({
+		expect(getClimateByName("cool & rainy")).toEqual({
 			seasons: {
 				summer: { high: 20, low: 13 },
 				winter: { high: 10, low: 4 }

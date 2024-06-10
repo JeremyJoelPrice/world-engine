@@ -9,7 +9,7 @@ advantage/disadvantage on certain checks perception, following tracks, Dexterity
 
 ## Do Next
 
-Implement calculating actual temperatures for a given day
+implement calculating actual temperatures for a given day
 
 Implement special weather (wind hurricanes, precip thunderstorms, hail, and fog)
 

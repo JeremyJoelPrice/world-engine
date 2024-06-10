@@ -1,12 +1,12 @@
 import { biasedSelection } from "../../../util/common";
-import climates from "../data/climatesByTerrain";
+import climateNamesByTerrain from "../data/climateNamesByTerrain";
 import seasonsAndPrecipByClimate from "../data/seasonsAndPrecipByClimate";
 import skyTable from "../data/skyTable";
 import windTypes from "../data/windTypes";
 import roll from "../../../util/roll";
 
-function getClimate(terrainType, latitude, isCoastal) {
-	return climates.filter((c) => {
+function getClimateName(terrainType, latitude, isCoastal) {
+	return climateNamesByTerrain.filter((c) => {
 		return (
 			c.terrainType === terrainType &&
 			c.latitudeMin <= latitude &&
@@ -16,9 +16,9 @@ function getClimate(terrainType, latitude, isCoastal) {
 	})[0].climate;
 }
 
-function getSeasonsAndPrecipByClimate(climate) {
+function getClimateByName(climateName) {
 	const { seasons, precipPeriods } = seasonsAndPrecipByClimate.filter(
-		({ climateName }) => climateName === climate
+		({ climateName: name }) => name === climateName
 	)[0];
 	return JSON.parse(JSON.stringify({ seasons, precipPeriods }));
 }
@@ -143,11 +143,11 @@ function getActualTemperatureFromDailyAverage(dailyAverageTemp) {
 }
 
 export {
-	getClimate,
+	getClimateName,
+	getClimateByName,
 	getCurrentPrecipChance,
 	getCurrentSeason,
 	getCurrentSky,
-	getSeasonsAndPrecipByClimate,
 	getWind,
 	getAverageDailyTemperature,
 	getActualTemperatureFromDailyAverage
