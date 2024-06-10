@@ -1,6 +1,6 @@
 const seasonsAndPrecipByClimate = [
 	{
-		climateName: "desert",
+		name: "desert",
 		seasons: {
 			summer: {
 				high: 39,
@@ -14,7 +14,7 @@ const seasonsAndPrecipByClimate = [
 		precipPeriods: [{ firstDay: 1, percentChance: 5 }]
 	},
 	{
-		climateName: "tropical savanna",
+		name: "tropical savanna",
 		seasons: {
 			spring: { high: 34, low: 19 },
 			summer: { high: 31, low: 23 },
@@ -49,7 +49,7 @@ const seasonsAndPrecipByClimate = [
 		]
 	},
 	{
-		climateName: "steppe",
+		name: "steppe",
 		seasons: {
 			summer: { high: 34, low: 20 },
 			winter: { high: 17, low: 6 }
@@ -60,7 +60,7 @@ const seasonsAndPrecipByClimate = [
 		]
 	},
 	{
-		climateName: "equatorial",
+		name: "equatorial",
 		seasons: {
 			summer: { high: 33, low: 23 }
 		},
@@ -86,7 +86,7 @@ const seasonsAndPrecipByClimate = [
 		]
 	},
 	{
-		climateName: "monsoon",
+		name: "monsoon",
 		seasons: {
 			spring: {
 				high: 34,
@@ -113,7 +113,7 @@ const seasonsAndPrecipByClimate = [
 		]
 	},
 	{
-		climateName: "warm & rainy",
+		name: "warm & rainy",
 		seasons: {
 			summer: {
 				high: 29,
@@ -124,7 +124,7 @@ const seasonsAndPrecipByClimate = [
 		precipPeriods: [{ firstDay: 1, percentChance: 40 }]
 	},
 	{
-		climateName: "warm with dry summer",
+		name: "warm with dry summer",
 		seasons: {
 			summer: { high: 31, low: 18 },
 			winter: { high: 10, low: 1 }
@@ -135,7 +135,7 @@ const seasonsAndPrecipByClimate = [
 		]
 	},
 	{
-		climateName: "warm with dry winter",
+		name: "warm with dry winter",
 		seasons: {
 			spring: { high: 27, low: 11 },
 			summer: { high: 23, low: 12 },
@@ -147,7 +147,7 @@ const seasonsAndPrecipByClimate = [
 		]
 	},
 	{
-		climateName: "cool & rainy",
+		name: "cool & rainy",
 		seasons: {
 			summer: { high: 20, low: 13 },
 			winter: { high: 10, low: 4 }
@@ -155,7 +155,7 @@ const seasonsAndPrecipByClimate = [
 		precipPeriods: [{ firstDay: 1, percentChance: 35 }]
 	},
 	{
-		climateName: "cool with dry winter",
+		name: "cool with dry winter",
 		seasons: {
 			summer: { high: 14, low: 7 },
 			winter: { high: 4, low: -1 }
@@ -168,7 +168,7 @@ const seasonsAndPrecipByClimate = [
 		]
 	},
 	{
-		climateName: "tundra",
+		name: "tundra",
 		seasons: {
 			summer: { high: 5, low: 1 },
 			winter: { high: -2, low: -20 }
@@ -176,7 +176,7 @@ const seasonsAndPrecipByClimate = [
 		precipPeriods: [{ firstDay: 1, percentChance: 10 }]
 	},
 	{
-		climateName: "polar",
+		name: "polar",
 		seasons: {
 			summer: { high: -30, low: -40 },
 			winter: { high: -62, low: -70 }

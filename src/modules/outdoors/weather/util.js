@@ -1,4 +1,4 @@
-import { biasedSelection } from "../../../util/common";
+import { biasedSelection, rollOnTable } from "../../../util/common";
 import climateNamesByTerrain from "../data/climateNamesByTerrain";
 import seasonsAndPrecipByClimate from "../data/seasonsAndPrecipByClimate";
 import skyTable from "../data/skyTable";
@@ -17,10 +17,11 @@ function getClimateName(terrainType, latitude, isCoastal) {
 }
 
 function getClimateByName(climateName) {
-	const { seasons, precipPeriods } = seasonsAndPrecipByClimate.filter(
-		({ climateName: name }) => name === climateName
+	const climate = seasonsAndPrecipByClimate.filter(
+		({ name }) => name === climateName
 	)[0];
-	return JSON.parse(JSON.stringify({ seasons, precipPeriods }));
+	// console.log(climate);
+	return JSON.parse(JSON.stringify(climate));
 }
 
 function getCurrentPrecipChance(dayOfYear, precipPeriods) {
@@ -31,16 +32,27 @@ function getCurrentPrecipChance(dayOfYear, precipPeriods) {
 }
 
 function getCurrentSky(precipChance, currentSky, currentTemp) {
+	// 40% chance to repeat the previous sky
+	// console.log(currentSky);
 	if (currentSky) {
-		if (Math.random() <= 0.4) return currentSky;
+		// console.log("repeat");
+		if (Math.random() <= 0.4) {
+			// console.log("cheese");
+			return currentSky;
+		}
 	}
 
-	const sky = Object.assign({}, biasedSelection(skyTable, 0, 0.1));
-
+	let sky;
+	// if no precipitation, bias toward clearer skies
 	if (Math.random() > precipChance / 100) {
+		sky = Object.assign({}, biasedSelection(skyTable, 0, 0.2));
 		sky.rain = "none";
 		sky.snow = "none";
 		return sky;
+	} else {
+		// if there is precipitation, choose randomly
+		// console.log("hi");
+		sky = rollOnTable(skyTable);
 	}
 
 	// chance of fog

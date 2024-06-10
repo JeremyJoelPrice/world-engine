@@ -72,6 +72,7 @@ describe("getClimateName()", () => {
 describe("getClimateByName()", () => {
 	test("returns seasons and precip periods of the given climate", () => {
 		expect(getClimateByName("desert")).toEqual({
+			name: "desert",
 			seasons: {
 				summer: {
 					high: 39,
@@ -85,6 +86,7 @@ describe("getClimateByName()", () => {
 			precipPeriods: [{ firstDay: 1, percentChance: 5 }]
 		});
 		expect(getClimateByName("cool & rainy")).toEqual({
+			name: "cool & rainy",
 			seasons: {
 				summer: { high: 20, low: 13 },
 				winter: { high: 10, low: 4 }
