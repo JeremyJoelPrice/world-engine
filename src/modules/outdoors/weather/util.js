@@ -36,7 +36,7 @@ function getCurrentPrecipChance(dayOfYear, precipPeriods) {
 	return period.percentChance;
 }
 
-function getCurrentSky(precipChance, currentSky) {
+function getCurrentSky(precipChance, currentSky, currentTemp) {
 	if (currentSky) {
 		if (Math.random() <= 0.4) return currentSky;
 	}
@@ -46,6 +46,26 @@ function getCurrentSky(precipChance, currentSky) {
 	if (Math.random() > precipChance / 100) {
 		sky.rain = "none";
 		sky.snow = "none";
+		return sky;
+	}
+
+	// chance of fog
+	if (
+		sky.rain === "light mist" &&
+		currentTemp.high > 0 &&
+		Math.random() < 0.4
+	) {
+		sky.rain = "fog";
+	}
+
+	// chance of thunderstorm
+	if (sky.cloud === "dark rainclouds" && Math.random() < 0.4) {
+		sky.cloud = "thunderstorm";
+	}
+
+	// chance of hail
+	if (sky.cloud === "dark stormclouds" && Math.random() < 0.4) {
+		sky.snow = "hail mixed with snow";
 	}
 
 	return sky;
