@@ -156,9 +156,6 @@ const OutdoorsInterface = ({
 			dayNumbers.push(day);
 		}
 		setDaysInMonth(dayNumbers);
-	}, [currentMonth]);
-
-	useEffect(() => {
 		setDayOfYear(
 			getDayOfYearFromMonthDay(currentMonth.name, parseInt(dayOfMonth))
 		);
