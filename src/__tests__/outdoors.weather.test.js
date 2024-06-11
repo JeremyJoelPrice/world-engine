@@ -91,8 +91,8 @@ describe("getClimateByName()", () => {
 					low: 25
 				},
 				winter: {
-					high: 20,
-					low: 7
+					high: 18,
+					low: 5
 				}
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 5 }]
@@ -101,7 +101,7 @@ describe("getClimateByName()", () => {
 			name: "cool & rainy",
 			seasons: {
 				summer: { high: 20, low: 13 },
-				winter: { high: 10, low: 4 }
+				winter: { high: -4, low: -10 }
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 35 }]
 		});

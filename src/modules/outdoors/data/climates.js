@@ -7,8 +7,8 @@ const climates = [
 				low: 25
 			},
 			winter: {
-				high: 20,
-				low: 7
+				high: 18,
+				low: 5
 			}
 		},
 		precipPeriods: [{ firstDay: 1, percentChance: 5 }]
@@ -16,9 +16,7 @@ const climates = [
 	{
 		name: "tropical savanna",
 		seasons: {
-			spring: { high: 34, low: 19 },
-			summer: { high: 31, low: 23 },
-			autumn: { high: 32, low: 20 },
+			summer: { high: 37, low: 29 },
 			winter: { high: 32, low: 16 }
 		},
 		precipPeriods: [
@@ -52,7 +50,7 @@ const climates = [
 		name: "steppe",
 		seasons: {
 			summer: { high: 34, low: 20 },
-			winter: { high: 17, low: 6 }
+			winter: { high: 7, low: -5 }
 		},
 		precipPeriods: [
 			{ firstDay: 182, lastDay: 243, percentChance: 5 },
@@ -89,8 +87,8 @@ const climates = [
 		name: "monsoon",
 		seasons: {
 			summer: {
-				high: 30,
-				low: 20
+				high: 35,
+				low: 25
 			}
 		},
 		precipPeriods: [
@@ -112,18 +110,18 @@ const climates = [
 		name: "warm & rainy",
 		seasons: {
 			summer: {
-				high: 29,
-				low: 20
+				high: 25,
+				low: 16
 			},
-			winter: { high: 9, low: 1 }
+			winter: { high: -3, low: -15 }
 		},
 		precipPeriods: [{ firstDay: 1, percentChance: 40 }]
 	},
 	{
 		name: "warm with dry summer",
 		seasons: {
-			summer: { high: 31, low: 18 },
-			winter: { high: 10, low: 1 }
+			summer: { high: 26, low: 13 },
+			winter: { high: -6, low: -20 }
 		},
 		precipPeriods: [
 			{ firstDay: 152, lastDay: 243, percentChance: 10 },
@@ -134,8 +132,8 @@ const climates = [
 		name: "warm with dry winter",
 		seasons: {
 			spring: { high: 27, low: 11 },
-			summer: { high: 23, low: 12 },
-			winter: { high: 21, low: 7 }
+			summer: { high: 30, low: 12 },
+			winter: { high: 4, low: -10 }
 		},
 		precipPeriods: [
 			{ firstDay: 182, lastDay: 243, percentChance: 45 },
@@ -146,15 +144,15 @@ const climates = [
 		name: "cool & rainy",
 		seasons: {
 			summer: { high: 20, low: 13 },
-			winter: { high: 10, low: 4 }
+			winter: { high: -4, low: -10 }
 		},
 		precipPeriods: [{ firstDay: 1, percentChance: 35 }]
 	},
 	{
 		name: "cool with dry winter",
 		seasons: {
-			summer: { high: 14, low: 7 },
-			winter: { high: 4, low: -1 }
+			summer: { high: 18, low: 11 },
+			winter: { high: -4, low: -9 }
 		},
 		precipPeriods: [
 			{ firstDay: 182, lastDay: 273, percentChance: 35 },
@@ -167,7 +165,7 @@ const climates = [
 		name: "tundra",
 		seasons: {
 			summer: { high: 5, low: 1 },
-			winter: { high: -2, low: -20 }
+			winter: { high: -20, low: -30 }
 		},
 		precipPeriods: [{ firstDay: 1, percentChance: 10 }]
 	},
