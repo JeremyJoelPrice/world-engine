@@ -1,4 +1,4 @@
-const seasonsAndPrecipByClimate = [
+const climates = [
 	{
 		name: "desert",
 		seasons: {
@@ -181,4 +181,4 @@ const seasonsAndPrecipByClimate = [
 	}
 ];
 
-export default seasonsAndPrecipByClimate;
+export default climates;

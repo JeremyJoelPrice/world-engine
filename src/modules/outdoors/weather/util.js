@@ -1,6 +1,6 @@
 import { biasedSelection, rollOnTable } from "../../../util/common";
 import climateNamesByTerrain from "../data/climateNamesByTerrain";
-import seasonsAndPrecipByClimate from "../data/seasonsAndPrecipByClimate";
+import climates from "../data/climates";
 import skyTable from "../data/skyTable";
 import windTypes from "../data/windTypes";
 import roll from "../../../util/roll";
@@ -24,9 +24,7 @@ function getClimateName(terrainType, latitude, isCoastal) {
 }
 
 function getClimateByName(climateName) {
-	const climate = seasonsAndPrecipByClimate.filter(
-		({ name }) => name === climateName
-	)[0];
+	const climate = climates.filter(({ name }) => name === climateName)[0];
 	return JSON.parse(JSON.stringify(climate));
 }
 
