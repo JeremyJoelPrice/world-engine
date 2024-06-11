@@ -176,10 +176,18 @@ function getAverageDailyTemperature(climate, dayOfYear) {
 }
 
 function getCurrentTemperature(dailyAverageTemp) {
-	const { high, low } = dailyAverageTemp;
+	let { high, low } = dailyAverageTemp;
+	const diurnal = high - low;
+	high = high + roll("2d12-13").value;
+	low = diurnal + roll("2d8-9").value;
+
+	if (low >= high) {
+		low = high - diurnal;
+	}
+
 	return {
-		high: high + roll("2d12-13").value,
-		low: low + roll("2d12-13").value
+		high,
+		low
 	};
 }
 

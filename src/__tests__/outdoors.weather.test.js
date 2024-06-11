@@ -8,7 +8,8 @@ import {
 	getClimateByName,
 	getWind,
 	getDayOfYearFromMonthDay,
-	getMonthAndDayFromDayOfYear
+	getMonthAndDayFromDayOfYear,
+	getCurrentTemperature
 } from "../modules/outdoors/weather/util";
 
 describe("getClimateName()", () => {
@@ -257,7 +258,7 @@ describe("getCurrentSky", () => {
 		let isA = Math.random() <= 0.5;
 
 		let output = "";
-		for (let i = 0; i < 1000; i++) {
+		for (let i = 0; i < 10000; i++) {
 			if (!(Math.random() <= 0.4)) {
 				isA = !isA;
 			}
@@ -377,6 +378,15 @@ describe("getAverageDailyTemperature()", () => {
 			text += `${dayOfYear}		High ${high}, Low ${low}\n`;
 		}
 		console.log(text);
+	});
+});
+
+describe("getCurrentTemperature()", () => {
+	test("daily low is never higher than daily high", () => {
+		for (let i = 0; i < 10000; i++) {
+			const { high, low } = getCurrentTemperature({ high: 1, low: 0 });
+			expect(low).toBeLessThan(high);
+		}
 	});
 });
 
