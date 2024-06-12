@@ -90,6 +90,7 @@ const OutdoorsComponent = ({
 	useEffect(() => {
 		if (!currentTemp) return;
 		setDisplayCurrentWeather(true);
+		// eslint-disable-next-line
 	}, [currentWind]);
 
 	/* this function only exists for debugging reasons,

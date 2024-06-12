@@ -107,15 +107,6 @@ const OutdoorsInterface = ({
 		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentMonth, dayOfCurrentMonth]);
-
-	/**
-	 * Generate New Current Weather
-	 * This function & useEffect
-	 * generate entirely new weather
-	 * for the current parameters
-	 * and then display it
-	 */
-	// useEffect(() => {
 	// 	if (currentTemp && currentSky && currentWind) {
 	// 		const headers = [
 	// 			"Date",
