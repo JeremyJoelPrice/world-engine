@@ -21,6 +21,7 @@ const OutdoorsComponent = ({
 	currentSky,
 	currentWind,
 	invalidClimate,
+	displayCurrentWeather,
 	setDayOfYear,
 	setTerrainType,
 	setIsCoastal,
@@ -29,21 +30,10 @@ const OutdoorsComponent = ({
 	setCurrentTemp,
 	setCurrentSky,
 	setCurrentWind,
-	setInvalidClimate
+	setInvalidClimate,
+	setDisplayCurrentWeather
 }) => {
-	// /* inputs */
-	// const [dayOfYear, setDayOfYear] = useState(1);
-	// const [terrainType, setTerrainType] = useState("hills");
-	// const [isCoastal, setIsCoastal] = useState(true);
-	// const [latitude, setLatitude] = useState(20);
-
-	// /* internal states */
-	// const [currentClimate, setCurrentClimate] = useState();
-	// const [currentTemp, setCurrentTemp] = useState();
-	// const [currentSky, setCurrentSky] = useState();
-	// const [currentWind, setCurrentWind] = useState();
-	// const [invalidClimate, setInvalidClimate] = useState(false);
-
+	/* Recalculates currentClimate after user input */
 	useEffect(() => {
 		try {
 			setCurrentClimate(
@@ -58,24 +48,26 @@ const OutdoorsComponent = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [terrainType, isCoastal, latitude]);
 
-	useEffect(() => {
-		refreshSky();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [currentTemp]);
-
-	/* recalculates currentTemp, and uses useEffect to prompt the other values to refresh also */
-	function getWeather() {
+	/** Using useEffect for proper sequencing,
+	 * recalculates currentTemp, then currentSky, then currentWind.
+	 * Finally updates displayCurrentWeather, which will prompt
+	 * the interface component to render the results
+	 */
+	function generateNewCurrentWeather() {
 		setCurrentTemp(
 			getCurrentTemperature(
 				getAverageDailyTemperature(currentClimate, dayOfYear)
 			)
 		);
 	}
-
-	/* generate new weather with the current parameters,
-	except leave temperature untouched */
+	useEffect(() => {
+		refreshSky();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentTemp]);
+	// Generate new weather with the current parameters,except leave temperature untouched
 	function refreshSky() {
 		if (!currentTemp) return;
+
 		// update current Sky
 		const nextSky = {};
 		const { rain, snow, cloud, windTypeFactor } = getCurrentSky(
@@ -83,19 +75,22 @@ const OutdoorsComponent = ({
 			currentSky,
 			currentTemp
 		);
+
 		// including rain and snow as options in case the sky repeats
 		// but the precipitation chance rolls a different result
 		nextSky.rain = rain;
 		nextSky.snow = snow;
-
 		nextSky.precipitation = currentTemp.high <= 0 ? snow : rain;
 		nextSky.cloud = cloud;
-
 		setCurrentSky(nextSky);
 
 		// update Wind
 		setCurrentWind(getWind(roll(windTypeFactor).value));
 	}
+	useEffect(() => {
+		if (!currentTemp) return;
+		setDisplayCurrentWeather(true);
+	}, [currentWind]);
 
 	/* this function only exists for debugging reasons,
 	and won't be part of the finished app */
@@ -155,10 +150,12 @@ const OutdoorsComponent = ({
 			setCurrentSky={setCurrentSky}
 			currentWind={currentWind}
 			setCurrentWind={setCurrentWind}
-			getWeather={getWeather}
+			generateNewCurrentWeather={generateNewCurrentWeather}
 			refreshSky={refreshSky}
 			getYearOfWeather={getYearOfWeather}
 			invalidClimate={invalidClimate}
+			displayCurrentWeather={displayCurrentWeather}
+			setDisplayCurrentWeather={setDisplayCurrentWeather}
 		/>
 	);
 };

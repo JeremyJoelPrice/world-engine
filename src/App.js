@@ -21,6 +21,7 @@ const App = () => {
 	const [currentSky, setCurrentSky] = useState();
 	const [currentWind, setCurrentWind] = useState();
 	const [invalidClimate, setInvalidClimate] = useState(false);
+	const [displayCurrentWeather, setDisplayCurrentWeather] = useState(false);
 
 	const outdoorProps = {
 		dayOfYear,
@@ -32,6 +33,7 @@ const App = () => {
 		currentSky,
 		currentWind,
 		invalidClimate,
+		displayCurrentWeather,
 		setDayOfYear,
 		setTerrainType,
 		setIsCoastal,
@@ -40,7 +42,8 @@ const App = () => {
 		setCurrentTemp,
 		setCurrentSky,
 		setCurrentWind,
-		setInvalidClimate
+		setInvalidClimate,
+		setDisplayCurrentWeather
 	};
 
 	return (

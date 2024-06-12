@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Subheader } from "../../components/StyledText";
+import { BodyText, Subheader } from "../../components/StyledText";
 import colors from "../../components/Colors";
 import { useEffect, useState } from "react";
 import config from "./config";
@@ -9,6 +9,7 @@ import {
 	getMonthAndDayFromDayOfYear
 } from "./weather/util";
 import terrainTypes from "./data/terrainTypes";
+import temperatureZones from "./data/temperatureZones";
 
 const OutdoorsInterface = ({
 	dayOfYear,
@@ -26,68 +27,22 @@ const OutdoorsInterface = ({
 	currentSky,
 	setCurrentSky,
 	currentWind,
-	getCurrentWind,
-	getWeather,
+	setCurrentWind,
+	generateNewCurrentWeather,
 	refreshSky,
 	getYearOfWeather,
-	invalidClimate
+	invalidClimate,
+	displayCurrentWeather,
+	setDisplayCurrentWeather
 }) => {
-	const [displayTable, setDisplayTable] = useState();
-
-	/* Rendering results */
-	useEffect(() => {
-		if (currentTemp && currentSky && currentWind) {
-			const headers = [
-				"Date",
-				"Temp High",
-				"Temp Low",
-				"Cloud",
-				"Precip",
-				"Wind",
-				"Description",
-				"Wind Speed",
-				"Direction"
-			];
-			// open table
-			let html = `<div style="color: bisque; text-align: center; font-size: 24pt;">Weather for a ${currentClimate.name} climate</div>`;
-			html +=
-				"<table style='border-color: bisque; border-style: ridge; color: bisque; text-align: center;'>";
-			// headers
-			html += "<tr>";
-			headers.forEach((header) => {
-				html += `<th style='padding: 5px 10px;'>${header}</th>`;
-			});
-			html += "</tr>";
-			// data
-			const { monthName, dayNum } =
-				getMonthAndDayFromDayOfYear(dayOfYear);
-			html += `<tr><td style="width: 100px;">${dayNum} ${monthName}</td>
-			<td style="width: 100px;">${currentTemp.high}</td>
-			<td style="width: 100px;">${currentTemp.low}</td>
-			<td style="width: 100px;">${currentSky.cloud}</td>
-			<td style="width: 100px;">${currentSky.precipitation}</td>
-			<td style="width: 100px;">${currentWind.wind}</td>
-			<td style="width: 380px;">${currentWind.description}</td>
-			<td style="width: 100px;">${currentWind.speed}</td>
-			<td style="width: 100px;">${currentWind.direction}</td></tr>`;
-
-			// close table
-			html += "</table>";
-			setDisplayTable(html);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [currentTemp, currentSky]);
-
 	// this function only exists for debugging reasons,
 	// and won't be part of the finished app
 	function renderYearOfWeather() {
 		const yearOfWeather = getYearOfWeather();
-
 		// open table
 		let html = `<div style="color: bisque; text-align: center; font-size: 24pt;">Weather for a ${currentClimate.name} climate</div>`;
 		html +=
 			"<table style='border-color: bisque; border-style: ridge; color: bisque; text-align: center;'>";
-
 		// headers
 		const headers = [
 			"Date",
@@ -105,61 +60,112 @@ const OutdoorsInterface = ({
 			html += `<th style='padding: 5px 10px;'>${header}</th>`;
 		});
 		html += "</tr>";
-
 		// data
 		for (let i = 0; i < yearOfWeather.length; i++) {
 			const currentDay = yearOfWeather[i];
-			const { dayNum, monthName } = getMonthAndDayFromDayOfYear(
-				currentDay.dayOfYear
-			);
-			html += `<tr><td style="width: 100px;">${dayNum} ${monthName}</td>
-			<td style="width: 100px;">${currentDay.temp.high}</td>
-			<td style="width: 100px;">${currentDay.temp.low}</td>
-			<td style="width: 100px;">${currentDay.sky.cloud}</td>
-			<td style="width: 100px;">${currentDay.sky.precipitation}</td>
-			<td style="width: 100px;">${currentDay.wind.wind}</td>
-			<td style="width: 380px;">${currentDay.wind.description}</td>
-			<td style="width: 100px;">${currentDay.wind.speed}</td>
-			<td style="width: 100px;">${currentDay.wind.direction}</td></tr>`;
+			const { monthName: currentMonthName, dayNum: currentDayNum } =
+				getMonthAndDayFromDayOfYear(currentDay.dayOfYear);
+			html += `<tr><td style="width: 100px;">${currentDayNum} ${currentMonthName}</td>
+				<td style="width: 100px;">${currentDay.temp.high}</td>
+				<td style="width: 100px;">${currentDay.temp.low}</td>
+				<td style="width: 100px;">${currentDay.sky.cloud}</td>
+				<td style="width: 100px;">${currentDay.sky.precipitation}</td>
+				<td style="width: 100px;">${currentDay.wind.wind}</td>
+				<td style="width: 380px;">${currentDay.wind.description}</td>
+				<td style="width: 100px;">${currentDay.wind.speed}</td>
+				<td style="width: 100px;">${currentDay.wind.direction}</td></tr>`;
 		}
 
 		// close table
 		html += "</table>";
 
-		setDisplayTable(html);
+		setDisplayYearOfWeather(html);
 	}
+	const [DisplayYearOfWeather, setDisplayYearOfWeather] = useState();
 
 	/* Controlled Component: Date Selector */
-	// month
-	const { monthName, dayNum } = getMonthAndDayFromDayOfYear(dayOfYear);
+	const { monthName: currentMonthName, dayNum: currentDayNum } =
+		getMonthAndDayFromDayOfYear(dayOfYear);
 	const [currentMonth, setCurrentMonth] = useState(
-		config.monthsOfTheYear.filter(({ name }) => name === monthName)[0]
+		config.monthsOfTheYear.filter(
+			({ name }) => name === currentMonthName
+		)[0]
 	);
-	const [daysInMonth, setDaysInMonth] = useState([1]);
-
-	// day of month
-	const [dayOfMonth, setDayOfMonth] = useState(dayNum);
-
+	const [daysInCurrentMonth, setDaysInCurrentMonth] = useState([1]);
+	const [dayOfCurrentMonth, setDayOfCurrentMonth] = useState(currentDayNum);
 	useEffect(() => {
 		const dayNumbers = [];
 		for (let day = 1; day <= currentMonth.numOfDays; day++) {
 			dayNumbers.push(day);
 		}
-		setDaysInMonth(dayNumbers);
+		setDaysInCurrentMonth(dayNumbers);
 		setDayOfYear(
-			getDayOfYearFromMonthDay(currentMonth.name, parseInt(dayOfMonth))
+			getDayOfYearFromMonthDay(
+				currentMonth.name,
+				parseInt(dayOfCurrentMonth)
+			)
 		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [currentMonth, dayOfMonth]);
+	}, [currentMonth, dayOfCurrentMonth]);
+
+	/**
+	 * Generate New Current Weather
+	 * This function & useEffect
+	 * generate entirely new weather
+	 * for the current parameters
+	 * and then display it
+	 */
+	// useEffect(() => {
+	// 	if (currentTemp && currentSky && currentWind) {
+	// 		const headers = [
+	// 			"Date",
+	// 			"Temp High",
+	// 			"Temp Low",
+	// 			"Cloud",
+	// 			"Precip",
+	// 			"Wind",
+	// 			"Description",
+	// 			"Wind Speed",
+	// 			"Direction"
+	// 		];
+	// 		// open table
+	// 		let html = `<div style="color: bisque; text-align: center; font-size: 24pt;">Weather for a ${currentClimate.name} climate</div>`;
+	// 		html +=
+	// 			"<table style='border-color: bisque; border-style: ridge; color: bisque; text-align: center;'>";
+	// 		// headers
+	// 		html += "<tr>";
+	// 		headers.forEach((header) => {
+	// 			html += `<th style='padding: 5px 10px;'>${header}</th>`;
+	// 		});
+	// 		html += "</tr>";
+	// 		// data
+	// 		html += `<tr><td style="width: 100px;">${dayOfCurrentMonth} ${currentMonth.name}</td>
+	// 		<td style="width: 100px;">${currentTemp.high}</td>
+	// 		<td style="width: 100px;">${currentTemp.low}</td>
+	// 		<td style="width: 100px;">${currentSky.cloud}</td>
+	// 		<td style="width: 100px;">${currentSky.precipitation}</td>
+	// 		<td style="width: 100px;">${currentWind.wind}</td>
+	// 		<td style="width: 380px;">${currentWind.description}</td>
+	// 		<td style="width: 100px;">${currentWind.speed}</td>
+	// 		<td style="width: 100px;">${currentWind.direction}</td></tr>`;
+
+	// 		// close table
+	// 		html += "</table>";
+	// 		// setDisplayYearOfWeather(html);
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [currentTemp, currentSky]);
 
 	return (
 		<>
 			<FlexRow>
 				<StateLabel>Date: </StateLabel>
 				<StyledDropDown
-					value={dayOfMonth}
-					onChange={(event) => setDayOfMonth(event.target.value)}>
-					{daysInMonth.map((day) => {
+					value={dayOfCurrentMonth}
+					onChange={(event) =>
+						setDayOfCurrentMonth(event.target.value)
+					}>
+					{daysInCurrentMonth.map((day) => {
 						return (
 							<option key={uid()} value={day}>
 								{day}
@@ -227,27 +233,117 @@ const OutdoorsInterface = ({
 				<StyledWarning>No Such Climate</StyledWarning>
 			) : null}
 
-			<GenerateButton onClick={getWeather}>
+			<GenerateButton
+				onClick={() => {
+					setDisplayYearOfWeather();
+					generateNewCurrentWeather();
+				}}>
 				New Day's Weather
 			</GenerateButton>
-			<GenerateButton onClick={refreshSky}>Refresh Sky</GenerateButton>
-			<GenerateButton onClick={renderYearOfWeather}>
+			<GenerateButton
+				onClick={() => {
+					setDisplayYearOfWeather();
+					refreshSky();
+				}}>
+				Refresh Sky
+			</GenerateButton>
+			<GenerateButton
+				onClick={() => {
+					setDisplayCurrentWeather(false);
+					renderYearOfWeather();
+				}}>
 				Get a year of weather
 			</GenerateButton>
 			<GenerateButton
 				onClick={() => {
-					setDisplayTable("");
+					setDisplayCurrentWeather(false);
+					setDisplayYearOfWeather();
 				}}>
 				Clear
 			</GenerateButton>
-			{displayTable ? (
-				<div dangerouslySetInnerHTML={{ __html: displayTable }} />
+			{DisplayYearOfWeather ? (
+				<div
+					dangerouslySetInnerHTML={{ __html: DisplayYearOfWeather }}
+				/>
 			) : null}
+			<WeatherDisplay
+				dayOfYear={dayOfYear}
+				terrainType={terrainType}
+				isCoastal={isCoastal}
+				latitude={latitude}
+				currentClimate={currentClimate}
+				currentTemp={currentTemp}
+				currentSky={currentSky}
+				currentWind={currentWind}
+				generateNewCurrentWeather={generateNewCurrentWeather}
+				refreshSky={refreshSky}
+				getYearOfWeather={getYearOfWeather}
+				invalidClimate={invalidClimate}
+				displayCurrentWeather={displayCurrentWeather}
+			/>
 		</>
 	);
 };
 
 export default OutdoorsInterface;
+
+/* Components */
+
+const WeatherDisplay = ({
+	currentSky,
+	currentTemp,
+	currentWind,
+	displayCurrentWeather
+}) => {
+	function getTemperatureZones(temp) {
+		return temperatureZones.filter(({ min, max }) => {
+			if (min && max) {
+				return temp >= min && temp <= max;
+			} else if (min) {
+				return temp >= min;
+			} else {
+				return temp <= max;
+			}
+		})[0].description;
+	}
+	return displayCurrentWeather ? (
+		<div style={{ margin: "20px" }}>
+			<BodyText>
+				High:{" "}
+				<HighlightedText>
+					{currentTemp.high}ºC
+					<br />
+					{getTemperatureZones(currentTemp.high)}
+				</HighlightedText>{" "}
+				<br />
+				Low:{" "}
+				<HighlightedText>
+					{currentTemp.low}ºC
+					<br />
+					{getTemperatureZones(currentTemp.low)}
+					<br />
+				</HighlightedText>
+				Cloud:{" "}
+				<HighlightedText>
+					{currentSky.cloud} <br />
+				</HighlightedText>
+				Precipitation:{" "}
+				<HighlightedText>
+					{currentSky.precipitation} <br />
+				</HighlightedText>
+				Wind: <HighlightedText>{currentWind.wind}</HighlightedText>
+				<HighlightedText>{currentWind.description}</HighlightedText>
+				<br />
+				Speed:{" "}
+				<HighlightedText>
+					{currentWind.speed} mph <br />
+				</HighlightedText>
+				Direction:{" "}
+				<HighlightedText>{currentWind.direction}</HighlightedText>
+			</BodyText>
+		</div>
+	) : null;
+};
 
 /* Styled Components */
 
@@ -274,6 +370,11 @@ const GenerateButton = styled.button`
 
 const FlexRow = styled.div`
 	display: flex;
+`;
+
+const HighlightedText = styled(BodyText)`
+	display: inline;
+	color: ${colors.cream2};
 `;
 
 const StyledDropDown = styled.select`
