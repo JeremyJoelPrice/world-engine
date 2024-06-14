@@ -51,7 +51,6 @@ const OutdoorsInterface = ({
 			"Cloud",
 			"Precip",
 			"Wind",
-			"Description",
 			"Wind Speed",
 			"Direction"
 		];
@@ -71,7 +70,6 @@ const OutdoorsInterface = ({
 				<td style="width: 100px;">${currentDay.sky.cloud}</td>
 				<td style="width: 100px;">${currentDay.sky.precipitation}</td>
 				<td style="width: 100px;">${currentDay.wind.wind}</td>
-				<td style="width: 380px;">${currentDay.wind.description}</td>
 				<td style="width: 100px;">${currentDay.wind.speed}</td>
 				<td style="width: 100px;">${currentDay.wind.direction}</td></tr>`;
 		}
@@ -322,7 +320,8 @@ const WeatherDisplay = ({
 				<HighlightedText>
 					{currentSky.precipitation} <br />
 				</HighlightedText>
-				Wind: <HighlightedText>{currentWind.wind}</HighlightedText>
+				Wind: <HighlightedText>{currentWind.wind}</HighlightedText>{" "}
+				<br />
 				<HighlightedText>{currentWind.description}</HighlightedText>
 				<br />
 				Speed:{" "}
