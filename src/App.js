@@ -12,10 +12,10 @@ const App = () => {
 	 *  */
 
 	/* Outdoor */
-	const [dayOfYear, setDayOfYear] = useState(1);
-	const [terrainType, setTerrainType] = useState("hills");
-	const [isCoastal, setIsCoastal] = useState(true);
-	const [latitude, setLatitude] = useState(20);
+	const [dayOfYear, setDayOfYear] = useState(286);
+	const [terrainType, setTerrainType] = useState("grassland");
+	const [isCoastal, setIsCoastal] = useState(false);
+	const [latitude, setLatitude] = useState(51);
 	const [currentClimate, setCurrentClimate] = useState();
 	const [currentTemp, setCurrentTemp] = useState();
 	const [currentSky, setCurrentSky] = useState();
