@@ -2,7 +2,7 @@
 
 An app to produce weather which:
 
--   Is reatlistic or at least plausible
+-   Is realistic or at least plausible
 -   Impacts gameplay (visibility, exposure, etc.)
 
 Examples of impacting gameplay slightly: advantage/disadvantage on certain
@@ -15,7 +15,7 @@ chance of mishap torches/exposed flames extinguished
 
 double check climate categories, beacuse:
 
--   snow seems too rare
+-   swap precipitation periods for normal seasons, for simplicity
 -   terrains ideally shouldn't have multiple climate options
 -   all input combinations should ideally yield a valid climate
 
@@ -53,15 +53,16 @@ skies.
 
 ### Data Validity
 
-If you suspect the weather generated is not realistc, you can query real world
-data [here](https://www.visualcrossing.com/weather/weather-data-services).
+The data was initially taken from the Wikipedia article on the
+[Köppen climate classification system](https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification),
+and then modified with some values from the original
+[Dragon Magazine article](https://annarchive.com/files/Drmg137.pdf), which is
+itself a simplified and game-ified version of the Köppen system.
+
+If you find the weather generated is not realistc enough, you can query real
+world data [here](https://www.visualcrossing.com/weather/weather-data-services).
 
 ## Future Features
-
-### Special Weather
-
-implement getting special weather (inc. chance of fog, thunderstorm, hail mixed
-with snow from wind table)
 
 ### Custom Calendars
 
