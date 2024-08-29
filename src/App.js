@@ -1,8 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Navbar from "./components/Navbar";
 import OutdoorsComponent from "./modules/outdoors/OutdoorsComponent";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import NpcGeneratorComponent from "./modules/npc generator/NpcGeneratorComponent";
 import CombatStats from "./modules/combat stats/CombatStatsPage";
 
@@ -47,45 +45,21 @@ const App = () => {
 	};
 
 	return (
-		<Router>
-			<div className="App">
-				<AppContainer>
-					<Navbar />
-					<PageContainer>
-						<Switch>
-							<Route
-								path="/npc-generator"
-								component={NpcGeneratorComponent}
-							/>
-							<Route
-								path="/outdoors"
-								render={() => (
-									<OutdoorsComponent {...outdoorProps} />
-								)}
-								// component={OutdoorsComponent}
-							/>
-							<Route
-								path="/combat-stats"
-								component={CombatStats}
-							/>
-						</Switch>
-					</PageContainer>
-				</AppContainer>
-			</div>
-		</Router>
+		<DashboardLayout>
+			<NpcGeneratorComponent />
+		</DashboardLayout>
 	);
 };
 
 export default App;
 
-const AppContainer = styled.div`
-	display: flex;
-	height: 100vh;
-	overflow: hidden;
-`;
+/* styled components */
 
-const PageContainer = styled.div`
-	display: block;
-	overflow-y: auto;
-	flex-grow: 1;
+const DashboardLayout = styled.div`
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	display: grid;
+	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+	place-items: safe stretch;
 `;

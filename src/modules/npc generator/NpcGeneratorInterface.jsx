@@ -12,7 +12,7 @@ const NpcGeneratorInterface = ({
 	copyNpcAsText
 }) => {
 	return (
-		<>
+		<Window>
 			<Header>NPC Generator</Header>
 			<MenusContainer>
 				{menus.map(({ title, options, handleChange }) => (
@@ -48,7 +48,7 @@ const NpcGeneratorInterface = ({
 					copyNpcAsText={copyNpcAsText}
 				/>
 			)}
-		</>
+		</Window>
 	);
 };
 
@@ -118,6 +118,12 @@ const NpcCard = ({ displayNpc, copyNpcAsText }) => {
 };
 
 /* Styled Components */
+
+const Window = styled.div`
+	background-color: green;
+	grid-column: 3 / 4;
+	grid-row: 1 / 4;
+`;
 
 const MenusContainer = styled.div`
 	justify-content: space-evenly;

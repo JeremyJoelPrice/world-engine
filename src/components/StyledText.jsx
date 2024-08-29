@@ -11,7 +11,7 @@ const BodyText = styled.div`
 
 const Header = styled(BodyText)`
 	font-size: 24pt;
-	margin: 20px 0 20px;
+	padding: 20px 0 20px;
 	text-align: center;
 	line-height: 1em;
 	color: ${colors.cream2};
