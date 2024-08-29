@@ -8,6 +8,7 @@ import {
 	leverage
 } from "./data/npcGenerationTables";
 import { rollOnTable } from "../../util/common";
+import { getName } from "./util";
 
 const NpcGeneratorComponent = () => {
 	const [npcParameters, setNpcParameters] = useState();
@@ -90,23 +91,6 @@ const generateNpc = (npcParameters, setGeneratedNpc) => {
 	actualNpc.name = getName(npcTemplate["Sex"], npcTemplate["Flavour"]);
 
 	setGeneratedNpc(actualNpc);
-};
-
-const getName = (sex, flavour) => {
-	// get name table
-	let { maleForenames, femaleForenames, surnames } = config.menus
-		.filter(({ title }) => title === "Flavour")[0]
-		.options.filter(({ name }) => name === flavour)[0];
-	const forenamesTable = sex === "Male" ? maleForenames : femaleForenames;
-	if (flavour === "Norse") {
-		const suffix = sex === "Male" ? "son" : "sdottir";
-		surnames = forenamesTable.map((n) => n + suffix);
-	}
-
-	// generate name
-	const forename = rollOnTable(forenamesTable);
-	const surname = rollOnTable(surnames);
-	return `${forename} ${surname}`;
 };
 
 const copyNpcAsText = (generatedNpc) => {
