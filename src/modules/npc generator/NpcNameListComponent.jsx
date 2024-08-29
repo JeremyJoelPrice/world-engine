@@ -1,8 +1,11 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { BodyText, Subheader } from "../../components/StyledText";
+import { getName } from "./util";
+import { uid } from "../../util/common";
+import { useState } from "react";
 
 const NpcNameListComponent = () => {
-	const flavours = ["norse", "celtic", "latin"];
+	const flavours = ["Norse", "Celtic"];
 
 	return (
 		<MainColumn>
@@ -12,13 +15,45 @@ const NpcNameListComponent = () => {
 			</Row>
 			{flavours.map((flavour) => {
 				return (
-					<>
+					<div key={uid()}>
 						<Subheader>{flavour}</Subheader>
 						<Row>
-							<ReplacerListItem flavour={flavour} sex="male" />
-							<ReplacerListItem flavour={flavour} sex="female" />
+							<ReplacerListItem
+								flavour={flavour}
+								sex="Male"
+								align="right"
+							/>
+							<ReplacerListItem
+								flavour={flavour}
+								sex="Female"
+								align="left"
+							/>
 						</Row>
-					</>
+						<Row>
+							<ReplacerListItem
+								flavour={flavour}
+								sex="Male"
+								align="right"
+							/>
+							<ReplacerListItem
+								flavour={flavour}
+								sex="Female"
+								align="left"
+							/>
+						</Row>
+						<Row>
+							<ReplacerListItem
+								flavour={flavour}
+								sex="Male"
+								align="right"
+							/>
+							<ReplacerListItem
+								flavour={flavour}
+								sex="Female"
+								align="left"
+							/>
+						</Row>
+					</div>
 				);
 			})}
 		</MainColumn>
@@ -29,14 +64,36 @@ export default NpcNameListComponent;
 
 /* other components */
 
-const ReplacerListItem = ({ flavour, sex }) => {
-	// const name = getName();
+const ReplacerListItem = ({ align, flavour, sex }) => {
+	const [fadeState, setFadeState] = useState("none"); // 'none', 'fadingOut', or 'fadingIn'
+	const [name, setName] = useState(getName(sex, flavour));
+
+	const handleClick = () => {
+		// copy npc name
+		navigator.clipboard.writeText(name);
+
+		// Start fading out
+		setFadeState("fadingOut");
+
+		// After fade-out duration, calculate the new value
+		setTimeout(() => {
+			setName(getName(sex, flavour)); // Replace this with your actual calculation function
+
+			// Start fading in
+			setFadeState("fadingIn");
+
+			// Reset to no animation after fade-in duration
+			setTimeout(() => setFadeState("none"), 500);
+		}, 500); // Fade-out duration should match the CSS animation duration
+	};
+
 	return (
-		<>
-			<BodyText>
-				{sex} {flavour} name
-			</BodyText>
-		</>
+		<StyledReplacerListItem
+			$fadeState={fadeState}
+			$textAlign={align === "left" ? "left" : "right"}
+			onClick={() => handleClick()}>
+			<BodyText>{name}</BodyText>
+		</StyledReplacerListItem>
 	);
 };
 
@@ -47,6 +104,38 @@ const MainColumn = styled.div`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+`;
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const StyledReplacerListItem = styled.div`
+	width: 100%;
+	text-align: ${({ $textAlign }) => $textAlign};
+
+	animation: ${({ $fadeState }) =>
+			$fadeState === "fadingOut"
+				? fadeOut
+				: $fadeState === "fadingIn"
+				? fadeIn
+				: "none"}
+		0.5s ease-in-out;
+	cursor: pointer;
 `;
 
 const Row = styled.div`
