@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import OutdoorsComponent from "./modules/outdoors/OutdoorsComponent";
-import NpcGeneratorComponent from "./modules/npc generator/NpcGeneratorComponent";
 import CombatStats from "./modules/combat stats/CombatStatsPage";
+import NpcWindow from "./modules/npc generator/NpcWindow";
 
 const App = () => {
 	/**
@@ -46,7 +46,7 @@ const App = () => {
 
 	return (
 		<DashboardLayout>
-			<NpcGeneratorComponent />
+			<NpcWindow />
 		</DashboardLayout>
 	);
 };
@@ -59,6 +59,7 @@ const DashboardLayout = styled.div`
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
+	position: relative;
 	display: grid;
 	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 	place-items: safe stretch;
