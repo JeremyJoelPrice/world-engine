@@ -67,6 +67,5 @@ exports.generateNpc = (npcParameters, setGeneratedNpc) => {
 
 exports.copyNpcAsText = (generatedNpc) => {
 	let npcString = `${generatedNpc.name}\n${generatedNpc.sex} ${generatedNpc.race}\n${generatedNpc.highConcept.name}\n${generatedNpc.highConcept.description}\n${generatedNpc.approach1}/${generatedNpc.approach2}\nLeverage: ${generatedNpc.leverage}`;
-	console.log(npcString);
 	navigator.clipboard.writeText(npcString);
 };
