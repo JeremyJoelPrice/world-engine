@@ -1,8 +1,8 @@
 import styled, { keyframes } from "styled-components";
 import { BodyText, Subheader } from "../../components/StyledText";
-import { getName } from "./util";
 import { uid } from "../../util/common";
 import { useState } from "react";
+import { getName } from "./npcGeneratorService";
 
 const NpcNameListComponent = () => {
 	const flavours = ["Norse", "Celtic"];
