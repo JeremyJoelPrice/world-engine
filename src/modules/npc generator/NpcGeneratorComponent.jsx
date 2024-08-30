@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { BodyText, Subheader } from "../../components/StyledText";
-import { uid } from "../../util/common";
 import colors from "../../components/Colors";
 import { useEffect, useState } from "react";
 import { copyNpcAsText, generateNpc } from "./npcGeneratorService";
@@ -53,7 +52,7 @@ const NpcGeneratorComponent = () => {
 					Generate
 				</GenerateButton>
 				{generatedNpc && (
-					<NpcCard key={uid()} displayNpc={generatedNpc} />
+					<NpcCard displayNpc={generatedNpc} />
 				)}
 			</>
 		)
