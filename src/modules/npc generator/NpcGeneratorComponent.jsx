@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { BodyText, Header, Subheader } from "../../components/StyledText";
+import { BodyText, Subheader } from "../../components/StyledText";
 import { uid } from "../../util/common";
 import colors from "../../components/Colors";
 import { useEffect, useState } from "react";
 import { copyNpcAsText, generateNpc } from "./npcGeneratorService";
 import config from "./config";
+import PopOutMenu from "../../components/PopOutMenu";
 
 const NpcGeneratorComponent = () => {
 	const [npcParameters, setNpcParameters] = useState();
@@ -32,59 +33,36 @@ const NpcGeneratorComponent = () => {
 			}
 		};
 	});
-	return npcParameters === undefined ? (
-		<></>
-	) : (
-		<>
-			<Header>NPC Generator</Header>
-			<MenusContainer>
-				{menus.map(({ title, options, handleChange }) => (
-					<Menu key={uid()}>
-						<Subheader>{title}</Subheader>
-						<OptionList>
-							{options.map(({ name: optionName }) => {
-								return (
-									<Option
-										isActive={
-											npcParameters[title]
-												? optionName ===
-												  npcParameters[title]
-												: optionName === options[0].name
-										}
-										label={optionName}
-										key={uid()}
-										onClick={() => handleChange(optionName)}
-									/>
-								);
-							})}
-						</OptionList>
-					</Menu>
-				))}
-			</MenusContainer>
-			<br />
-			<br />
-			<GenerateButton
-				onClick={() => generateNpc(npcParameters, setGeneratedNpc)}>
-				Generate
-			</GenerateButton>
-			{generatedNpc === undefined ? null : (
-				<NpcCard key={uid()} displayNpc={generatedNpc} />
-			)}
-		</>
+	return (
+		npcParameters && (
+			<>
+				<MenusContainer>
+					{menus.map(({ title, options, handleChange }, index) => (
+						<PopOutMenu
+							key={index}
+							optionsArray={options.map(({ name }) => name)}
+							handleChange={handleChange}
+							title={title}
+						/>
+					))}
+				</MenusContainer>
+				<br />
+				<br />
+				<GenerateButton
+					onClick={() => generateNpc(npcParameters, setGeneratedNpc)}>
+					Generate
+				</GenerateButton>
+				{generatedNpc && (
+					<NpcCard key={uid()} displayNpc={generatedNpc} />
+				)}
+			</>
+		)
 	);
 };
 
 export default NpcGeneratorComponent;
 
 /* Other Components */
-
-const Option = ({ label, isActive, onClick }) => {
-	return isActive ? (
-		<StyledChosenOption onClick={onClick}>{label}</StyledChosenOption>
-	) : (
-		<StyledOption onClick={onClick}>{label}</StyledOption>
-	);
-};
 
 const NpcCard = ({ displayNpc }) => {
 	/* 'copied' tooltip text */
@@ -145,33 +123,7 @@ const MenusContainer = styled.div`
 	justify-content: space-evenly;
 	display: flex;
 	width: 50%;
-	margin: 0 auto;
-`;
-
-const Menu = styled.div`
-	max-width: 35%;
-`;
-
-const OptionList = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-`;
-
-const StyledOption = styled(BodyText)`
-	width: 100px;
-	text-align: center;
-	padding: 5px 10px;
-	border: 1pt solid gold;
-
-	&:hover {
-		background-color: ${colors.darkgrey};
-		cursor: pointer;
-	}
-`;
-
-const StyledChosenOption = styled(StyledOption)`
-	background-color: ${colors.darkgrey};
+	margin: 20px auto 0;
 `;
 
 const GenerateButton = styled.button`
