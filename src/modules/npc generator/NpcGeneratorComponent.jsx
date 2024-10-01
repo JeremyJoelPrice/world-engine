@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { copyNpcAsText, generateNpc } from "./npcGeneratorService";
 import config from "./config";
 import PopOutMenu from "../../components/PopOutMenu";
+import { Button, Container } from "@mui/material";
 
 const NpcGeneratorComponent = () => {
 	const [npcParameters, setNpcParameters] = useState();
@@ -47,13 +48,21 @@ const NpcGeneratorComponent = () => {
 				</MenusContainer>
 				<br />
 				<br />
-				<GenerateButton
-					onClick={() => generateNpc(npcParameters, setGeneratedNpc)}>
-					Generate
-				</GenerateButton>
-				{generatedNpc && (
-					<NpcCard displayNpc={generatedNpc} />
-				)}
+				<Container
+					sx={{
+						display: "flex",
+						justifyContent: "center"
+					}}>
+					<Button
+						variant="contained"
+						size="large"
+						onClick={() =>
+							generateNpc(npcParameters, setGeneratedNpc)
+						}>
+						Generate
+					</Button>
+				</Container>
+				{generatedNpc && <NpcCard displayNpc={generatedNpc} />}
 			</>
 		)
 	);
@@ -123,22 +132,6 @@ const MenusContainer = styled.div`
 	display: flex;
 	width: 50%;
 	margin: 20px auto 0;
-`;
-
-const GenerateButton = styled.button`
-	display: block;
-
-	margin: 0 auto;
-	padding: 15px 60px;
-
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-size: 16pt;
-	color: ${colors.cream};
-	background-color: ${colors.darkgrey};
-	border-radius: 6px;
-	&:hover {
-		cursor: pointer;
-	}
 `;
 
 const StyledNpcCard = styled.div`

@@ -68,4 +68,5 @@ const DashboardLayout = styled.div`
 	display: grid;
 	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 	place-items: safe stretch;
+	background-color: black;
 `;

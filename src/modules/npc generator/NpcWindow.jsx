@@ -3,6 +3,7 @@ import styled from "styled-components";
 import NpcGeneratorComponent from "../npc generator/NpcGeneratorComponent";
 import NpcNameListComponent from "./NpcNameListComponent";
 import npcIcon from "../../img/npc icon.png";
+import colors from "../../components/Colors";
 
 const NpcWindow = () => {
 	const [displayGenerator, setDisplayGenerator] = useState(false);
@@ -29,7 +30,7 @@ export default NpcWindow;
 /* styled components */
 
 const StyledWindow = styled.div`
-	background-color: green;
+	background-color: ${colors.darkgrey2};
 	grid-column: 3 / 4;
 	grid-row: 1 / 4;
 `;
