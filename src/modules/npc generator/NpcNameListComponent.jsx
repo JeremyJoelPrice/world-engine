@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 import { BodyText, Subheader } from "../../components/StyledText";
-import { uid } from "../../util/common";
 import { useState } from "react";
 import { getName } from "./npcGeneratorService";
 
@@ -13,9 +12,9 @@ const NpcNameListComponent = () => {
 				<BodyText>male</BodyText>
 				<BodyText>female</BodyText>
 			</Row>
-			{flavours.map((flavour) => {
+			{flavours.map((flavour, index) => {
 				return (
-					<div key={uid()}>
+					<div key={index}>
 						<Subheader>{flavour}</Subheader>
 						<Row>
 							<ReplacerListItem

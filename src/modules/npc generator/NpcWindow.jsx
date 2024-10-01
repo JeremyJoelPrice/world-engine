@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import NpcGeneratorComponent from "../npc generator/NpcGeneratorComponent";
 import NpcNameListComponent from "./NpcNameListComponent";
+import npcIcon from "../../img/npc icon.png";
 
 const NpcWindow = () => {
 	const [displayGenerator, setDisplayGenerator] = useState(false);
@@ -12,7 +13,9 @@ const NpcWindow = () => {
 
 	return (
 		<StyledWindow>
-			<ToggleDisplayButton onClick={() => handleClick()} />
+			<ToggleDisplayButton onClick={() => handleClick()}>
+				<Icon src={npcIcon} />
+			</ToggleDisplayButton>
 			{displayGenerator ? (
 				<NpcGeneratorComponent />
 			) : (
@@ -42,4 +45,8 @@ const ToggleDisplayButton = styled.div`
 	&:hover {
 		cursor: pointer;
 	}
+`;
+
+const Icon = styled.img`
+	width: 100%;
 `;
