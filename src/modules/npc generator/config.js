@@ -3,11 +3,11 @@ import { names } from "./data/npcGenerationTables";
 const config = {
 	menus: [
 		{
-			title: "Sex",
+			title: "sex",
 			options: [{ name: "Random" }, { name: "Male" }, { name: "Female" }]
 		},
 		{
-			title: "Race",
+			title: "race",
 			options: [
 				{ name: "Random" },
 				{ name: "Human", defaultFlavour: "Victorian" },
@@ -18,7 +18,7 @@ const config = {
 			]
 		},
 		{
-			title: "Flavour",
+			title: "flavour",
 			options: [
 				{ name: "Default" },
 				{

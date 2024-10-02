@@ -1,9 +1,7 @@
 import { useState } from "react";
-import styled from "styled-components";
 import NpcGeneratorComponent from "../npc generator/NpcGeneratorComponent";
 import NpcNameListComponent from "./NpcNameListComponent";
-import npcIcon from "../../img/npc icon.png";
-import colors from "../../components/Colors";
+import { Paper, Switch } from "@mui/material";
 
 const NpcWindow = () => {
 	const [displayGenerator, setDisplayGenerator] = useState(false);
@@ -13,41 +11,27 @@ const NpcWindow = () => {
 	};
 
 	return (
-		<StyledWindow>
-			<ToggleDisplayButton onClick={() => handleClick()}>
-				<Icon src={npcIcon} />
-			</ToggleDisplayButton>
+		<Paper
+			sx={{
+				gridColumn: "3 / 4",
+				gridRow: "1 / 4",
+				paddingTop: "10px"
+			}}>
+			<Switch
+				color="default"
+				onClick={handleClick}
+				sx={{
+					position: "absolute",
+					right: 0,
+					top: 0
+				}}
+			/>
 			{displayGenerator ? (
 				<NpcGeneratorComponent />
 			) : (
 				<NpcNameListComponent />
 			)}
-		</StyledWindow>
+		</Paper>
 	);
 };
 export default NpcWindow;
-
-/* styled components */
-
-const StyledWindow = styled.div`
-	background-color: ${colors.darkgrey2};
-	grid-column: 3 / 4;
-	grid-row: 1 / 4;
-`;
-
-const ToggleDisplayButton = styled.div`
-	height: 60px;
-	width: 60px;
-	position: absolute;
-	top: 0;
-	right: 0;
-	background-color: blue;
-	border-radius: 0 0 0 40%;
-	&:hover {
-		cursor: pointer;
-	}
-`;
-
-const Icon = styled.img`
-	width: 100%;
-`;

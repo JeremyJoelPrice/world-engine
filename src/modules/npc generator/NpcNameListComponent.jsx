@@ -1,61 +1,80 @@
-import styled, { keyframes } from "styled-components";
-import { BodyText, Subheader } from "../../components/StyledText";
 import { useState } from "react";
 import { getName } from "./npcGeneratorService";
+import { Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import { keyframes } from "@emotion/react";
 
 const NpcNameListComponent = () => {
 	const flavours = ["Norse", "Celtic"];
 
 	return (
-		<MainColumn>
-			<Row>
-				<BodyText>male</BodyText>
-				<BodyText>female</BodyText>
-			</Row>
+		<Box sx={{ textAlign: "center" }}>
+			<Box>
+				<Grid container spacing={12}>
+					<Grid size={6}>
+						<Typography textAlign={"right"}>male</Typography>
+					</Grid>
+					<Grid size={6}>
+						<Typography textAlign={"left"}>female</Typography>
+					</Grid>
+				</Grid>
+			</Box>
 			{flavours.map((flavour, index) => {
 				return (
 					<div key={index}>
-						<Subheader>{flavour}</Subheader>
-						<Row>
-							<ReplacerListItem
-								flavour={flavour}
-								sex="Male"
-								align="right"
-							/>
-							<ReplacerListItem
-								flavour={flavour}
-								sex="Female"
-								align="left"
-							/>
-						</Row>
-						<Row>
-							<ReplacerListItem
-								flavour={flavour}
-								sex="Male"
-								align="right"
-							/>
-							<ReplacerListItem
-								flavour={flavour}
-								sex="Female"
-								align="left"
-							/>
-						</Row>
-						<Row>
-							<ReplacerListItem
-								flavour={flavour}
-								sex="Male"
-								align="right"
-							/>
-							<ReplacerListItem
-								flavour={flavour}
-								sex="Female"
-								align="left"
-							/>
-						</Row>
+						<Typography variant="h4">{flavour}</Typography>
+						<Grid container spacing={12}>
+							<Grid size={6}>
+								<ReplacerListItem
+									flavour={flavour}
+									sex={"Male"}
+									align="right"
+								/>
+							</Grid>
+							<Grid size={6}>
+								<ReplacerListItem
+									flavour={flavour}
+									sex={"Female"}
+									align="left"
+								/>
+							</Grid>
+						</Grid>
+						<Grid container spacing={12}>
+							<Grid size={6}>
+								<ReplacerListItem
+									flavour={flavour}
+									sex={"Male"}
+									align="right"
+								/>
+							</Grid>
+							<Grid size={6}>
+								<ReplacerListItem
+									flavour={flavour}
+									sex={"Female"}
+									align="left"
+								/>
+							</Grid>
+						</Grid>
+						<Grid container spacing={12}>
+							<Grid size={6}>
+								<ReplacerListItem
+									flavour={flavour}
+									sex={"Male"}
+									align="right"
+								/>
+							</Grid>
+							<Grid size={6}>
+								<ReplacerListItem
+									flavour={flavour}
+									sex={"Female"}
+									align="left"
+								/>
+							</Grid>
+						</Grid>
 					</div>
 				);
 			})}
-		</MainColumn>
+		</Box>
 	);
 };
 
@@ -68,77 +87,49 @@ const ReplacerListItem = ({ align, flavour, sex }) => {
 	const [name, setName] = useState(getName(sex, flavour));
 
 	const handleClick = () => {
-		// copy npc name
 		navigator.clipboard.writeText(name);
-
-		// Start fading out
 		setFadeState("fadingOut");
-
-		// After fade-out duration, calculate the new value
 		setTimeout(() => {
-			setName(getName(sex, flavour)); // Replace this with your actual calculation function
-
-			// Start fading in
+			setName(getName(sex, flavour));
 			setFadeState("fadingIn");
-
-			// Reset to no animation after fade-in duration
-			setTimeout(() => setFadeState("none"), 500);
-		}, 500); // Fade-out duration should match the CSS animation duration
+		}, 350); // Fade-out duration should not exceed the CSS animation duration
 	};
 
+	const fadeOut = keyframes`
+	0% {
+	  opacity: 1;
+	}
+	100% {
+	  opacity: 0;
+	}
+  `;
+
+	const fadeIn = keyframes`
+	0% {
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 1;
+	}
+  `;
+
 	return (
-		<StyledReplacerListItem
-			$fadeState={fadeState}
-			$textAlign={align === "left" ? "left" : "right"}
-			onClick={() => handleClick()}>
-			<BodyText>{name}</BodyText>
-		</StyledReplacerListItem>
+		<>
+			<Box
+				onClick={() => handleClick()}
+				sx={{
+					width: "100%",
+					textAlign: align, // Equivalent to $textAlign in styled-components
+					animation:
+						fadeState === "fadingOut"
+							? `${fadeOut} 0.4s ease-in-out`
+							: fadeState === "fadingIn"
+							? `${fadeIn} 0.4s ease-in-out`
+							: "none",
+					cursor: "pointer"
+				}}>
+				<Typography variant={"h6"}>{name}</Typography>
+			</Box>
+		</>
 	);
 };
-
-/* styled components */
-
-const MainColumn = styled.div`
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-`;
-
-const fadeOut = keyframes`
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-`;
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
-const StyledReplacerListItem = styled.div`
-	width: 100%;
-	text-align: ${({ $textAlign }) => $textAlign};
-
-	animation: ${({ $fadeState }) =>
-			$fadeState === "fadingOut"
-				? fadeOut
-				: $fadeState === "fadingIn"
-				? fadeIn
-				: "none"}
-		0.5s ease-in-out;
-	cursor: pointer;
-`;
-
-const Row = styled.div`
-	display: flex;
-	justify-content: center;
-	gap: 60px;
-`;

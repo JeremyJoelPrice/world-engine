@@ -10,7 +10,7 @@ const {
 exports.getName = (sex, flavour) => {
 	// get name table
 	let { maleForenames, femaleForenames, surnames } = config.menus
-		.filter(({ title }) => title === "Flavour")[0]
+		.filter(({ title }) => title === "flavour")[0]
 		.options.filter(({ name }) => name === flavour)[0];
 	const forenamesTable = sex === "Male" ? maleForenames : femaleForenames;
 	if (flavour === "Norse") {
@@ -37,11 +37,11 @@ exports.generateNpc = (npcParameters, setGeneratedNpc) => {
 		}
 	});
 	// resolve "Default" flavour
-	if (npcTemplate.Flavour === "Default") {
-		npcTemplate["Flavour"] = config.menus
-			.filter(({ title }) => title === "Race")[0]
+	if (npcTemplate["flavour"] === "Default") {
+		npcTemplate["flavour"] = config.menus
+			.filter(({ title }) => title === "race")[0]
 			.options.filter(
-				({ name }) => name === npcTemplate["Race"]
+				({ name }) => name === npcTemplate["race"]
 			)[0].defaultFlavour;
 	}
 
@@ -52,15 +52,15 @@ exports.generateNpc = (npcParameters, setGeneratedNpc) => {
 		approach2 = rollOnTable(approach);
 	}
 	const actualNpc = {
-		sex: npcTemplate["Sex"],
-		race: npcTemplate["Race"],
+		sex: npcTemplate["sex"],
+		race: npcTemplate["race"],
 		highConcept: rollOnTable(highConcepts),
 		approach1,
 		approach2,
 		characterisation: rollOnTable(characterisation),
 		leverage: rollOnTable(leverage)
 	};
-	actualNpc.name = this.getName(npcTemplate["Sex"], npcTemplate["Flavour"]);
+	actualNpc.name = this.getName(npcTemplate["sex"], npcTemplate["flavour"]);
 
 	setGeneratedNpc(actualNpc);
 };

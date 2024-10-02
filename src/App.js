@@ -3,11 +3,12 @@ import styled from "styled-components";
 import OutdoorsComponent from "./modules/outdoors/OutdoorsComponent";
 import CombatStats from "./modules/combat stats/CombatStatsPage";
 import NpcWindow from "./modules/npc generator/NpcWindow";
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const App = () => {
 	/**
@@ -49,10 +50,19 @@ const App = () => {
 		setDisplayCurrentWeather
 	};
 
+	const darkTheme = createTheme({
+		palette: {
+			mode: "dark"
+		}
+	});
+
 	return (
-		<DashboardLayout>
-			<NpcWindow />
-		</DashboardLayout>
+		<ThemeProvider theme={darkTheme}>
+			<CssBaseline />
+			<DashboardLayout>
+				<NpcWindow />
+			</DashboardLayout>
+		</ThemeProvider>
 	);
 };
 
