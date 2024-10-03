@@ -4,17 +4,13 @@ import config from "./config";
 import {
 	Box,
 	Button,
-	ClickAwayListener,
 	Container,
 	Fade,
-	FormControl,
-	InputLabel,
-	MenuItem,
 	Paper,
-	Select,
 	Tooltip,
 	Typography
 } from "@mui/material";
+import SingleClickSelect from "../../components/SingleClickSelect";
 
 const NpcGeneratorComponent = () => {
 	const [npcParameters, setNpcParameters] = useState({
@@ -33,16 +29,6 @@ const NpcGeneratorComponent = () => {
 	};
 
 	/* custom select behaviour */
-	const [sexOpen, setSexOpen] = useState(false);
-	const [raceOpen, setRaceOpen] = useState(false);
-	const [flavourOpen, setFlavourOpen] = useState(false);
-
-	const handleMouseDown = (setStateOpenFunc) => setStateOpenFunc(true);
-
-	const handleMouseUp = (k, v, setStateOpenFunc) => {
-		handleChange(k, v);
-		setStateOpenFunc(false);
-	};
 
 	return (
 		npcParameters && (
@@ -55,112 +41,32 @@ const NpcGeneratorComponent = () => {
 						margin: "20px auto 0",
 						columnGap: "8px"
 					}}>
-					<ClickAwayListener onClickAway={() => setSexOpen(false)}>
-						<FormControl fullWidth>
-							<InputLabel id="sex">Sex</InputLabel>
-							<Select
-								open={sexOpen}
-								value={npcParameters.sex}
-								defaultValue={config.menus[0].options[0].name}
-								label="Sex"
-								onOpen={() => handleMouseDown(setSexOpen)}
-								onChange={(event) => {
-									handleChange("sex", event.target.value);
-								}}>
-								{config.menus[0].options.map(
-									({ name }, index) => {
-										return (
-											<MenuItem
-												key={index}
-												value={name}
-												onMouseUp={(event) =>
-													handleMouseUp(
-														"sex",
-														name,
-														setSexOpen
-													)
-												}>
-												{name}
-											</MenuItem>
-										);
-									}
-								)}
-							</Select>
-						</FormControl>
-					</ClickAwayListener>
+					<SingleClickSelect
+						label="Sex"
+						optionsArray={config.menus[0].options.map(
+							({ name }) => name
+						)}
+						value={npcParameters.sex}
+						setValue={(value) => handleChange("sex", value)}
+					/>
 
-					<ClickAwayListener onClickAway={() => setRaceOpen(false)}>
-						<FormControl fullWidth>
-							<InputLabel id="race">Race</InputLabel>
-							<Select
-								open={raceOpen}
-								value={npcParameters.race}
-								defaultValue={config.menus[1].options[0].name}
-								label="Race"
-								onOpen={() => {
-									handleMouseDown(setRaceOpen);
-								}}
-								onChange={(event) => {
-									handleChange("race", event.target.value);
-								}}>
-								{config.menus[1].options.map(
-									({ name }, index) => {
-										return (
-											<MenuItem
-												key={index}
-												value={name}
-												onMouseUp={(event) =>
-													handleMouseUp(
-														"race",
-														name,
-														setRaceOpen
-													)
-												}>
-												{name}
-											</MenuItem>
-										);
-									}
-								)}
-							</Select>
-						</FormControl>
-					</ClickAwayListener>
+					<SingleClickSelect
+						label="Race"
+						optionsArray={config.menus[1].options.map(
+							({ name }) => name
+						)}
+						value={npcParameters.race}
+						setValue={(value) => handleChange("race", value)}
+					/>
 
-					<ClickAwayListener
-						onClickAway={() => setFlavourOpen(false)}>
-						<FormControl fullWidth>
-							<InputLabel id="flavour">Flavour</InputLabel>
-							<Select
-								open={flavourOpen}
-								value={npcParameters.flavour}
-								defaultValue={config.menus[2].options[0].name}
-								label="Flavour"
-								onOpen={() => {
-									handleMouseDown(setFlavourOpen);
-								}}
-								onChange={(event) => {
-									handleChange("flavour", event.target.value);
-								}}>
-								{config.menus[2].options.map(
-									({ name }, index) => {
-										return (
-											<MenuItem
-												key={index}
-												value={name}
-												onMouseUp={(event) =>
-													handleMouseUp(
-														"flavour",
-														name,
-														setFlavourOpen
-													)
-												}>
-												{name}
-											</MenuItem>
-										);
-									}
-								)}
-							</Select>
-						</FormControl>
-					</ClickAwayListener>
+					<SingleClickSelect
+						label="Flavour"
+						optionsArray={config.menus[2].options.map(
+							({ name }) => name
+						)}
+						value={npcParameters.flavour}
+						setValue={(value) => handleChange("flavour", value)}
+					/>
 				</Box>
 				<br />
 				<Container
