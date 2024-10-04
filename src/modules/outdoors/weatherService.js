@@ -14,7 +14,6 @@ export const generateWeather = (
 	previousWeather
 ) => {
 	const weather = {};
-
 	// get climate
 	const climate = getClimate(terrainType, latitude, isCoastal);
 
@@ -45,6 +44,15 @@ export const generateWeather = (
 	weather.wind = getWind(roll(windFactor).value);
 
 	return weather;
+};
+
+export const isValidClimate = (terrainType, latitude, isCoastal) => {
+	try {
+		getClimate(terrainType, latitude, isCoastal);
+		return true;
+	} catch (e) {
+		return false;
+	}
 };
 
 /* utility functions */
@@ -167,20 +175,20 @@ export function getSky(willPrecipitate, currentTemp) {
 	// if no precipitation, bias toward clearer skies
 	if (!willPrecipitate) {
 		sky = Object.assign({}, biasedSelection(skyTable, 0, 0.2));
-		sky.rain = "none";
-		sky.snow = "none";
+		sky.precipitation = "none";
 		return sky;
 	}
 
 	sky = rollOnTable(skyTable);
+	sky.precipitation = currentTemp.high <= 3 ? sky.snow : sky.rain;
 
 	// chance of fog
 	if (
-		sky.rain === "light mist" &&
+		sky.precipitation === "light mist" &&
 		currentTemp?.high > 0 &&
 		Math.random() < 0.4
 	) {
-		sky.rain = "fog";
+		sky.precipitation = "fog";
 	}
 
 	// chance of thunderstorm or hail
@@ -201,7 +209,7 @@ export function getWind(diceResult) {
 	);
 
 	return {
-		wind,
+		type: wind,
 		description,
 		speed: Math.round(Math.random() * (mphMax - mphMin) + mphMin),
 		direction: biasedSelection(

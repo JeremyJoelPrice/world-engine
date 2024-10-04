@@ -12,13 +12,35 @@ import {
 import { Air, Cloud, Thermostat, WaterDrop } from "@mui/icons-material";
 import SingleClickSelect from "../../components/SingleClickSelect";
 import terrainTypes from "./data/terrainTypes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
+import { generateWeather, isValidClimate } from "./weatherService";
 
 const WeatherComponent = () => {
+	const dayOfYear = 320; // this will be replaced when I have a time/date picker implemented
 	const [terrainType, setTerrainType] = useState(terrainTypes[0]);
 	const [isCoastal, setIsCoastal] = useState(false);
 	const [latitude, setLatitude] = useState(60);
+	const [weather, setWeather] = useState(
+		generateWeather(terrainTypes[0], 60, false, 320)
+	);
+	const [disabled, setDisabled] = useState();
+
+	const handleClick = () => {
+		setWeather(
+			generateWeather(
+				terrainType,
+				latitude,
+				isCoastal,
+				dayOfYear,
+				weather
+			)
+		);
+	};
+
+	useEffect(() => {
+		setDisabled(!isValidClimate(terrainType, latitude, isCoastal));
+	}, [terrainType, latitude, isCoastal]);
 
 	const latitudeMarks = [
 		{
@@ -57,54 +79,58 @@ const WeatherComponent = () => {
 					padding: "32px 20px 20px",
 					flexDirection: "column"
 				}}>
-				<Grid container spacing={4}>
-					<Grid size={6} sx={{ minHeight: "35px" }}>
+				<Grid container spacing={3}>
+					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
 							<Thermostat fontSize={"large"} />
 							<Typography
-								fontSize={"1.2rem"}
+								fontSize={"1rem"}
 								sx={{ margin: "auto 0" }}>
-								21°/11°
+								{`${weather.temperature.high}°/${weather.temperature.low}°`}
 							</Typography>
 						</DataRow>
 					</Grid>
-					<Grid size={6} sx={{ minHeight: "35px" }}>
+					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
 							<Cloud fontSize={"large"} />
 							<Typography
-								fontSize={"1.2rem"}
+								fontSize={"1rem"}
 								sx={{ margin: "auto 0" }}>
-								clear
+								{weather.cloud}
 							</Typography>
 						</DataRow>
 					</Grid>
-					<Grid size={6} sx={{ minHeight: "35px" }}>
+					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
 							<Air fontSize={"large"} />
 							<Typography
-								fontSize={"1.2rem"}
+								fontSize={"1rem"}
 								sx={{ margin: "auto 0" }}>
-								9mph NW
+								{`${weather.wind.speed}mph / ${weather.wind.direction}`}
 							</Typography>
 						</DataRow>
 					</Grid>
-					<Grid size={6} sx={{ minHeight: "35px" }}>
+					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
 							<WaterDrop fontSize={"large"} />
 							<Typography
-								fontSize={"1.2rem"}
+								fontSize={"1rem"}
 								sx={{ margin: "auto 0" }}>
-								none
+								{`${weather.precipitation}`}
 							</Typography>
 						</DataRow>
 					</Grid>
 				</Grid>
-				<Card variant={"outlined"}>
+				<Card variant={"outlined"} sx={{ height: "120px" }}>
 					<CardContent>
-						<Typography>Gentle Breeze</Typography>
-						<Typography>
-							Leaves and small twigs sway and banners flap
+						<Typography
+							variant={"body2"}
+							sx={{
+								color: "rgba(255, 255, 255, 0.7)"
+							}}>
+							{weather.wind.type}
 						</Typography>
+						<Typography>{weather.wind.description}</Typography>
 					</CardContent>
 				</Card>
 			</FlexBox>
@@ -160,8 +186,9 @@ const WeatherComponent = () => {
 					<Button
 						variant="contained"
 						size="large"
-						onClick={() => console.log("click")}>
-						Generate Weather
+						onClick={handleClick}
+						disabled={disabled}>
+						{disabled ? "No Valid Climate" : "Generate Weather"}
 					</Button>
 				</FlexBox>
 				<Box sx={{ flexGrow: "1" }} />
