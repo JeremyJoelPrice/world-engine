@@ -1,6 +1,7 @@
-import { biasedSelection } from "../../util/common";
+import { biasedSelection, rollOnTable } from "../../util/common";
 import roll from "../../util/roll";
 import climates from "./data/climateLookup";
+import skyTable from "./data/skyTable";
 import windTypes from "./data/windTypes";
 
 /* API */
@@ -24,14 +25,19 @@ export const generateWeather = (
 		weather.precipitation = previousWeather.precipitation;
 		return weather;
 	}
-	// if not:
-	// 		roll precipitation chance
+
+	// determine if it will precipitate
 	const willPrecipitate =
 		Math.random() <=
 		getPrecipitationChance(dayOfYear, climate.precipPeriods) / 100;
 
-	// 		generate precipitation, cloud, and wind factor
-	// 		generate actual wind, if you haven't already repeated yesterday's
+	// generate cloud, precipitation & wind
+	const { cloud, precipitation, windFactor } = getSky(
+		willPrecipitate,
+		weather.temperature
+	);
+	weather.cloud = cloud;
+	weather.precipitation = precipitation;
 };
 
 /* utility functions */
@@ -147,4 +153,54 @@ function isWithinRange(n, rangeStart, rangeEnd) {
 	} else {
 		return n >= rangeStart && n <= rangeEnd;
 	}
+}
+
+export function getSky(willPrecipitate, currentTemp) {
+	let sky;
+	// if no precipitation, bias toward clearer skies
+	if (!willPrecipitate) {
+		sky = Object.assign({}, biasedSelection(skyTable, 0, 0.2));
+		sky.rain = "none";
+		sky.snow = "none";
+		return sky;
+	}
+
+	sky = rollOnTable(skyTable);
+
+	// chance of fog
+	if (
+		sky.rain === "light mist" &&
+		currentTemp?.high > 0 &&
+		Math.random() < 0.4
+	) {
+		sky.rain = "fog";
+	}
+
+	// chance of thunderstorm or hail
+	if (sky.cloud === "dark rainclouds" && Math.random() < 0.4) {
+		sky.cloud = "thunderstorm";
+	} else if (sky.cloud === "dark stormclouds" && Math.random() < 0.4) {
+		sky.snow = "hail mixed with snow";
+	}
+
+	return sky;
+}
+
+export function getWind(diceResult) {
+	// get wind obj
+	const { description, mphMin, mphMax, wind } = windTypes.find(
+		({ diceMinResult, diceMaxResult }) =>
+			diceMinResult === diceResult || diceMaxResult === diceResult
+	);
+
+	return {
+		wind,
+		description,
+		speed: Math.round(Math.random() * (mphMax - mphMin) + mphMin),
+		direction: biasedSelection(
+			["SW", "W", "NW", "N", "NE", "E", "SE", "S"],
+			0,
+			0.4
+		)
+	};
 }
