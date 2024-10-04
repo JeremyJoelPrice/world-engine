@@ -14,10 +14,13 @@ export const generateWeather = (
 	previousWeather
 ) => {
 	const weather = {};
+
 	// get climate
 	const climate = getClimate(terrainType, latitude, isCoastal);
+
 	// generate temperature
 	weather.temperature = getTemperature(climate, dayOfYear);
+
 	// 40% chance to repeat previous weather, if provided
 	if (previousWeather && Math.random() <= 0.4) {
 		weather.cloud = previousWeather.cloud;
@@ -36,8 +39,12 @@ export const generateWeather = (
 		willPrecipitate,
 		weather.temperature
 	);
+
 	weather.cloud = cloud;
 	weather.precipitation = precipitation;
+	weather.wind = getWind(roll(windFactor).value);
+
+	return weather;
 };
 
 /* utility functions */
