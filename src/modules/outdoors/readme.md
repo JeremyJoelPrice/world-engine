@@ -28,28 +28,38 @@ defined)
 This app takes as input:
 
 -   Day of year
--   Terrain (and weather that terrain is coastal)
--   Lattitude
+-   Terrain
+-   Whether the terrain is coastal
+-   Latitude
+-   The previous day's weather
 
 This app outputs:
 
--   Cloud coveragte & precipitation (if any)
+-   Cloud coverage & precipitation (if any)
 -   Wind strength & direction
 -   High and low temperatures for the current day
 
 The app begins by using the inputs to select a climate, loosely based on the
-Köpping system. This climate informs average seasonal temperatures, which are
-used to calulate a specific temperature for the current day.
+Köpping system.
 
-Cloud, precipitation options, and wind probabilities are bundled together as a
-"Sky". Which precipitation option is realised depends on the precipitation
-chance (pass/fail), and the temperature (rain vs snow). Wind is rolled randomly,
-but each sky has its own wind bias.
+Then temperature is calculated using the climate, returning a high and low for
+the given day.
 
-The sky is 40% likely to be a repeat of the previous sky, including actual
-precipitation and potential wind, but is otherwise chosen randomly. If chosen
-randomly, and if there is no precipitation, then there is a bias toward clearer
-skies.
+Then the precipitation chance is calculated to see if there will be any.
+
+Next to determine actual precipitation, cloud, and wind:
+
+-   If a previous weather parameter is given, there is a 40% bias to repeat that
+    selection, even if this contradicts the precipitation chance previously
+    calculated.
+-   If no previous weather is given and there is no precipitation, there is a
+    bias toward clearer skies.
+-   If there is no previous weather and there is precipitation, a random
+    selection is made.
+-   The clouds are directly read from the sky table, while the precipitation is
+    is rain or snow depending on the temperature.
+-   Finally a wind factor is given as part of the skyTable, which is a dice roll
+    used to determine the actual wind from windTypes.js.
 
 ### Data Validity
 
