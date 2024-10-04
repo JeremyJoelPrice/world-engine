@@ -119,12 +119,11 @@ const ReplacerListItem = ({ align, flavour, sex }) => {
 			<Box
 				onClick={() => handleClick()}
 				onTouchStart={(event) => {
-					event.preventDefault();
 					handleClick();
 				}}
 				sx={{
 					width: "100%",
-					textAlign: align, // Equivalent to $textAlign in styled-components
+					textAlign: align,
 					margin: "5px 0",
 					animation:
 						fadeState === "fadingOut"

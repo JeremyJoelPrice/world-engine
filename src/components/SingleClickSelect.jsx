@@ -6,7 +6,7 @@ import {
 	Select
 } from "@mui/material";
 import { useState } from "react";
-import SmallBodyText from "../components/SmallBodyText"
+import SmallBodyText from "../components/SmallBodyText";
 
 const SingleClickSelect = ({ label, optionsArray, value, setValue }) => {
 	const [isOpen, setOpen] = useState(false);
@@ -26,11 +26,7 @@ const SingleClickSelect = ({ label, optionsArray, value, setValue }) => {
 					label={label}
 					size="small"
 					onTouchStart={(event) => {
-						event.preventDefault();
 						setOpen(true);
-					}}
-					onTouchMove={(event) => {
-						event.preventDefault();
 					}}
 					onOpen={() => setOpen(true)}>
 					{optionsArray.map((optionName, index) => {
