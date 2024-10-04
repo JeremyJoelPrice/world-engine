@@ -1,5 +1,9 @@
 import terrainTypes from "../modules/outdoors/data/terrainTypes";
-import { getClimate } from "../modules/outdoors/weatherService";
+import {
+	getAverageTemperatureOfGivenDay,
+	getClimate,
+	getTemperature
+} from "../modules/outdoors/weatherService";
 
 describe("getClimate()", () => {
 	describe("returns correct climate or 'no valid climate' error", () => {
@@ -186,6 +190,73 @@ describe("getClimate()", () => {
 			expect(getClimate(t, 70, true).name).toBe("tundra");
 			expect(getClimate(t, 80, true).name).toBe("tundra");
 			expect(getClimate(t, 90, true).name).toBe("tundra");
+		});
+	});
+});
+
+describe("getTemperature()", () => {
+	describe("getAverageTemperatureOfGivenDay()", () => {
+		const climate = {
+			seasons: {
+				summer: { high: 10, low: 0 },
+				winter: { high: 0, low: -10 }
+			}
+		};
+
+		test("returns average temp for the given day", () => {
+			expect(getAverageTemperatureOfGivenDay(climate, 152)).toEqual({
+				high: 10,
+				low: 0
+			});
+			expect(getAverageTemperatureOfGivenDay(climate, 1)).toEqual({
+				high: 0,
+				low: -10
+			});
+		});
+		test("calulates linear values for seasons with no explicit data", () => {
+			expect(getAverageTemperatureOfGivenDay(climate, 245)).toEqual({
+				high: 10,
+				low: 0
+			});
+			expect(getAverageTemperatureOfGivenDay(climate, 284)).toEqual({
+				high: 6,
+				low: -4
+			});
+		});
+		test("handles climates with only a single season specified", () => {
+			const climate = {
+				seasons: {
+					summer: { high: 33, low: 23 }
+				}
+			};
+			expect(getAverageTemperatureOfGivenDay(climate, 1)).toEqual({
+				high: 33,
+				low: 23
+			});
+		});
+		test("production data", () => {
+			expect(
+				getAverageTemperatureOfGivenDay(
+					{
+						name: "desert",
+						seasons: {
+							summer: {
+								high: 39,
+								low: 25
+							},
+							winter: {
+								high: 20,
+								low: 7
+							}
+						},
+						precipPeriods: [{ firstDay: 1, percentChance: 5 }]
+					},
+					1
+				)
+			).toEqual({
+				high: 20,
+				low: 7
+			});
 		});
 	});
 });
