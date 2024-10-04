@@ -12,19 +12,27 @@ export const generateWeather = (
 	dayOfYear,
 	previousWeather
 ) => {
+	const weather = {};
 	// get climate
 	const climate = getClimate(terrainType, latitude, isCoastal);
 	// generate temperature
-	const temperature = getTemperature(climate, dayOfYear);
-	console.log(temperature);
+	weather.temperature = getTemperature(climate, dayOfYear);
 	// 40% chance to repeat previous weather, if provided
+	if (previousWeather && Math.random() <= 0.4) {
+		weather.cloud = previousWeather.cloud;
+		weather.wind = previousWeather.wind;
+		weather.precipitation = previousWeather.precipitation;
+		return weather;
+	}
 	// if not:
 	// 		roll precipitation chance
+	const willPrecipitate =
+		Math.random() <=
+		getPrecipitationChance(dayOfYear, climate.precipPeriods) / 100;
+
 	// 		generate precipitation, cloud, and wind factor
 	// 		generate actual wind, if you haven't already repeated yesterday's
 };
-
-// module.exports = { generateWeather };
 
 /* utility functions */
 
@@ -120,4 +128,23 @@ export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
 
 	// Return temperatures, ensuring they default to 0 if rounded to 0
 	return { high: high || 0, low: low || 0 };
+}
+
+export function getPrecipitationChance(dayOfYear, precipPeriods) {
+	const period = precipPeriods.filter(({ firstDay, lastDay }) =>
+		isWithinRange(dayOfYear, firstDay, lastDay)
+	)[0];
+	return period.percentChance;
+}
+
+function isWithinRange(n, rangeStart, rangeEnd) {
+	if (!rangeEnd) return true;
+	if (rangeStart > rangeEnd) {
+		return (
+			// 365 as in days per year
+			(n <= rangeEnd && n >= 1) || (n >= rangeStart && n <= 365)
+		);
+	} else {
+		return n >= rangeStart && n <= rangeEnd;
+	}
 }

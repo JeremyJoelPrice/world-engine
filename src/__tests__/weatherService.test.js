@@ -2,6 +2,8 @@ import terrainTypes from "../modules/outdoors/data/terrainTypes";
 import {
 	getAverageTemperatureOfGivenDay,
 	getClimate,
+	getPrecipitationChance,
+	getSky,
 	getTemperature
 } from "../modules/outdoors/weatherService";
 
@@ -258,5 +260,42 @@ describe("getTemperature()", () => {
 				low: 7
 			});
 		});
+	});
+});
+
+describe("getPrecipitationChance()", () => {
+	const precipPeriods = [
+		{
+			firstDay: 60,
+			lastDay: 151,
+			percentChance: 50
+		},
+		{
+			firstDay: 152,
+			lastDay: 1,
+			percentChance: 40
+		},
+		{
+			firstDay: 2,
+			lastDay: 59,
+			percentChance: 30
+		}
+	];
+	test("returns valid precip period", () => {
+		expect(getPrecipitationChance(65, precipPeriods)).toBe(50);
+	});
+	test("handles period starts on day of year", () => {
+		expect(getPrecipitationChance(152, precipPeriods)).toBe(40);
+	});
+	test("handles period ends on day of year", () => {
+		expect(getPrecipitationChance(59, precipPeriods)).toBe(30);
+	});
+	test("handles period contains end of year", () => {
+		expect(getPrecipitationChance(1, precipPeriods)).toBe(40);
+		expect(getPrecipitationChance(365, precipPeriods)).toBe(40);
+	});
+	test("handles array with a single precipPeriod", () => {
+		const preciPeriods = [{ firstDay: 1, percentChance: 40 }];
+		expect(getPrecipitationChance(50, preciPeriods)).toEqual(40);
 	});
 });
