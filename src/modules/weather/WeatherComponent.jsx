@@ -82,9 +82,9 @@ const WeatherComponent = () => {
 				<Grid container spacing={3}>
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
-							<Thermostat fontSize={"large"} />
+							<Thermostat fontSize={"small"} />
 							<Typography
-								fontSize={"1rem"}
+								
 								sx={{ margin: "auto 0" }}>
 								{`${weather.temperature.high}°/${weather.temperature.low}°`}
 							</Typography>
@@ -92,9 +92,9 @@ const WeatherComponent = () => {
 					</Grid>
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
-							<Cloud fontSize={"large"} />
+							<Cloud fontSize={"small"} />
 							<Typography
-								fontSize={"1rem"}
+								
 								sx={{ margin: "auto 0" }}>
 								{weather.cloud}
 							</Typography>
@@ -102,9 +102,9 @@ const WeatherComponent = () => {
 					</Grid>
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
-							<Air fontSize={"large"} />
+							<Air fontSize={"small"} />
 							<Typography
-								fontSize={"1rem"}
+								
 								sx={{ margin: "auto 0" }}>
 								{`${weather.wind.speed}mph / ${weather.wind.direction}`}
 							</Typography>
@@ -112,9 +112,9 @@ const WeatherComponent = () => {
 					</Grid>
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
-							<WaterDrop fontSize={"large"} />
+							<WaterDrop fontSize={"small"} />
 							<Typography
-								fontSize={"1rem"}
+								
 								sx={{ margin: "auto 0" }}>
 								{`${weather.precipitation}`}
 							</Typography>
@@ -141,7 +141,7 @@ const WeatherComponent = () => {
 			/>
 			<FlexBox
 				sx={{
-					minWidth: "300px",
+					width: "40%",
 					padding: "20px 10px",
 					flexDirection: "column"
 				}}>
@@ -185,7 +185,7 @@ const WeatherComponent = () => {
 				<FlexBox sx={{ justifyContent: "center" }}>
 					<Button
 						variant="contained"
-						size="large"
+						size="small"
 						onClick={handleClick}
 						disabled={disabled}>
 						{disabled ? "No Valid Climate" : "Generate Weather"}

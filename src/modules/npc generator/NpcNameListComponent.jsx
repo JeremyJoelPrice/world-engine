@@ -3,6 +3,7 @@ import { getName } from "./npcGeneratorService";
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { keyframes } from "@emotion/react";
+import SmallBodyText from "../../components/SmallBodyText";
 
 const NpcNameListComponent = () => {
 	const flavours = ["Norse", "Celtic"];
@@ -22,7 +23,7 @@ const NpcNameListComponent = () => {
 			{flavours.map((flavour, index) => {
 				return (
 					<div key={index}>
-						<Typography variant="h4">{flavour}</Typography>
+						<Typography variant="h6">{flavour}</Typography>
 						<Grid container spacing={12}>
 							<Grid size={6}>
 								<ReplacerListItem
@@ -117,9 +118,14 @@ const ReplacerListItem = ({ align, flavour, sex }) => {
 		<>
 			<Box
 				onClick={() => handleClick()}
+				onTouchStart={(event) => {
+					event.preventDefault();
+					handleClick();
+				}}
 				sx={{
 					width: "100%",
 					textAlign: align, // Equivalent to $textAlign in styled-components
+					margin: "5px 0",
 					animation:
 						fadeState === "fadingOut"
 							? `${fadeOut} 0.4s ease-in-out`
@@ -128,7 +134,7 @@ const ReplacerListItem = ({ align, flavour, sex }) => {
 							: "none",
 					cursor: "pointer"
 				}}>
-				<Typography variant={"h6"}>{name}</Typography>
+				<SmallBodyText>{name}</SmallBodyText>
 			</Box>
 		</>
 	);

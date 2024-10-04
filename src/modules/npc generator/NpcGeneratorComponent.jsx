@@ -11,6 +11,7 @@ import {
 	Typography
 } from "@mui/material";
 import SingleClickSelect from "../../components/SingleClickSelect";
+import SmallBodyText from "../../components/SmallBodyText";
 
 const NpcGeneratorComponent = () => {
 	const [npcParameters, setNpcParameters] = useState({
@@ -118,9 +119,9 @@ const NpcCard = ({ displayNpc }) => {
 						textAlign: "center",
 						cursor: "pointer"
 					}}>
-					<Typography variant="h5">{displayNpc.name}</Typography>
-					<Typography variant="h6">{`${displayNpc.sex} ${displayNpc.race} ${displayNpc.highConcept.name}`}</Typography>
-					<Typography>
+					<Typography variant="h6">{displayNpc.name}</Typography>
+					<Typography variant="body">{`${displayNpc.sex} ${displayNpc.race} ${displayNpc.highConcept.name}`}</Typography>
+					<SmallBodyText>
 						{`(${displayNpc.highConcept.description})`}
 						<br />
 						{displayNpc.characterisation}
@@ -128,7 +129,7 @@ const NpcCard = ({ displayNpc }) => {
 						{`${displayNpc.approach1}/${displayNpc.approach2}`}
 						<br />
 						{`Leverage: ${displayNpc.leverage}`}
-					</Typography>
+					</SmallBodyText>
 				</Paper>
 			</Tooltip>
 		</Container>
