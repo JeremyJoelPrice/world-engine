@@ -1,13 +1,13 @@
-import skyTable from "../modules/outdoors/data/skyTable";
-import terrainTypes from "../modules/outdoors/data/terrainTypes";
-import windTypes from "../modules/outdoors/data/windTypes";
+import skyTable from "../modules/weather/data/skyTable";
+import terrainTypes from "../modules/weather/data/terrainTypes";
+import windTypes from "../modules/weather/data/windTypes";
 import {
 	getAverageTemperatureOfGivenDay,
 	getClimate,
 	getPrecipitationChance,
 	getSky,
 	getWind
-} from "../modules/outdoors/weatherService";
+} from "../modules/weather/weatherService";
 
 describe("getClimate()", () => {
 	describe("returns correct climate or 'no valid climate' error", () => {
@@ -306,39 +306,31 @@ describe("getSky", () => {
 	test("returns a random sky", () => {
 		for (let i = 0; i < 1000; i++) {
 			expect(getSky()).toMatchObject({
-				rain: expect.any(String),
-				snow: expect.any(String),
+				precipitation: expect.any(String),
 				cloud: expect.any(String),
 				windTypeFactor: expect.any(String)
 			});
 		}
 	});
 	test("respects willPrecipitate boolean value", () => {
-		const totals = {};
-		totals[skyTable[0].rain] = 0;
-		totals[skyTable[1].rain] = 0;
-		totals[skyTable[2].rain] = 0;
-		totals[skyTable[3].rain] = 0;
-		totals[skyTable[4].rain] = 0;
-		totals[skyTable[5].rain] = 0;
-		totals["none"] = 0;
+		let totals = {};
 
 		for (let i = 0; i < 10000; i++) {
-			const { rain } = getSky(false);
-			totals[rain]++;
+			const { precipitation } = getSky(false, 0);
+			totals[precipitation] = totals[precipitation]
+				? totals[precipitation] + 1
+				: 1;
 		}
+
 		expect(totals.none).toEqual(10000);
 
-		totals[skyTable[0].rain] = 0;
-		totals[skyTable[1].rain] = 0;
-		totals[skyTable[2].rain] = 0;
-		totals[skyTable[3].rain] = 0;
-		totals[skyTable[4].rain] = 0;
-		totals[skyTable[5].rain] = 0;
-		totals["none"] = 0;
+		totals = { none: 0 };
+
 		for (let i = 0; i < 10000; i++) {
-			const { rain } = getSky(true);
-			totals[rain]++;
+			const { precipitation } = getSky(true, 0);
+			totals[precipitation] = totals[precipitation]
+				? totals[precipitation] + 1
+				: 1;
 		}
 		expect(totals.none).toEqual(0);
 	});
@@ -362,19 +354,19 @@ describe("getSky", () => {
 	describe("getWind()", () => {
 		test("returns wind based on give dice result", () => {
 			expect(getWind(1)).toMatchObject({
-				wind: windTypes[0].wind,
+				type: windTypes[0].wind,
 				speed: expect.any(Number),
 				direction: expect.any(String),
 				description: windTypes[0].description
 			});
 			expect(getWind(10)).toMatchObject({
-				wind: windTypes[5].wind,
+				type: windTypes[5].wind,
 				speed: expect.any(Number),
 				direction: expect.any(String),
 				description: windTypes[5].description
 			});
 			expect(getWind(19)).toMatchObject({
-				wind: windTypes[10].wind,
+				type: windTypes[10].wind,
 				speed: expect.any(Number),
 				direction: expect.any(String),
 				description: windTypes[10].description
