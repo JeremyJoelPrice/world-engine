@@ -15,9 +15,11 @@ chance of mishap torches/exposed flames extinguished
 
 double check climate categories, beacuse:
 
+-	bug: if it was raining, then temp is lower but the previous sky repeats (40% chance), rain should be converted to snow, but currently it stays as rain
 -   swap precipitation periods for normal seasons, for simplicity
 -   terrains ideally shouldn't have multiple climate options
 -   all input combinations should ideally yield a valid climate
+-	chance of fog, thunderstorm, and hail, and getTemperature() are currently not tested
 
 implement extrapolating daily average temperature when the year ends during the
 extrapolated ranged (e.g. get winter temp when only spring and summer are
