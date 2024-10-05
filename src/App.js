@@ -7,6 +7,7 @@ import "@fontsource/roboto/700.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import WeatherComponent from "./modules/weather/WeatherComponent";
+import TimeComponent from "./modules/time/TimeComponent";
 
 const App = () => {
 	const darkTheme = createTheme({
@@ -20,6 +21,7 @@ const App = () => {
 			<CssBaseline />
 			<DashboardLayout>
 				<WeatherComponent />
+				<TimeComponent />
 				<NpcWindow />
 			</DashboardLayout>
 		</ThemeProvider>
