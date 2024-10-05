@@ -12,6 +12,7 @@ const NpcWindow = () => {
 
 	return (
 		<Paper
+			variant="outlined"
 			sx={{
 				gridColumn: "3 / 4",
 				gridRow: "1 / 4",
