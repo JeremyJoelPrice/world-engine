@@ -20,7 +20,7 @@ const WeatherComponent = () => {
 	const dayOfYear = 320; // this will be replaced when I have a time/date picker implemented
 	const [terrainType, setTerrainType] = useState(terrainTypes[0]);
 	const [isCoastal, setIsCoastal] = useState(false);
-	const [latitude, setLatitude] = useState(60);
+	const [latitude, setLatitude] = useState(55);
 	const [weather, setWeather] = useState(
 		generateWeather(terrainTypes[0], 60, false, 320)
 	);
@@ -83,9 +83,7 @@ const WeatherComponent = () => {
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
 							<Thermostat fontSize={"small"} />
-							<Typography
-								
-								sx={{ margin: "auto 0" }}>
+							<Typography sx={{ margin: "auto 0" }}>
 								{`${weather.temperature.high}°/${weather.temperature.low}°`}
 							</Typography>
 						</DataRow>
@@ -93,9 +91,7 @@ const WeatherComponent = () => {
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
 							<Cloud fontSize={"small"} />
-							<Typography
-								
-								sx={{ margin: "auto 0" }}>
+							<Typography sx={{ margin: "auto 0" }}>
 								{weather.cloud}
 							</Typography>
 						</DataRow>
@@ -103,9 +99,7 @@ const WeatherComponent = () => {
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
 							<Air fontSize={"small"} />
-							<Typography
-								
-								sx={{ margin: "auto 0" }}>
+							<Typography sx={{ margin: "auto 0" }}>
 								{`${weather.wind.speed}mph / ${weather.wind.direction}`}
 							</Typography>
 						</DataRow>
@@ -113,9 +107,7 @@ const WeatherComponent = () => {
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
 							<WaterDrop fontSize={"small"} />
-							<Typography
-								
-								sx={{ margin: "auto 0" }}>
+							<Typography sx={{ margin: "auto 0" }}>
 								{`${weather.precipitation}`}
 							</Typography>
 						</DataRow>
@@ -173,9 +165,8 @@ const WeatherComponent = () => {
 						step={null}
 						marks={latitudeMarks}
 						max={90}
-						onChange={(event) => {
-							setLatitude(event.target.value);
-						}}
+						valueLabelDisplay="auto"
+						onChangeCommitted={(event, value) => setLatitude(value)}
 						sx={{
 							width: "100%"
 						}}
