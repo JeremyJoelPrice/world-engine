@@ -1,4 +1,4 @@
-import { Box, Button, Paper } from "@mui/material";
+import { Box, Button, CircularProgress, Paper } from "@mui/material";
 import {
 	DesktopDatePicker,
 	LocalizationProvider,
@@ -8,6 +8,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useState } from "react";
 import SingleClickSelect from "../../components/SingleClickSelect";
+import styled from "@emotion/styled";
 
 const TimeComponent = () => {
 	const months = [
@@ -25,9 +26,21 @@ const TimeComponent = () => {
 		"December"
 	];
 	const [datetime, setDatetime] = useState(dayjs("0793-06-08 00:00"));
+	const [tenMinTurns, setTenMinTurns] = useState(0);
 
 	const incrementTime = (value, unitString) => {
 		setDatetime((prev) => prev.add(value, unitString));
+	};
+
+	const incrementTenMinTurns = () => {
+		setTenMinTurns((previous) => {
+			const newValue = previous + 16.666666666666668; // 100 ÷ 6
+			if (Math.round(newValue) === 100) {
+				incrementTime(1, "hour");
+				return 0;
+			}
+			return newValue;
+		});
 	};
 
 	return (
@@ -39,33 +52,39 @@ const TimeComponent = () => {
 				padding: "15px"
 			}}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
-				<DesktopDatePicker
-					label={"day"}
-					views={["day"]}
-					disablePast={false}
-					value={datetime}
-					minDate={dayjs("0793-01-01 00:00")}
-					onChange={setDatetime}
-					sx={{
-						"& .MuiOutlinedInput-notchedOutline": {
-							border: "none"
-						},
-						"& .MuiOutlinedInput-input ": {
-							padding: "8px"
-						},
-						maxWidth: "100px"
-					}}
-				/>
-				<SingleClickSelect
-					label="Month"
-					optionsArray={months}
-					value={datetime.format("MMMM")}
-					setValue={(monthString) =>
-						setDatetime((prev) =>
-							prev.month(months.indexOf(monthString))
-						)
-					}
-				/>
+				<FlexRow>
+					<DesktopDatePicker
+						label={"day"}
+						views={["day"]}
+						disablePast={false}
+						value={datetime}
+						minDate={dayjs("0793-01-01 00:00")}
+						onChange={setDatetime}
+						sx={{
+							"& .MuiOutlinedInput-notchedOutline": {
+								border: "none"
+							},
+							"& .MuiOutlinedInput-input ": {
+								padding: "8px"
+							},
+							maxWidth: "100px"
+						}}
+					/>
+					<SingleClickSelect
+						label="Month"
+						optionsArray={months}
+						value={datetime.format("MMMM")}
+						setValue={(monthString) =>
+							setDatetime((prev) =>
+								prev.month(months.indexOf(monthString))
+							)
+						}
+					/>
+					<CircularProgressWithLabel
+						value={tenMinTurns}
+						onClick={() => incrementTenMinTurns()}
+					/>
+				</FlexRow>
 				<TimeClock
 					ampm={false}
 					value={datetime}
@@ -92,3 +111,49 @@ const TimeComponent = () => {
 };
 
 export default TimeComponent;
+
+/* other components */
+
+function CircularProgressWithLabel({ onClick, value }) {
+	return (
+		<StyleBox>
+			<StyledCircularProgress
+				variant="determinate"
+				size="70px"
+				value={value}
+			/>
+			<StyledTenMinuteButton variant="outlined" onClick={onClick}>
+				+10m
+			</StyledTenMinuteButton>
+		</StyleBox>
+	);
+}
+
+/* styled components */
+
+const FlexRow = styled.div`
+	display: flex;
+`;
+
+const StyleBox = styled(Box)`
+	position: relative;
+	flex-grow: 1;
+`;
+
+const StyledTenMinuteButton = styled(Button)`
+	top: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	display: flex;
+
+	border-radius: 25pt;
+	height: 70px;
+	width: 70px;
+`;
+
+const StyledCircularProgress = styled(CircularProgress)`
+	position: absolute;
+	top: 0;
+	right: 0;
+`;
