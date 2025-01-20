@@ -8,6 +8,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import WeatherComponent from "./modules/weather/WeatherComponent";
 import TimeComponent from "./modules/time/TimeComponent";
+import { useState } from "react";
+import dayjs from "dayjs";
 
 const App = () => {
 	const darkTheme = createTheme({
@@ -16,12 +18,14 @@ const App = () => {
 		}
 	});
 
+	const [datetime, setDatetime] = useState(dayjs("0793-06-08 00:00"));
+
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
 			<DashboardLayout>
-				<WeatherComponent />
-				<TimeComponent />
+				<WeatherComponent datetime={datetime} />
+				<TimeComponent datetime={datetime} setDatetime={setDatetime} />
 				<NpcWindow />
 			</DashboardLayout>
 		</ThemeProvider>

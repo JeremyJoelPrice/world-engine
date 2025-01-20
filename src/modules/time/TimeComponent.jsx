@@ -10,7 +10,7 @@ import { useState } from "react";
 import SingleClickSelect from "../../components/SingleClickSelect";
 import styled from "@emotion/styled";
 
-const TimeComponent = () => {
+const TimeComponent = ({ datetime, setDatetime }) => {
 	const months = [
 		"January",
 		"February",
@@ -25,7 +25,7 @@ const TimeComponent = () => {
 		"November",
 		"December"
 	];
-	const [datetime, setDatetime] = useState(dayjs("0793-06-08 00:00"));
+
 	const [tenMinTurns, setTenMinTurns] = useState(0);
 
 	const incrementTime = (value, unitString) => {

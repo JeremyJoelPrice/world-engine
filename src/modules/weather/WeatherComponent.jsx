@@ -15,9 +15,12 @@ import terrainTypes from "./data/terrainTypes";
 import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { generateWeather, isValidClimate } from "./weatherService";
+import dayjs from "dayjs";
+import dayOfYear from "dayjs/plugin/dayOfYear";
+dayjs.extend(dayOfYear);
 
-const WeatherComponent = () => {
-	const dayOfYear = 320; // this will be replaced when I have a time/date picker implemented
+const WeatherComponent = ({ datetime }) => {
+	const dayOfYear = datetime.dayOfYear();
 	const [terrainType, setTerrainType] = useState(terrainTypes[0]);
 	const [isCoastal, setIsCoastal] = useState(false);
 	const [latitude, setLatitude] = useState(55);
