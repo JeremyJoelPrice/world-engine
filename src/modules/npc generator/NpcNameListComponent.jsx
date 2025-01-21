@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getName } from "./npcGeneratorService";
-import { Box, Typography } from "@mui/material";
+import { Box, debounce, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import SmallBodyText from "../../components/SmallBodyText";
 
@@ -93,10 +93,8 @@ const ReplacerListItem = ({ align, flavour, sex }) => {
 	return (
 		<>
 			<Box
-				onClick={() => handleClick()}
-				onTouchStart={(event) => {
-					handleClick();
-				}}
+				onClick={debounce(handleClick, 500)}
+				onTouchStart={debounce(handleClick, 500)}
 				sx={{
 					width: "100%",
 					textAlign: align,
