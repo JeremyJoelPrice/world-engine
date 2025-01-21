@@ -1,31 +1,15 @@
 import { Box, Button, CircularProgress, Paper } from "@mui/material";
 import {
-	DesktopDatePicker,
 	LocalizationProvider,
+	MobileDatePicker,
 	TimeClock
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useState } from "react";
-import SingleClickSelect from "../../components/SingleClickSelect";
 import styled from "@emotion/styled";
 
 const TimeComponent = ({ datetime, setDatetime }) => {
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December"
-	];
-
 	const [tenMinTurns, setTenMinTurns] = useState(0);
 
 	const incrementTime = (value, unitString) => {
@@ -53,32 +37,27 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 			}}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<FlexRow>
-					<DesktopDatePicker
-						label={"day"}
-						views={["day"]}
-						disablePast={false}
+					<MobileDatePicker
+						views={["day", "month", "year"]}
 						value={datetime}
-						minDate={dayjs("0793-01-01 00:00")}
+						minDate={dayjs("0100-01-01 00:00")}
 						onChange={setDatetime}
+						format="DD/MMM/YYYY"
 						sx={{
 							"& .MuiOutlinedInput-notchedOutline": {
-								border: "none"
+								borderLeft: "none",
+								borderRight: "none",
+								borderTop: "none"
 							},
-							"& .MuiOutlinedInput-input ": {
+							"& .MuiOutlinedInput-input": {
 								padding: "8px"
 							},
-							maxWidth: "100px"
+							"& .css-68kh0d-MuiInputBase-root-MuiOutlinedInput-root":
+								{
+									paddingRight: 0
+								},
+							width: "120px"
 						}}
-					/>
-					<SingleClickSelect
-						label="Month"
-						optionsArray={months}
-						value={datetime.format("MMMM")}
-						setValue={(monthString) =>
-							setDatetime((prev) =>
-								prev.month(months.indexOf(monthString))
-							)
-						}
 					/>
 					<CircularProgressWithLabel
 						value={tenMinTurns}
