@@ -52,10 +52,9 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 							"& .MuiOutlinedInput-input": {
 								padding: "8px"
 							},
-							"& .css-68kh0d-MuiInputBase-root-MuiOutlinedInput-root":
-								{
-									paddingRight: 0
-								},
+							"& .MuiInputBase-root": {
+								paddingRight: 0
+							},
 							width: "120px"
 						}}
 					/>
