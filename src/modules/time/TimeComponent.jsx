@@ -124,7 +124,6 @@ const StyledTenMinuteButton = styled(Button)`
 	bottom: 0;
 	right: 0;
 	position: absolute;
-	display: flex;
 
 	border-radius: 25pt;
 	height: 70px;
