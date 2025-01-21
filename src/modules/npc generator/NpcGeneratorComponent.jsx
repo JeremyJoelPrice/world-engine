@@ -10,8 +10,8 @@ import {
 	Tooltip,
 	Typography
 } from "@mui/material";
-import SingleClickSelect from "../../components/SingleClickSelect";
 import SmallBodyText from "../../components/SmallBodyText";
+import StyledSelect from "../../components/StyledSelect";
 
 const NpcGeneratorComponent = () => {
 	const [npcParameters, setNpcParameters] = useState({
@@ -42,7 +42,7 @@ const NpcGeneratorComponent = () => {
 						margin: "20px auto 0",
 						columnGap: "8px"
 					}}>
-					<SingleClickSelect
+					<StyledSelect
 						label="Sex"
 						optionsArray={config.menus[0].options.map(
 							({ name }) => name
@@ -51,7 +51,7 @@ const NpcGeneratorComponent = () => {
 						setValue={(value) => handleChange("sex", value)}
 					/>
 
-					<SingleClickSelect
+					<StyledSelect
 						label="Race"
 						optionsArray={config.menus[1].options.map(
 							({ name }) => name
@@ -60,7 +60,7 @@ const NpcGeneratorComponent = () => {
 						setValue={(value) => handleChange("race", value)}
 					/>
 
-					<SingleClickSelect
+					<StyledSelect
 						label="Flavour"
 						optionsArray={config.menus[2].options.map(
 							({ name }) => name

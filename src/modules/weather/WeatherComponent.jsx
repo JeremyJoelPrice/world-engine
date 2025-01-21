@@ -10,13 +10,14 @@ import {
 	Typography
 } from "@mui/material";
 import { Air, Cloud, Thermostat, WaterDrop } from "@mui/icons-material";
-import SingleClickSelect from "../../components/SingleClickSelect";
 import terrainTypes from "./data/terrainTypes";
 import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { generateWeather, isValidClimate } from "./weatherService";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
+import StyledSelect from "../../components/StyledSelect";
+
 dayjs.extend(dayOfYear);
 
 const WeatherComponent = ({ datetime }) => {
@@ -29,7 +30,7 @@ const WeatherComponent = ({ datetime }) => {
 	);
 	const [disabled, setDisabled] = useState();
 
-	const handleClick = () => {
+	const generate = () => {
 		setWeather(
 			generateWeather(
 				terrainType,
@@ -141,7 +142,7 @@ const WeatherComponent = ({ datetime }) => {
 					flexDirection: "column"
 				}}>
 				<Box>
-					<SingleClickSelect
+					<StyledSelect
 						label="Terrain Type"
 						optionsArray={terrainTypes}
 						value={terrainType}
@@ -180,7 +181,7 @@ const WeatherComponent = ({ datetime }) => {
 					<Button
 						variant="contained"
 						size="small"
-						onClick={handleClick}
+						onClick={generate}
 						disabled={disabled}>
 						{disabled ? "No Valid Climate" : "Generate Weather"}
 					</Button>
