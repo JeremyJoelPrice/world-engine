@@ -93,7 +93,7 @@ const ReplacerListItem = ({ align, flavour, sex }) => {
 		setTimeout(() => {
 			setName(getName(sex, flavour));
 			setFadeState("fadingIn");
-		}, 400); // Fade-out duration should not exceed the CSS animation duration
+		}, 150);
 	};
 
 	const fadeOut = keyframes`
