@@ -94,7 +94,6 @@ const ReplacerListItem = ({ align, flavour, sex }) => {
 		<>
 			<Box
 				onClick={debounce(handleClick, 500)}
-				onTouchStart={debounce(handleClick, 500)}
 				sx={{
 					width: "100%",
 					textAlign: align,
