@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getName } from "./npcGeneratorService";
 import { Box, debounce, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { keyframes } from "@emotion/react";
 import SmallBodyText from "../../components/SmallBodyText";
 
 const NpcNameListComponent = () => {
@@ -83,21 +84,50 @@ export default NpcNameListComponent;
 /* other components */
 
 const ReplacerListItem = ({ align, flavour, sex }) => {
+	const [fadeState, setFadeState] = useState("none"); // 'none', 'fadingOut', or 'fadingIn'
 	const [name, setName] = useState(getName(sex, flavour));
 
 	const handleClick = () => {
 		navigator.clipboard.writeText(name);
-		setName(getName(sex, flavour));
+		setFadeState("fadingOut");
+		setTimeout(() => {
+			setName(getName(sex, flavour));
+			setFadeState("fadingIn");
+		}, 150);
 	};
+
+	const fadeOut = keyframes`
+	0% {
+	  opacity: 1;
+	}
+	100% {
+	  opacity: 0;
+	}
+  `;
+
+	const fadeIn = keyframes`
+	0% {
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 1;
+	}
+  `;
 
 	return (
 		<>
 			<Box
-				onClick={debounce(handleClick, 500)}
+				onClick={debounce(handleClick, 100)}
 				sx={{
 					width: "100%",
 					textAlign: align,
 					margin: "5px 0",
+					animation:
+						fadeState === "fadingOut"
+							? `${fadeOut} 0.4s ease-in-out`
+							: fadeState === "fadingIn"
+							? `${fadeIn} 0.4s ease-in-out`
+							: "none",
 					cursor: "pointer"
 				}}>
 				<SmallBodyText>{name}</SmallBodyText>
