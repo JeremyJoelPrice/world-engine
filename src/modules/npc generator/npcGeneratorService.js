@@ -3,29 +3,31 @@ import {
 	approach,
 	characterisation,
 	highConcepts,
-	leverage,
-	races
+	leverage
 } from "./data/npcGenerationTables";
 import flavours from "./data/flavours/index.js";
 
 /* getters for displayable menu options */
 
-export const getFlavours = () => {
-	return flavours.map(({ name }) => name);
+export const getFlavoursByRace = (race) => {
+	if (race === "Dwarf") return [flavours.dwarf];
+	return [flavours.nordlanðr, flavours.asculum, flavours.celtic];
 };
 
 export const getRaces = () => {
-	return races;
+	return ["Human", "Dwarf"];
 };
 
-export const getSexes = () => {
+export const getSexesByRace = () => {
 	return ["Random", "Female", "Male"];
 };
 
 /* generators for creating NPCs */
 
 export const generateName = (sex, flavour) => {
-	return flavours.filter(({ name }) => name === flavour)[0].generateName(sex);
+	return Object.values(flavours)
+		.filter(({ name }) => name === flavour)[0]
+		.generateName(sex);
 };
 
 export const generateNpc = (npcParameters, setGeneratedNpc) => {

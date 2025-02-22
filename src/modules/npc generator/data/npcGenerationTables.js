@@ -1,8 +1,3 @@
-/* Races */
-const races = ["Human"];
-
-exports.races = races;
-
 /* Names */
 const names = {};
 

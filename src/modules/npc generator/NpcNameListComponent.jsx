@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { generateName } from "./npcGeneratorService";
+import { generateName, getFlavoursByRace } from "./npcGeneratorService";
 import { Box, debounce, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { keyframes } from "@emotion/react";
 import SmallBodyText from "../../components/SmallBodyText";
-import flavours from "./data/flavours/index.js";
 
 const NpcNameListComponent = () => {
 	return (
@@ -19,7 +18,7 @@ const NpcNameListComponent = () => {
 					</Grid>
 				</Grid>
 			</Box>
-			{flavours.map((flavour, index) => {
+			{getFlavoursByRace("Human").map((flavour, index) => {
 				return (
 					<div key={index}>
 						<Typography variant="h6">{flavour.name}</Typography>

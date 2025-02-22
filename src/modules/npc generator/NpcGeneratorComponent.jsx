@@ -2,9 +2,9 @@ import { useState } from "react";
 import {
 	copyNpcAsText,
 	generateNpc,
-	getFlavours,
+	getFlavoursByRace,
 	getRaces,
-	getSexes
+	getSexesByRace
 } from "./npcGeneratorService";
 import {
 	Box,
@@ -19,17 +19,29 @@ import SmallBodyText from "../../components/SmallBodyText";
 import StyledSelect from "../../components/StyledSelect";
 
 const NpcGeneratorComponent = () => {
+	const races = getRaces();
+	const [flavours, setFlavours] = useState(getFlavoursByRace(races[0]));
+	const sexes = getSexesByRace(races[0]);
+
 	const [npcParameters, setNpcParameters] = useState({
-		sex: getSexes()[0],
-		race: getRaces()[0],
-		flavour: getFlavours()[0]
+		sex: sexes[0],
+		race: races[0],
+		flavour: flavours[0].name
 	});
+
 	const [generatedNpc, setGeneratedNpc] = useState();
 
-	let handleChange = (k, v) => {
+	const handleChange = (k, v) => {
 		setNpcParameters((prevNpc) => {
 			const newNpc = Object.assign({}, prevNpc);
 			newNpc[k] = v;
+
+			if (k === "race") {
+				const flavours = getFlavoursByRace(v);
+				newNpc.flavour = flavours[0].name;
+				setFlavours(flavours);
+			}
+
 			return newNpc;
 		});
 	};
@@ -47,21 +59,21 @@ const NpcGeneratorComponent = () => {
 					}}>
 					<StyledSelect
 						label="Sex"
-						optionsArray={getSexes()}
+						optionsArray={sexes}
 						value={npcParameters.sex}
 						setValue={(value) => handleChange("sex", value)}
 					/>
 
 					<StyledSelect
 						label="Race"
-						optionsArray={getRaces()}
+						optionsArray={races}
 						value={npcParameters.race}
 						setValue={(value) => handleChange("race", value)}
 					/>
 
 					<StyledSelect
 						label="Flavour"
-						optionsArray={getFlavours()}
+						optionsArray={flavours.map(({ name }) => name)}
 						value={npcParameters.flavour}
 						setValue={(value) => handleChange("flavour", value)}
 					/>
