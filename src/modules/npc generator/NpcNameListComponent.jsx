@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getName } from "./npcGeneratorService";
+import { generateName } from "./npcGeneratorService";
 import { Box, debounce, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { keyframes } from "@emotion/react";
@@ -84,13 +84,13 @@ export default NpcNameListComponent;
 
 const ReplacerListItem = ({ align, flavour, sex }) => {
 	const [fadeState, setFadeState] = useState("none"); // 'none', 'fadingOut', or 'fadingIn'
-	const [name, setName] = useState(getName(sex, flavour));
+	const [name, setName] = useState(generateName(sex, flavour));
 
 	const handleClick = () => {
 		navigator.clipboard.writeText(name);
 		setFadeState("fadingOut");
 		setTimeout(() => {
-			setName(getName(sex, flavour));
+			setName(generateName(sex, flavour));
 			setFadeState("fadingIn");
 		}, 150);
 	};

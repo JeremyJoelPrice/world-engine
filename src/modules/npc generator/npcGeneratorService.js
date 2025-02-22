@@ -1,29 +1,40 @@
 import { rollOnTable } from "../../util/common";
-import config from "./config";
 import {
 	approach,
 	characterisation,
 	highConcepts,
-	leverage
+	leverage,
+	races
 } from "./data/npcGenerationTables";
 import flavours from "./data/flavours/index.js";
 
-export const getName = (sex, flavour) => {
+/* getters for displayable menu options */
+
+export const getFlavours = () => {
+	return flavours.map(({ name }) => name);
+};
+
+export const getRaces = () => {
+	return races;
+};
+
+export const getSexes = () => {
+	return ["Random", "Female", "Male"];
+};
+
+/* generators for creating NPCs */
+
+export const generateName = (sex, flavour) => {
 	return flavours.filter(({ name }) => name === flavour)[0].generateName(sex);
 };
 
 export const generateNpc = (npcParameters, setGeneratedNpc) => {
 	const npcTemplate = Object.assign({}, npcParameters);
-	// resolve "Random" values
-	Object.keys(npcParameters).forEach((param) => {
-		const menu = config.menus.filter(({ title }) => title === param)[0];
-		while (npcTemplate[param] === "Random") {
-			npcTemplate[param] =
-				menu.options[
-					Math.floor(Math.random() * menu.options.length)
-				].name;
-		}
-	});
+
+	// resolve random sex
+	if (npcTemplate.sex === "Random") {
+		npcTemplate.sex = Math.random() < 0.5 ? "Female" : "Male";
+	}
 
 	// create actual npc
 	const approach1 = rollOnTable(approach);
@@ -40,7 +51,7 @@ export const generateNpc = (npcParameters, setGeneratedNpc) => {
 		characterisation: rollOnTable(characterisation),
 		leverage: rollOnTable(leverage)
 	};
-	actualNpc.name = getName(npcTemplate["sex"], npcTemplate["flavour"]);
+	actualNpc.name = generateName(npcTemplate["sex"], npcTemplate["flavour"]);
 
 	setGeneratedNpc(actualNpc);
 };

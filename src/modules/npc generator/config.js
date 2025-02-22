@@ -1,10 +1,6 @@
 const config = {
 	menus: [
 		{
-			title: "sex",
-			options: [{ name: "Random" }, { name: "Male" }, { name: "Female" }]
-		},
-		{
 			title: "race",
 			options: [
 				{ name: "Random" },
