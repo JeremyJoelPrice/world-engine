@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { copyNpcAsText, generateNpc } from "./npcGeneratorService";
 import config from "./config";
+import flavours from "./data/flavours/index.js";
 import {
 	Box,
 	Button,
@@ -17,7 +18,7 @@ const NpcGeneratorComponent = () => {
 	const [npcParameters, setNpcParameters] = useState({
 		sex: "Random",
 		race: "Random",
-		flavour: "Default"
+		flavour: flavours[0].name
 	});
 	const [generatedNpc, setGeneratedNpc] = useState();
 
@@ -62,9 +63,7 @@ const NpcGeneratorComponent = () => {
 
 					<StyledSelect
 						label="Flavour"
-						optionsArray={config.menus[2].options.map(
-							({ name }) => name
-						)}
+						optionsArray={flavours.map(({ name }) => name)}
 						value={npcParameters.flavour}
 						setValue={(value) => handleChange("flavour", value)}
 					/>

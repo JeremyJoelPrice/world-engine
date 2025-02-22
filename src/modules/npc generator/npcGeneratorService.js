@@ -1,30 +1,18 @@
-const { rollOnTable } = require("../../util/common");
-const { default: config } = require("./config");
-const {
+import { rollOnTable } from "../../util/common";
+import config from "./config";
+import {
 	approach,
 	characterisation,
 	highConcepts,
 	leverage
-} = require("./data/npcGenerationTables");
+} from "./data/npcGenerationTables";
+import flavours from "./data/flavours/index.js";
 
-exports.getName = (sex, flavour) => {
-	// get name table
-	let { maleForenames, femaleForenames, surnames } = config.menus
-		.filter(({ title }) => title === "flavour")[0]
-		.options.filter(({ name }) => name === flavour)[0];
-	const forenamesTable = sex === "Male" ? maleForenames : femaleForenames;
-	if (flavour === "Norse") {
-		const suffix = sex === "Male" ? "son" : "sdottir";
-		surnames = forenamesTable.map((n) => n + suffix);
-	}
-
-	// generate name
-	const forename = rollOnTable(forenamesTable);
-	const surname = rollOnTable(surnames);
-	return `${forename} ${surname}`;
+export const getName = (sex, flavour) => {
+	return flavours.filter(({ name }) => name === flavour)[0].generateName(sex);
 };
 
-exports.generateNpc = (npcParameters, setGeneratedNpc) => {
+export const generateNpc = (npcParameters, setGeneratedNpc) => {
 	const npcTemplate = Object.assign({}, npcParameters);
 	// resolve "Random" values
 	Object.keys(npcParameters).forEach((param) => {
@@ -36,14 +24,6 @@ exports.generateNpc = (npcParameters, setGeneratedNpc) => {
 				].name;
 		}
 	});
-	// resolve "Default" flavour
-	if (npcTemplate["flavour"] === "Default") {
-		npcTemplate["flavour"] = config.menus
-			.filter(({ title }) => title === "race")[0]
-			.options.filter(
-				({ name }) => name === npcTemplate["race"]
-			)[0].defaultFlavour;
-	}
 
 	// create actual npc
 	const approach1 = rollOnTable(approach);
@@ -60,12 +40,12 @@ exports.generateNpc = (npcParameters, setGeneratedNpc) => {
 		characterisation: rollOnTable(characterisation),
 		leverage: rollOnTable(leverage)
 	};
-	actualNpc.name = this.getName(npcTemplate["sex"], npcTemplate["flavour"]);
+	actualNpc.name = getName(npcTemplate["sex"], npcTemplate["flavour"]);
 
 	setGeneratedNpc(actualNpc);
 };
 
-exports.copyNpcAsText = (generatedNpc) => {
+export const copyNpcAsText = (generatedNpc) => {
 	let npcString = `${generatedNpc.name}\n${generatedNpc.sex} ${generatedNpc.race}\n${generatedNpc.highConcept.name}\n${generatedNpc.highConcept.description}\n${generatedNpc.approach1}/${generatedNpc.approach2}\nLeverage: ${generatedNpc.leverage}`;
 	navigator.clipboard.writeText(npcString);
 };

@@ -4,10 +4,9 @@ import { Box, debounce, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { keyframes } from "@emotion/react";
 import SmallBodyText from "../../components/SmallBodyText";
+import flavours from "./data/flavours/index.js";
 
 const NpcNameListComponent = () => {
-	const flavours = ["Norse", "Celtic"];
-
 	return (
 		<Box sx={{ textAlign: "center" }}>
 			<Box>
@@ -23,18 +22,18 @@ const NpcNameListComponent = () => {
 			{flavours.map((flavour, index) => {
 				return (
 					<div key={index}>
-						<Typography variant="h6">{flavour}</Typography>
+						<Typography variant="h6">{flavour.name}</Typography>
 						<Grid container spacing={12}>
 							<Grid size={6}>
 								<ReplacerListItem
-									flavour={flavour}
+									flavour={flavour.name}
 									sex={"Male"}
 									align="right"
 								/>
 							</Grid>
 							<Grid size={6}>
 								<ReplacerListItem
-									flavour={flavour}
+									flavour={flavour.name}
 									sex={"Female"}
 									align="left"
 								/>
@@ -43,14 +42,14 @@ const NpcNameListComponent = () => {
 						<Grid container spacing={12}>
 							<Grid size={6}>
 								<ReplacerListItem
-									flavour={flavour}
+									flavour={flavour.name}
 									sex={"Male"}
 									align="right"
 								/>
 							</Grid>
 							<Grid size={6}>
 								<ReplacerListItem
-									flavour={flavour}
+									flavour={flavour.name}
 									sex={"Female"}
 									align="left"
 								/>
@@ -59,14 +58,14 @@ const NpcNameListComponent = () => {
 						<Grid container spacing={12}>
 							<Grid size={6}>
 								<ReplacerListItem
-									flavour={flavour}
+									flavour={flavour.name}
 									sex={"Male"}
 									align="right"
 								/>
 							</Grid>
 							<Grid size={6}>
 								<ReplacerListItem
-									flavour={flavour}
+									flavour={flavour.name}
 									sex={"Female"}
 									align="left"
 								/>
