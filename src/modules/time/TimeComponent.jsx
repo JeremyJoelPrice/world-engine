@@ -31,8 +31,8 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 		<Paper
 			variant="outlined"
 			sx={{
-				gridColumn: "2 / 3",
-				gridRow: "2 / 3",
+				gridColumn: "2 / span 1",
+				gridRow: "2 / span 1",
 				padding: "15px"
 			}}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>

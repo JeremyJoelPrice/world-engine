@@ -42,7 +42,7 @@ const DashboardLayout = styled.div`
 	overflow: hidden;
 	position: relative;
 	display: grid;
-	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+	grid-template: repeat(2, 1fr) / repeat(3, 1fr);
 	place-items: safe stretch;
 	background-color: black;
 `;

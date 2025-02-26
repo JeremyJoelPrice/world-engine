@@ -74,8 +74,8 @@ const WeatherComponent = ({ datetime }) => {
 		<Paper
 			variant="outlined"
 			sx={{
-				gridColumn: "2 / 3",
-				gridRow: "1 / 2",
+				gridColumn: "2 / span 1",
+				gridRow: "1 / span 1",
 				display: "flex"
 			}}>
 			<FlexBox

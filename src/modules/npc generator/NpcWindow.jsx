@@ -14,8 +14,8 @@ const NpcWindow = () => {
 		<Paper
 			variant="outlined"
 			sx={{
-				gridColumn: "3 / 4",
-				gridRow: "1 / 4",
+				gridColumn: "3 / span 1",
+				gridRow: "1 / span 2",
 				paddingTop: "10px"
 			}}>
 			<Switch
