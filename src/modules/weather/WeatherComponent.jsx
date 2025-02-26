@@ -89,7 +89,8 @@ const WeatherComponent = ({ datetime }) => {
 			<FlexBox
 				sx={{
 					padding: "32px 20px 20px",
-					flexDirection: "column"
+					flexDirection: "column",
+					width: "fit-content"
 				}}>
 				<Grid container spacing={3}>
 					<Grid size={6} sx={{ minHeight: "50px" }}>
@@ -143,7 +144,7 @@ const WeatherComponent = ({ datetime }) => {
 						</DataRow>
 					</Grid>
 				</Grid>
-				<Card variant={"outlined"} sx={{ height: "120px" }}>
+				<Card variant={"outlined"} sx={{ flexGrow: 1 }}>
 					<CardContent>
 						<Typography
 							variant={"body2"}
@@ -152,6 +153,7 @@ const WeatherComponent = ({ datetime }) => {
 							}}>
 							{weather.wind.type}
 						</Typography>
+						<br />
 						<Typography>{weather.wind.description}</Typography>
 					</CardContent>
 				</Card>
