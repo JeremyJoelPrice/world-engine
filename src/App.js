@@ -10,6 +10,7 @@ import WeatherComponent from "./modules/weather/WeatherComponent";
 import TimeComponent from "./modules/time/TimeComponent";
 import { useState } from "react";
 import dayjs from "dayjs";
+import ProcedureComponent from "./modules/procedure/ProcedureComponent";
 
 const App = () => {
 	const darkTheme = createTheme({
@@ -24,6 +25,7 @@ const App = () => {
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
 			<DashboardLayout>
+				<ProcedureComponent />
 				<WeatherComponent datetime={datetime} />
 				<TimeComponent datetime={datetime} setDatetime={setDatetime} />
 				<NpcWindow />
