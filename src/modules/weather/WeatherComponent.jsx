@@ -9,7 +9,15 @@ import {
 	Slider,
 	Typography
 } from "@mui/material";
-import { Air, Cloud, Thermostat, WaterDrop } from "@mui/icons-material";
+import {
+	Air,
+	ArrowDownward,
+	ArrowUpward,
+	Cloud,
+	Thermostat,
+	WaterDrop,
+	WbTwilight
+} from "@mui/icons-material";
 import terrainTypes from "./data/terrainTypes";
 import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
@@ -116,6 +124,24 @@ const WeatherComponent = ({ datetime }) => {
 							</Typography>
 						</DataRow>
 					</Grid>
+					<Grid size={6} sx={{ minHeight: "50px" }}>
+						<DataRow>
+							<ArrowUpward fontSize={"small"} />
+							<WbTwilight fontSize={"small"} />
+							<Typography sx={{ margin: "auto 0" }}>
+								{`${formatHour(weather.daylight.sunrise)}`}
+							</Typography>
+						</DataRow>
+					</Grid>
+					<Grid size={6} sx={{ minHeight: "50px" }}>
+						<DataRow>
+							<ArrowDownward fontSize={"small"} />
+							<WbTwilight fontSize={"small"} />
+							<Typography sx={{ margin: "auto 0" }}>
+								{`${formatHour(weather.daylight.sunset)}`}
+							</Typography>
+						</DataRow>
+					</Grid>
 				</Grid>
 				<Card variant={"outlined"} sx={{ height: "120px" }}>
 					<CardContent>
@@ -193,6 +219,14 @@ const WeatherComponent = ({ datetime }) => {
 };
 
 export default WeatherComponent;
+
+/* helper functions */
+
+const formatHour = (hour) => {
+	if (hour === 24) return "00:00";
+	if (hour < 10) return `0${hour}:00`;
+	return `${hour}:00`;
+};
 
 /* other components */
 

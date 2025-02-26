@@ -25,6 +25,7 @@ export const generateWeather = (
 		weather.cloud = previousWeather.cloud;
 		weather.wind = previousWeather.wind;
 		weather.precipitation = previousWeather.precipitation;
+		weather.daylight = previousWeather.daylight
 		return weather;
 	}
 
@@ -42,6 +43,7 @@ export const generateWeather = (
 	weather.cloud = cloud;
 	weather.precipitation = precipitation;
 	weather.wind = getWind(roll(windFactor).value);
+	weather.daylight = getSunriseSunset(latitude, dayOfYear);
 
 	return weather;
 };
@@ -218,4 +220,38 @@ export function getWind(diceResult) {
 			0.4
 		)
 	};
+}
+
+function getSunriseSunset(latitude, dayOfYear) {
+	// this function returns sunrise/sunset to the nearest hour,
+	// assuming solar noon is 12pm
+	const degreesPerRadian = 180 / Math.PI;
+	const radiansPerDegree = Math.PI / 180;
+	const springEquinoxDayOfYear = 80;
+	const daysSinceSpringEquinox =
+		(dayOfYear - springEquinoxDayOfYear + 365) % 365;
+	const solarDeclination =
+		23.45 *
+		Math.sin(((360 * daysSinceSpringEquinox) / 365) * radiansPerDegree);
+	const solarHourAngle =
+		Math.acos(
+			Math.max(
+				Math.min(
+					-Math.tan(solarDeclination * radiansPerDegree) *
+						Math.tan(latitude * radiansPerDegree),
+					1.0
+				),
+				-1.0
+			)
+		) * degreesPerRadian;
+
+	/**
+	 * earth rotates at 15º/h
+	 * solarHourAngle / 15º = hours from sunrise to noon,
+	 * and therefore hours from noon to sunset
+	 */
+	const sunrise = Math.round(12 - solarHourAngle / 15);
+	const sunset = Math.round(12 + solarHourAngle / 15);
+
+	return { sunrise, sunset };
 }
