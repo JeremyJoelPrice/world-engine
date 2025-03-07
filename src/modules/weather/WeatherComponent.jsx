@@ -33,9 +33,24 @@ const WeatherComponent = ({ datetime }) => {
 	const [terrainType, setTerrainType] = useState(terrainTypes[0]);
 	const [isCoastal, setIsCoastal] = useState(false);
 	const [latitude, setLatitude] = useState(55);
-	const [weather, setWeather] = useState(
-		generateWeather(terrainType, latitude, false, dayOfYear)
-	);
+	const [weather, setWeather] = useState({
+		temperature: {
+			high: 0,
+			low: 0
+		},
+		cloud: "",
+		precipitation: "",
+		wind: {
+			type: "",
+			description: "",
+			speed: 0,
+			direction: ""
+		},
+		daylight: {
+			sunrise: 0,
+			sunset: 0
+		}
+	});
 	const [disabled, setDisabled] = useState();
 
 	const generate = () => {
