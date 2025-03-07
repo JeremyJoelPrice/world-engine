@@ -69,30 +69,6 @@ const WeatherComponent = ({ datetime }) => {
 		setDisabled(!isValidClimate(terrainType, latitude, isCoastal));
 	}, [terrainType, latitude, isCoastal]);
 
-	const latitudeMarks = [
-		{
-			value: 0
-		},
-		{
-			value: 25
-		},
-		{
-			value: 35
-		},
-		{
-			value: 45
-		},
-		{
-			value: 55
-		},
-		{
-			value: 75
-		},
-		{
-			value: 90
-		}
-	];
-
 	return (
 		<Paper
 			variant="outlined"
@@ -209,8 +185,6 @@ const WeatherComponent = ({ datetime }) => {
 					<Typography>latitude {latitude}°</Typography>
 					<Slider
 						defaultValue={55}
-						step={null}
-						marks={latitudeMarks}
 						max={90}
 						valueLabelDisplay="auto"
 						onChangeCommitted={(event, value) => setLatitude(value)}
