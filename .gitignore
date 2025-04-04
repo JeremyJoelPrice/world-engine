@@ -22,3 +22,4 @@ yarn-error.log*
 package-lock.json
 scratch.md
 ui.jpeg
+year_of_weather.csv

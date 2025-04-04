@@ -15,11 +15,14 @@ chance of mishap torches/exposed flames extinguished
 
 double check climate categories, beacuse:
 
--	bug: if it was raining, then temp is lower but the previous sky repeats (40% chance), rain should be converted to snow, but currently it stays as rain
+-	implementing the year of weather test has revealed that the climateLookup.js file yields unrealistically dry climates for coastal grassland & hills at Iceland's latitude. Time to decide whether it would be better to scrap this and design a newer, possibly simpler weather system
+-   bug: if it was raining, then temp is lower but the previous sky repeats (40%
+    chance), rain should be converted to snow, but currently it stays as rain
 -   swap precipitation periods for normal seasons, for simplicity
 -   terrains ideally shouldn't have multiple climate options
 -   all input combinations should ideally yield a valid climate
--	chance of fog, thunderstorm, and hail, and getTemperature() are currently not tested
+-   chance of fog, thunderstorm, and hail, and getTemperature() are currently
+    not tested
 
 implement extrapolating daily average temperature when the year ends during the
 extrapolated ranged (e.g. get winter temp when only spring and summer are
@@ -40,6 +43,33 @@ This app outputs:
 -   Cloud coverage & precipitation (if any)
 -   Wind strength & direction
 -   High and low temperatures for the current day
+
+### Weather JSON
+
+This is the JSON returned by weatherService's getWeather function.
+
+```
+{
+    "temperature": {
+        "high": 7,
+        "low": 2
+    },
+    "cloud": "dark stormclouds",
+    "precipitation": "none",
+    "wind": {
+        "type": "Light breeze",
+        "description": "Wind felt on face, leaves rustle, vanes move",
+        "speed": 6,
+        "direction": "W"
+    },
+    "daylight": {
+        "sunrise": 10,
+        "sunset": 14
+    }
+}
+```
+
+### Design
 
 The app begins by using the inputs to select a climate, loosely based on the
 Köpping system.

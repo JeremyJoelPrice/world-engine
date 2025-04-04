@@ -1,7 +1,9 @@
+import dayjs from "dayjs";
 import skyTable from "../modules/weather/data/skyTable";
 import terrainTypes from "../modules/weather/data/terrainTypes";
 import windTypes from "../modules/weather/data/windTypes";
 import {
+	generateWeather,
 	getAverageTemperatureOfGivenDay,
 	getClimate,
 	getPrecipitationChance,
@@ -374,3 +376,49 @@ describe("getSky", () => {
 		});
 	});
 });
+
+function yearOfWeather() {
+	const terrainType = "hills"; //from "../modules/weather/data/terrainTypes"
+	const latitude = 65;
+	const isCoastal = true;
+	let previousWeather;
+
+	let fileContents = `${
+		isCoastal ? "" : "non "
+	}coastal ${terrainType} at ${latitude} latitude\n`;
+	fileContents +=
+		"date,tempHigh,tempLow,cloud,precip,wind,speed,direction,sunrise,sunset\n";
+
+	for (let dayOfYear = 1; dayOfYear <= 365; dayOfYear++) {
+		const weather = generateWeather(
+			terrainType,
+			latitude,
+			isCoastal,
+			dayOfYear,
+			previousWeather
+		);
+
+		// write weather to fileContents
+		const date = dayjs("0793-01-01")
+			.add(dayOfYear - 1, "day")
+			.format("D MMM");
+
+		fileContents += `${date},`;
+		fileContents += `${weather.temperature.high}º,`;
+		fileContents += `${weather.temperature.low}º,`;
+		fileContents += `${weather.cloud},`;
+		fileContents += `${weather.precipitation},`;
+		fileContents += `${weather.wind.type},`;
+		fileContents += `${weather.wind.speed} mph,`;
+		fileContents += `${weather.wind.direction},`;
+		fileContents += `${weather.daylight.sunrise}:00,`;
+		fileContents += `${weather.daylight.sunset}:00\n`;
+	}
+
+	const fs = require("node:fs");
+	fs.writeFile("./src/__tests__/year_of_weather.csv", fileContents, (err) => {
+		if (err) console.error(err);
+	});
+}
+
+yearOfWeather();
