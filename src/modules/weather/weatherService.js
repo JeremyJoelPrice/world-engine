@@ -182,7 +182,7 @@ export function getSky(willPrecipitate, currentTemp) {
 	}
 
 	sky = rollOnTable(skyTable);
-	sky.precipitation = currentTemp.high <= 3 ? sky.snow : sky.rain;
+	sky.precipitation = Math.trunc((currentTemp.high + currentTemp.low) / 2) <= 0 ? sky.snow : sky.rain;
 
 	// chance of fog
 	if (

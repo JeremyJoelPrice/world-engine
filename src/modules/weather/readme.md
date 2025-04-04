@@ -59,7 +59,7 @@ Next to determine actual precipitation, cloud, and wind:
 -   If there is no previous weather and there is precipitation, a random
     selection is made.
 -   The clouds are directly read from the sky table, while the precipitation is
-    is rain or snow depending on the temperature.
+    rain or snow depending on the temperature.
 -   Finally a wind factor is given as part of the skyTable, which is a dice roll
     used to determine the actual wind from windTypes.js.
 
@@ -73,8 +73,6 @@ itself a simplified and game-ified version of the Köppen system.
 
 If you find the weather generated is not realistc enough, you can query real
 world data [here](https://www.visualcrossing.com/weather/weather-data-services).
-
-## Future Features
 
 ### Custom Calendars
 

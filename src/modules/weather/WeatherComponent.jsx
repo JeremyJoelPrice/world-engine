@@ -10,6 +10,7 @@ import {
 	Typography
 } from "@mui/material";
 import {
+	AcUnit,
 	Air,
 	ArrowDownward,
 	ArrowUpward,
@@ -110,7 +111,15 @@ const WeatherComponent = ({ datetime }) => {
 					</Grid>
 					<Grid size={6} sx={{ minHeight: "50px" }}>
 						<DataRow>
-							<WaterDrop fontSize={"small"} />
+							{Math.trunc(
+								(weather.temperature.high +
+									weather.temperature.low) /
+									2
+							) <= 0 ? (
+								<AcUnit fontSize={"small"} />
+							) : (
+								<WaterDrop fontSize={"small"} />
+							)}
 							<Typography sx={{ margin: "auto 0" }}>
 								{`${weather.precipitation}`}
 							</Typography>
