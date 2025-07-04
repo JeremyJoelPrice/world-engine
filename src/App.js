@@ -8,9 +8,11 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import WeatherComponent from "./modules/weather/WeatherComponent";
 import TimeComponent from "./modules/time/TimeComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 import ProcedureComponent from "./modules/procedure/ProcedureComponent";
+import lzString from "lz-string";
 
 const App = () => {
 	const myTheme = createTheme({
@@ -51,7 +53,22 @@ const App = () => {
 		}
 	});
 
-	const [datetime, setDatetime] = useState(dayjs("0793-06-08 00:00"));
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	// Load intial datetime from URL, fallback to default
+	const initialDateTime = (() => {
+		const encoded = searchParams.get("s");
+		if (!encoded) return "0793-06-08 00:00:00.000Z";
+		return decodeState(encoded);
+	})();
+
+	const [datetime, setDatetime] = useState(dayjs(initialDateTime));
+
+	// Sync datetime to URL on change
+	useEffect(() => {
+		const encoded = encodeState(datetime.toISOString());
+		setSearchParams({ s: encoded });
+	}, [datetime, setSearchParams]);
 
 	return (
 		<ThemeProvider theme={myTheme}>
@@ -67,6 +84,20 @@ const App = () => {
 };
 
 export default App;
+
+/* utility functions */
+
+const decodeState = (encoded) => {
+	try {
+		return JSON.parse(lzString.decompressFromEncodedURIComponent(encoded));
+	} catch {
+		return null;
+	}
+};
+
+const encodeState = (state) => {
+	return lzString.compressToEncodedURIComponent(JSON.stringify(state));
+};
 
 /* styled components */
 
