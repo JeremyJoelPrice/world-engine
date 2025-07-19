@@ -13,6 +13,7 @@ import { useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 import ProcedureComponent from "./modules/procedure/ProcedureComponent";
 import lzString from "lz-string";
+import terrainTypes from "./modules/weather/data/terrainTypes";
 
 const App = () => {
 	const myTheme = createTheme({
@@ -55,27 +56,59 @@ const App = () => {
 
 	const [searchParams, setSearchParams] = useSearchParams();
 
-	// Load intial datetime from URL, fallback to default
-	const initialDateTime = (() => {
+	// URL states
+	const initialStates = (() => {
 		const encoded = searchParams.get("s");
-		if (!encoded) return "0793-06-08 00:00:00.000Z";
-		return decodeState(encoded);
+		if (encoded) {
+			const decoded = decodeState(encoded);
+			return decoded;
+		}
+
+		const states = {
+			weather: {
+				terrainType: terrainTypes[3],
+				isCoastal: true,
+				latitude: 65
+			},
+			datetime: "0793-06-08 00:00:00.000Z"
+		};
+		return states;
 	})();
 
-	const [datetime, setDatetime] = useState(dayjs(initialDateTime));
+	const [terrainType, setTerrainType] = useState(
+		initialStates.weather.terrainType
+	);
+	const [isCoastal, setIsCoastal] = useState(initialStates.weather.isCoastal);
+	const [latitude, setLatitude] = useState(initialStates.weather.latitude);
+	const [datetime, setDatetime] = useState(dayjs(initialStates.datetime));
 
 	// Sync datetime to URL on change
 	useEffect(() => {
-		const encoded = encodeState(datetime.toISOString());
+		const encoded = encodeState({
+			datetime: datetime.toISOString(),
+			weather: {
+				terrainType,
+				isCoastal,
+				latitude
+			}
+		});
 		setSearchParams({ s: encoded });
-	}, [datetime, setSearchParams]);
+	}, [datetime, terrainType, isCoastal, latitude, setSearchParams]);
 
 	return (
 		<ThemeProvider theme={myTheme}>
 			<CssBaseline />
 			<DashboardLayout>
 				<ProcedureComponent />
-				<WeatherComponent datetime={datetime} />
+				<WeatherComponent
+					datetime={datetime}
+					terrainType={terrainType}
+					setTerrainType={setTerrainType}
+					isCoastal={isCoastal}
+					setIsCoastal={setIsCoastal}
+					latitude={latitude}
+					setLatitude={setLatitude}
+				/>
 				<TimeComponent datetime={datetime} setDatetime={setDatetime} />
 				<NpcWindow />
 			</DashboardLayout>
@@ -95,8 +128,8 @@ const decodeState = (encoded) => {
 	}
 };
 
-const encodeState = (state) => {
-	return lzString.compressToEncodedURIComponent(JSON.stringify(state));
+const encodeState = (states) => {
+	return lzString.compressToEncodedURIComponent(JSON.stringify(states));
 };
 
 /* styled components */

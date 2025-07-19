@@ -29,11 +29,16 @@ import StyledSelect from "../../components/StyledSelect";
 
 dayjs.extend(dayOfYear);
 
-const WeatherComponent = ({ datetime }) => {
+const WeatherComponent = ({
+	datetime,
+	terrainType,
+	setTerrainType,
+	isCoastal,
+	setIsCoastal,
+	latitude,
+	setLatitude
+}) => {
 	const dayOfYear = datetime.dayOfYear();
-	const [terrainType, setTerrainType] = useState(terrainTypes[0]);
-	const [isCoastal, setIsCoastal] = useState(false);
-	const [latitude, setLatitude] = useState(55);
 	const [weather, setWeather] = useState({
 		temperature: {
 			high: 0,
@@ -193,8 +198,8 @@ const WeatherComponent = ({ datetime }) => {
 				<Box sx={{ padding: "0 14px" }}>
 					<Typography>latitude {latitude}°</Typography>
 					<Slider
-						defaultValue={55}
 						max={90}
+						value={latitude}
 						valueLabelDisplay="auto"
 						onChangeCommitted={(event, value) => setLatitude(value)}
 						sx={{
