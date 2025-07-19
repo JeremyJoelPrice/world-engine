@@ -2,9 +2,7 @@ import { useState } from "react";
 import {
 	copyNpcAsText,
 	generateNpc,
-	getFlavoursByRace,
-	getRaces,
-	getSexesByRace
+	getNpcParameters
 } from "./npcGeneratorService";
 import {
 	Box,
@@ -19,35 +17,28 @@ import SmallBodyText from "../../components/SmallBodyText";
 import StyledSelect from "../../components/StyledSelect";
 
 const NpcGeneratorComponent = () => {
-	const races = getRaces();
-	const [flavours, setFlavours] = useState(getFlavoursByRace(races[0]));
-	const sexes = getSexesByRace(races[0]);
+	const npcParameters = getNpcParameters();
 
-	const [npcParameters, setNpcParameters] = useState({
+	const flavours = npcParameters.flavours;
+	const sexes = npcParameters.sexes;
+
+	const [chosenParameters, setChosenParameters] = useState({
 		sex: sexes[0],
-		race: races[0],
 		flavour: flavours[0].name
 	});
 
 	const [generatedNpc, setGeneratedNpc] = useState();
 
 	const handleChange = (k, v) => {
-		setNpcParameters((prevNpc) => {
+		setChosenParameters((prevNpc) => {
 			const newNpc = Object.assign({}, prevNpc);
 			newNpc[k] = v;
-
-			if (k === "race") {
-				const flavours = getFlavoursByRace(v);
-				newNpc.flavour = flavours[0].name;
-				setFlavours(flavours);
-			}
-
 			return newNpc;
 		});
 	};
 
 	return (
-		npcParameters && (
+		chosenParameters && (
 			<>
 				<Box
 					sx={{
@@ -60,21 +51,14 @@ const NpcGeneratorComponent = () => {
 					<StyledSelect
 						label="Sex"
 						optionsArray={sexes}
-						value={npcParameters.sex}
+						value={chosenParameters.sex}
 						setValue={(value) => handleChange("sex", value)}
-					/>
-
-					<StyledSelect
-						label="Race"
-						optionsArray={races}
-						value={npcParameters.race}
-						setValue={(value) => handleChange("race", value)}
 					/>
 
 					<StyledSelect
 						label="Flavour"
 						optionsArray={flavours.map(({ name }) => name)}
-						value={npcParameters.flavour}
+						value={chosenParameters.flavour}
 						setValue={(value) => handleChange("flavour", value)}
 					/>
 				</Box>
@@ -88,7 +72,7 @@ const NpcGeneratorComponent = () => {
 						variant="contained"
 						size="large"
 						onClick={() =>
-							generateNpc(npcParameters, setGeneratedNpc)
+							generateNpc(chosenParameters, setGeneratedNpc)
 						}>
 						Generate
 					</Button>
@@ -129,7 +113,7 @@ const NpcCard = ({ displayNpc }) => {
 						cursor: "pointer"
 					}}>
 					<Typography variant="h6">{displayNpc.name}</Typography>
-					<Typography variant="body">{`${displayNpc.sex} ${displayNpc.race} ${displayNpc.highConcept.name}`}</Typography>
+					<Typography variant="body">{`${displayNpc.sex} ${displayNpc.highConcept.name}`}</Typography>
 					<SmallBodyText>
 						{`(${displayNpc.highConcept.description})`}
 						<br />

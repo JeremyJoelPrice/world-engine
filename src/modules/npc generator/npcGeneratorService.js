@@ -8,18 +8,13 @@ import {
 import flavours from "./data/flavours/index.js";
 
 /* getters for displayable menu options */
-
-export const getFlavoursByRace = (race) => {
-	if (race === "Dwarf") return [flavours.dwarf];
-	return [flavours.nordlanðr, flavours.asculum, flavours.celtic];
+const npcParameters = {
+	sexes: ["Female", "Male"],
+	flavours: Object.keys(flavours).map((k) => flavours[k])
 };
 
-export const getRaces = () => {
-	return ["Human", "Dwarf"];
-};
-
-export const getSexesByRace = () => {
-	return ["Random", "Female", "Male"];
+export const getNpcParameters = () => {
+	return npcParameters;
 };
 
 /* generators for creating NPCs */
@@ -30,12 +25,12 @@ export const generateName = (sex, flavour) => {
 		.generateName(sex);
 };
 
-export const generateNpc = (npcParameters, setGeneratedNpc) => {
-	const npcTemplate = Object.assign({}, npcParameters);
+export const generateNpc = (chosenParameters, setGeneratedNpc) => {
+	const npcTemplate = Object.assign({}, chosenParameters);
 
 	// resolve random sex
 	if (npcTemplate.sex === "Random") {
-		npcTemplate.sex = Math.random() < 0.5 ? "Female" : "Male";
+		npcTemplate.sex = rollOnTable(npcParameters.sexes);
 	}
 
 	// create actual npc
@@ -46,7 +41,6 @@ export const generateNpc = (npcParameters, setGeneratedNpc) => {
 	}
 	const actualNpc = {
 		sex: npcTemplate["sex"],
-		race: npcTemplate["race"],
 		highConcept: rollOnTable(highConcepts),
 		approach1,
 		approach2,
@@ -59,6 +53,6 @@ export const generateNpc = (npcParameters, setGeneratedNpc) => {
 };
 
 export const copyNpcAsText = (generatedNpc) => {
-	let npcString = `${generatedNpc.name}\n${generatedNpc.sex} ${generatedNpc.race}\n${generatedNpc.highConcept.name}\n${generatedNpc.highConcept.description}\n${generatedNpc.approach1}/${generatedNpc.approach2}\nLeverage: ${generatedNpc.leverage}`;
+	let npcString = `${generatedNpc.name}\n${generatedNpc.sex}\n${generatedNpc.highConcept.name}\n${generatedNpc.highConcept.description}\n${generatedNpc.approach1}/${generatedNpc.approach2}\nLeverage: ${generatedNpc.leverage}`;
 	navigator.clipboard.writeText(npcString);
 };
