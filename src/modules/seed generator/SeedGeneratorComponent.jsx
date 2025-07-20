@@ -2,7 +2,6 @@ import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import colors from "../../components/Colors";
 import {
-	generate3Degrees,
 	generateAgenda,
 	generateAsset,
 	generateEvent,

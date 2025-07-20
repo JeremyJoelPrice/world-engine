@@ -6367,16 +6367,20 @@ exports.expertise = {
 	common: [
 		"Animal husbandry",
 		"Beauty grooming and styling",
+		"Blacksmithing",
 		"Brewing",
 		"Building fires & pyres",
 		"Construction & carptentry",
 		"Farming",
+		"Fishing",
+		"Fletching",
 		"Foresting",
 		"Healing & herbalism",
 		"Hunting & trapping",
 		"Foraging & extracting samples",
 		"Local wilderness",
 		"Sailing",
+		"Shepherding",
 		"Tanning & leatherwork"
 	],
 	uncommon: [
@@ -6385,42 +6389,17 @@ exports.expertise = {
 		"Delving & caving",
 		"Distant lands",
 		"Dwarven relics",
+		"Elves & woodlanders",
 		"Galder magic",
 		"Music and poetry",
 		"Outdoor survival",
 		"Politics of Norðland",
 		"Raiding & battle",
 		"Seiðr and witchcraft",
+		"Skaldic poetry",
 		"Tactics and strategy",
 		"The gods and fate",
 		"Trade & mercantile",
 		"Weapon techniques"
 	]
 };
-
-/* Other Lists */
-
-const mood = [
-	"They're joyful",
-	"They're anxious",
-	"They're content",
-	"They're frustrated",
-	"They're energetic",
-	"They're calm",
-	"They're melancholy",
-	"They're excited",
-	"They're bored",
-	"They're confused",
-	"They're optimistic",
-	"They're lonely",
-	"They're irritated",
-	"They're serene",
-	"They're stressed",
-	"They're peaceful",
-	"They're amused",
-	"They're sad",
-	"They're enthusiastic",
-	"They're nostalgic"
-];
-
-
