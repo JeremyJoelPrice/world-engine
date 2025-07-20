@@ -165,8 +165,8 @@ exports.events = [
 	"went on a dangerous voyage",
 	"explored a new land",
 	"suffered a monster attack",
-	"they helped resolve a legal dispute",
-	"they vouched for me at the þing"
+	"resolved a legal dispute together",
+	"attended a þing where they vouched for me"
 ];
 
 exports.eventOutcomes = [
