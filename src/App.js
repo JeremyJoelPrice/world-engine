@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import ProcedureComponent from "./modules/procedure/ProcedureComponent";
 import lzString from "lz-string";
 import terrainTypes from "./modules/weather/data/terrainTypes";
+import SeedGeneratorComponent from "./modules/seed generator/SeedGeneratorComponent";
 
 const App = () => {
 	const myTheme = createTheme({
@@ -111,6 +112,7 @@ const App = () => {
 				/>
 				<TimeComponent datetime={datetime} setDatetime={setDatetime} />
 				<NpcWindow />
+				<SeedGeneratorComponent />
 			</DashboardLayout>
 		</ThemeProvider>
 	);

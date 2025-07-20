@@ -4,13 +4,7 @@ import {
 	generateNpc,
 	npcParameters
 } from "./npcGeneratorService";
-import {
-	Box,
-	Button,
-	Container,
-	Paper,
-	Typography
-} from "@mui/material";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import SmallBodyText from "../../components/SmallBodyText";
 import StyledSelect from "../../components/StyledSelect";
 import Copyable from "../../components/Copyable";
@@ -59,7 +53,7 @@ const NpcGeneratorComponent = () => {
 						setValue={(value) => handleChange("flavour", value)}
 					/>
 				</Box>
-				<br />
+
 				<Container
 					sx={{
 						display: "flex",
@@ -67,14 +61,13 @@ const NpcGeneratorComponent = () => {
 					}}>
 					<Button
 						variant="contained"
-						size="large"
 						onClick={() =>
 							generateNpc(chosenParameters, setGeneratedNpc)
 						}>
 						Generate
 					</Button>
 				</Container>
-				<br />
+
 				{generatedNpc && <NpcCard npc={generatedNpc} />}
 			</>
 		)
@@ -90,10 +83,10 @@ const NpcCard = ({ npc }) => {
 		<Container>
 			<Copyable copyFunc={() => copyNpcAsText(npc)}>
 				<Paper
-					elevation={3}
+					elevation={1}
 					sx={{
 						margin: "5px",
-						padding: "25px",
+						padding: "10px",
 						textAlign: "center"
 					}}>
 					<Typography variant="h6">{npc.name}</Typography>

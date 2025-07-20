@@ -15,7 +15,7 @@ const NpcWindow = () => {
 			variant="outlined"
 			sx={{
 				gridColumn: "3 / span 1",
-				gridRow: "1 / span 2",
+				gridRow: "1 / span 1",
 				paddingTop: "10px"
 			}}>
 			<Switch

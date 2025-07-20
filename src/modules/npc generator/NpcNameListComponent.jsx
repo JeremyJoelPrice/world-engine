@@ -9,7 +9,7 @@ const NpcNameListComponent = () => {
 	return (
 		<Box sx={{ textAlign: "center" }}>
 			<Box>
-				<Grid container spacing={12}>
+				<Grid container spacing={8}>
 					<Grid size={6}>
 						<Typography textAlign={"right"}>male</Typography>
 					</Grid>
@@ -22,7 +22,7 @@ const NpcNameListComponent = () => {
 				return (
 					<div key={index}>
 						<Typography variant="h6">{flavour.name}</Typography>
-						<Grid container spacing={12}>
+						<Grid container spacing={8}>
 							<Grid size={6}>
 								<ReplacerListItem
 									flavour={flavour.name}
@@ -38,23 +38,7 @@ const NpcNameListComponent = () => {
 								/>
 							</Grid>
 						</Grid>
-						<Grid container spacing={12}>
-							<Grid size={6}>
-								<ReplacerListItem
-									flavour={flavour.name}
-									sex={"Male"}
-									align="right"
-								/>
-							</Grid>
-							<Grid size={6}>
-								<ReplacerListItem
-									flavour={flavour.name}
-									sex={"Female"}
-									align="left"
-								/>
-							</Grid>
-						</Grid>
-						<Grid container spacing={12}>
+						<Grid container spacing={8}>
 							<Grid size={6}>
 								<ReplacerListItem
 									flavour={flavour.name}
