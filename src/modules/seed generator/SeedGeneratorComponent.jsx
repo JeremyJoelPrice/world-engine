@@ -23,7 +23,7 @@ const SeedGeneratorComponent = () => {
 	const [asset, setAsset] = useState("");
 
 	const copyPlot = () => {
-		const plotString = `I want to ${agenda},\nbut I can't because ${limitation},\nhowever, I have ${asset}`;
+		const plotString = `They want to ${agenda},\nbut they can't because ${limitation},\nhowever, they have ${asset}`;
 
 		navigator.clipboard.writeText(plotString);
 	};

@@ -185,7 +185,7 @@ exports.innerCircleFunctions = [
 		label: "second",
 		desc: "they know my goals and how I will achieve them"
 	},
-	{ label: "servant", desc: "they know how to keep things running" },
+	{ label: "servant", desc: "they keep things running for me" },
 	{ label: "mentor", desc: "they answer my questions and help me plan" },
 	{
 		label: "gossip",
@@ -196,5 +196,3 @@ exports.innerCircleFunctions = [
 		desc: "they make connections, and find a use for everyone"
 	}
 ];
-
-/* Inner Circle */
