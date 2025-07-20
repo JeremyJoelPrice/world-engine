@@ -63,7 +63,7 @@ const SeedGeneratorComponent = () => {
 			} while (degrees.includes(degree));
 			degrees.push(degree);
 		}
-		const result = `They're my ${degrees[0]}'s ${degrees[1]}'s, ${degrees[2]}.`;
+		const result = `They're my ${degrees[0]}'s ${degrees[1]}'s ${degrees[2]}.`;
 		setThreeDegrees(result);
 	};
 	const copy3Degrees = () => {
@@ -76,7 +76,9 @@ const SeedGeneratorComponent = () => {
 	const copyInnerCircle = () => {
 		let string = "";
 		innerCircle.forEach((e) => {
-			string += `${e.label.toUpperCase()}; my ${e.relation}\n- ${e.desc}\n- they have ${e.asset}\n- but ${e.limit}\n`;
+			string += `${e.label.toUpperCase()}; my ${e.relation}\n- ${
+				e.desc
+			}\n- they have ${e.asset}\n- but ${e.limit}\n`;
 		});
 		navigator.clipboard.writeText(string);
 	};
@@ -147,9 +149,9 @@ const SeedGeneratorComponent = () => {
 											}>
 											{limitation}
 										</Replaceable>
-										,
+										.
 										<br />
-										however, they have{" "}
+										However, they have{" "}
 										<Replaceable
 											replace={() =>
 												generateAsset(setAsset)
@@ -198,8 +200,8 @@ const SeedGeneratorComponent = () => {
 												.toUpperCase() +
 												innerCirlceFunction.desc.substring(
 													1
-												)}{" "}
-											({innerCirlceFunction.label}).
+												)}
+											.
 										</Replaceable>
 									</Typography>
 								</Copyable>

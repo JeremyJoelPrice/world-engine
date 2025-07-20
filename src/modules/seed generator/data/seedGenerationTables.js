@@ -1,6 +1,7 @@
 /* Plot */
 
 exports.agenda = [
+	// They want to...
 	"murder someone",
 	"earn tribute from someone else's raid",
 	"discredit a rival",
@@ -33,11 +34,13 @@ exports.agenda = [
 ];
 
 exports.assets = [
+	// They have...
+
 	// relationships
 	"a network of friends/allies",
 	"a teacher who can impart a great skill",
 	"a faithful & skilled ally",
-	"reluctant rival-partner in their ambition",
+	"a reluctant rival-partner in their ambition",
 	"an expendable mercenary",
 	"guidance from a seiðkona",
 	"a benefactor supporting them",
@@ -54,13 +57,13 @@ exports.assets = [
 	"a book with critical information in it",
 	"a dwarven relic",
 	"access to secret or forbidden knowledge",
-	"a hidden sanctuary or safe haven",
+	"a hidden sanctuary",
 	"an ancestral weapon or heirloom",
 	"a potent and mysterious elixir",
 	"a secret which could undermine my opposition",
 	// abilities
 	"personal strength",
-	"they are willing to sacrifice everything for this",
+	"willingness to sacrifice everything for this",
 	"limited powers of prophecy",
 	"shapeshifting powers",
 	"specialized training or education",
@@ -70,12 +73,13 @@ exports.assets = [
 ];
 
 exports.limits = [
+	// they're stuck because...
 	'a jealous "ally" is sabotaging them',
 	"their addiction is crippling",
 	"their patron wants a favor",
 	"they're consumed with envy & regret",
 	"an amicable rival opposes them",
-	"of an awful coincidence",
+	"an awful coincidence just happened",
 	"a deal came back with bitter consequences",
 	"they've had a run of bad luck",
 	"their ambitious crime is having consequences",
@@ -98,7 +102,9 @@ exports.limits = [
 	"they underestimated their opposition",
 	"their reputation is being eroded",
 	"someone they love keeps making awful choices",
-	"they've discovered that an underling plots against them"
+	"they've discovered that an underling plots against them",
+	"an undead foe has their scent",
+	"a vampire is toying with them"
 ];
 
 /* Relationships */
