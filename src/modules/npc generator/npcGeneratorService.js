@@ -3,9 +3,7 @@ import roll from "../../util/roll";
 import {
 	approach,
 	characterisation,
-	expertise,
-	highConcepts,
-	leverage
+	expertise
 } from "./data/npcGenerationTables";
 import flavours from "./data/flavours/index.js";
 

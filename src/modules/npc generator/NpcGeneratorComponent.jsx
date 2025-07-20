@@ -8,12 +8,9 @@ import {
 	Box,
 	Button,
 	Container,
-	Fade,
 	Paper,
-	Tooltip,
 	Typography
 } from "@mui/material";
-import { ContentCopy } from "@mui/icons-material";
 import SmallBodyText from "../../components/SmallBodyText";
 import StyledSelect from "../../components/StyledSelect";
 import Copyable from "../../components/Copyable";
