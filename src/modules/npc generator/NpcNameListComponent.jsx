@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { generateName, getNpcParameters } from "./npcGeneratorService";
+import { generateName, npcParameters } from "./npcGeneratorService";
 import { Box, debounce, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { keyframes } from "@emotion/react";
@@ -18,7 +18,7 @@ const NpcNameListComponent = () => {
 					</Grid>
 				</Grid>
 			</Box>
-			{getNpcParameters().flavours.map((flavour, index) => {
+			{npcParameters.flavours.map((flavour, index) => {
 				return (
 					<div key={index}>
 						<Typography variant="h6">{flavour.name}</Typography>

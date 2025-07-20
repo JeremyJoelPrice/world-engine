@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
 	copyNpcAsText,
 	generateNpc,
-	getNpcParameters
+	npcParameters
 } from "./npcGeneratorService";
 import {
 	Box,
@@ -13,14 +13,14 @@ import {
 	Tooltip,
 	Typography
 } from "@mui/material";
+import { ContentCopy } from "@mui/icons-material";
 import SmallBodyText from "../../components/SmallBodyText";
 import StyledSelect from "../../components/StyledSelect";
+import Copyable from "../../components/Copyable";
 
 const NpcGeneratorComponent = () => {
-	const npcParameters = getNpcParameters();
-
 	const flavours = npcParameters.flavours;
-	const sexes = npcParameters.sexes;
+	const sexes = ["Random", ...npcParameters.sexes];
 
 	const [chosenParameters, setChosenParameters] = useState({
 		sex: sexes[0],
@@ -78,7 +78,7 @@ const NpcGeneratorComponent = () => {
 					</Button>
 				</Container>
 				<br />
-				{generatedNpc && <NpcCard displayNpc={generatedNpc} />}
+				{generatedNpc && <NpcCard npc={generatedNpc} />}
 			</>
 		)
 	);
@@ -88,43 +88,39 @@ export default NpcGeneratorComponent;
 
 /* Other Components */
 
-const NpcCard = ({ displayNpc }) => {
-	const [open, setSexOpen] = useState(false);
-
+const NpcCard = ({ npc }) => {
 	return (
 		<Container>
-			<Tooltip
-				title="copied"
-				followCursor={true}
-				open={open}
-				TransitionComponent={Fade}
-				TransitionProps={{ timeout: 500 }}>
+			<Copyable copyFunc={() => copyNpcAsText(npc)}>
 				<Paper
 					elevation={3}
-					onClick={() => {
-						setSexOpen(true);
-						copyNpcAsText(displayNpc);
-						setTimeout(() => setSexOpen(false), 1100);
-					}}
 					sx={{
 						margin: "5px",
 						padding: "25px",
-						textAlign: "center",
-						cursor: "pointer"
+						textAlign: "center"
 					}}>
-					<Typography variant="h6">{displayNpc.name}</Typography>
-					<Typography variant="body">{`${displayNpc.sex} ${displayNpc.highConcept.name}`}</Typography>
+					<Typography variant="h6">{npc.name}</Typography>
 					<SmallBodyText>
-						{`(${displayNpc.highConcept.description})`}
+						{npc.flavour} {npc.sex}
 						<br />
-						{displayNpc.characterisation}
+						{npc.characterisationPhysical}
 						<br />
-						{`${displayNpc.approach1}/${displayNpc.approach2}`}
+						{npc.characterisationNonphysical}
 						<br />
-						{`Leverage: ${displayNpc.leverage}`}
+						{npc.characterisationHair}
+						<br />
+						<br />
+						Honour/Reputation: {npc.honour}
+						<br />
+						Prefers to: {npc.approach1}
+						<br />
+						Last resort: {npc.approach2}
+						<br />
+						<br />
+						Expertise: {npc.expertise}
 					</SmallBodyText>
 				</Paper>
-			</Tooltip>
+			</Copyable>
 		</Container>
 	);
 };

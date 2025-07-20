@@ -1,23 +1,69 @@
 import { rollOnTable } from "../../util/common";
+import roll from "../../util/roll";
 import {
 	approach,
 	characterisation,
+	expertise,
 	highConcepts,
 	leverage
 } from "./data/npcGenerationTables";
 import flavours from "./data/flavours/index.js";
 
-/* getters for displayable menu options */
-const npcParameters = {
+/* displayable menu options */
+
+export const npcParameters = {
 	sexes: ["Female", "Male"],
-	flavours: Object.keys(flavours).map((k) => flavours[k])
+	flavours: Object.keys(flavours).map((k) => flavours[k]),
+	honour: [
+		"Bad (-1)",
+		"Poor (+0)",
+		"Fair (+1)",
+		"Good (+2)",
+		"Great (+3)",
+		"Legendary (+4)"
+	]
 };
 
-export const getNpcParameters = () => {
-	return npcParameters;
-};
+/* NPC generator & helper functions */
+export const generateNpc = (chosenParameters, setGeneratedNpc) => {
+	const npc = {};
 
-/* generators for creating NPCs */
+	// resolve random sex
+	npc.sex =
+		chosenParameters.sex === "Random"
+			? rollOnTable(npcParameters.sexes)
+			: chosenParameters.sex;
+
+	npc.name = generateName(npc.sex, chosenParameters.flavour);
+
+	// approaches
+	const approach1 = rollOnTable(approach);
+	let approach2 = rollOnTable(approach);
+	while (approach2 === approach1) {
+		approach2 = rollOnTable(approach);
+	}
+
+	// build & return npc object
+	npc.flavour = chosenParameters.flavour;
+	npc.characterisationPhysical = rollOnTable(
+		characterisation.physicalCharacterisation
+	);
+	npc.characterisationNonphysical = rollOnTable(
+		characterisation.nonphysicalCharacterisation
+	);
+	npc.characterisationHair = rollOnTable(
+		characterisation.hairCharacterisation
+	);
+	npc.approach1 = approach1;
+	npc.approach2 = approach2;
+	npc.honour = generateHonour();
+	npc.expertise =
+		Math.random() > 0.75
+			? rollOnTable(expertise.uncommon)
+			: rollOnTable(expertise.common);
+
+	setGeneratedNpc(npc);
+};
 
 export const generateName = (sex, flavour) => {
 	return Object.values(flavours)
@@ -25,34 +71,14 @@ export const generateName = (sex, flavour) => {
 		.generateName(sex);
 };
 
-export const generateNpc = (chosenParameters, setGeneratedNpc) => {
-	const npcTemplate = Object.assign({}, chosenParameters);
-
-	// resolve random sex
-	if (npcTemplate.sex === "Random") {
-		npcTemplate.sex = rollOnTable(npcParameters.sexes);
-	}
-
-	// create actual npc
-	const approach1 = rollOnTable(approach);
-	let approach2 = rollOnTable(approach);
-	while (approach2 === approach1) {
-		approach2 = rollOnTable(approach);
-	}
-	const actualNpc = {
-		sex: npcTemplate["sex"],
-		highConcept: rollOnTable(highConcepts),
-		approach1,
-		approach2,
-		characterisation: rollOnTable(characterisation),
-		leverage: rollOnTable(leverage)
-	};
-	actualNpc.name = generateName(npcTemplate["sex"], npcTemplate["flavour"]);
-
-	setGeneratedNpc(actualNpc);
+const generateHonour = () => {
+	const dice = roll("2d6");
+	const result = Math.floor(dice.value / 2 - 1);
+	return npcParameters.honour[result];
 };
 
-export const copyNpcAsText = (generatedNpc) => {
-	let npcString = `${generatedNpc.name}\n${generatedNpc.sex}\n${generatedNpc.highConcept.name}\n${generatedNpc.highConcept.description}\n${generatedNpc.approach1}/${generatedNpc.approach2}\nLeverage: ${generatedNpc.leverage}`;
+export const copyNpcAsText = (npc) => {
+	let npcString = `${npc.name}\n${npc.flavour} ${npc.sex}\n${npc.characterisationPhysical}\n${npc.characterisationNonphysical}\n${npc.characterisationHair}\n\nHonour/Reputation: ${npc.honour}\nPrefers to: ${npc.approach1}\nLast resort: ${npc.approach2}\n\nExpertise: ${npc.expertise}`;
+
 	navigator.clipboard.writeText(npcString);
 };
