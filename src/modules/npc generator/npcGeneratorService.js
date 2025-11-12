@@ -13,12 +13,13 @@ export const npcParameters = {
 	sexes: ["Female", "Male"],
 	flavours: Object.keys(flavours).map((k) => flavours[k]),
 	honour: [
-		"Bad (-1)",
-		"Poor (+0)",
-		"Fair (+1)",
-		"Good (+2)",
-		"Great (+3)",
-		"Legendary (+4)"
+		"Terrible (-3)",
+		"Grim (-2)",
+		"Poor (-1)",
+		"Fair (+0)",
+		"Good (+1)",
+		"Great (+2)",
+		"Excellent (+3)"
 	]
 };
 
@@ -70,7 +71,7 @@ export const generateName = (sex, flavour) => {
 };
 
 const generateHonour = () => {
-	const dice = roll("2d6");
+	const dice = roll("2d7");
 	const result = Math.floor(dice.value / 2 - 1);
 	return npcParameters.honour[result];
 };
