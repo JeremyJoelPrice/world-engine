@@ -163,7 +163,6 @@ exports.relations = [
 
 exports.events = [
 	"went raiding together",
-	"fucked one time",
 	"went hunting",
 	"recovered a dwarven relic",
 	"fought a battle",
