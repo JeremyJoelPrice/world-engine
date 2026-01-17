@@ -175,8 +175,14 @@ const WeatherComponent = ({
 					flexDirection: "column"
 				}}>
 				<Box>
+					<Button
+					size="small"
+						onClick={() => {
+							console.log("click");
+						}}>
+						Generic Climates
+					</Button>
 					<StyledSelect
-						label="Terrain Type"
 						optionsArray={terrainTypes}
 						value={terrainType}
 						setValue={setTerrainType}
