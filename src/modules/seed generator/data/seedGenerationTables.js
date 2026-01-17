@@ -163,7 +163,6 @@ exports.relations = [
 
 exports.events = [
 	"went raiding together",
-	"fucked one time",
 	"went hunting",
 	"recovered a dwarven relic",
 	"fought a battle",
@@ -201,4 +200,95 @@ exports.innerCircleFunctions = [
 		label: "promotor",
 		desc: "they make connections, and find a use for everyone"
 	}
+];
+
+/* Quests */
+
+exports.verbs = [
+	"Save",
+	"Kill",
+	"Steal",
+	"Recover",
+	"Destroy",
+	"Raid",
+	"Sabotage",
+	"Repair",
+	"Create",
+	"Recover",
+	"Rescue",
+	"Infiltrate",
+	"Protect",
+	"Deliver",
+	"Discover",
+	"Capture",
+	"Retrieve",
+	"Negotiate",
+	"Defend",
+	"Track",
+	"Interrogate"
+];
+
+exports.nouns = {
+	people: [
+		// NPCs, monsters, groups
+		"a warband",
+		"an exile",
+		"a troll",
+		"a child of Fenrir",
+		"a troubled king",
+		"a concerned queen",
+		"a mighty drengr",
+		"a werewolf",
+		"a sea troll",
+		"a foreign warrior",
+		"a crusader",
+		"a priest of The Light",
+		"an elf",
+		"a seiðkona",
+		"an innocent clansman",
+		"a child from a nearby settlement",
+		"a beloved pet",
+		"a farm animal who swallowed a relic"
+	],
+	places: [
+		"a dwarven megastructure",
+		"an Asculum fortress-church",
+		"a jarl's hall",
+		"a sacred grove",
+		"the slopes of a volcano",
+		"a fjord",
+		"a grotto"
+	],
+	objects: [
+		"a famous ship",
+		"a family sword",
+		"an heirloom trinket",
+		"a piece of magical jewellery",
+		"a chest of silver",
+		"the pelt of a monster",
+		"an obscure monster sample",
+		"an obscure herb/ingredient",
+		"a dwarven relic",
+		"a crusader's sword",
+		"a Gospel of The Light",
+		"a dwarven automaton",
+		"an artistic masterpiece",
+		"a branch of Yggdrasil"
+	],
+	abstract: ["relationship", "agreement", "contract", "information/clue"]
+};
+
+exports.opposition = [""];
+
+exports.complication = [
+	"exposure",
+	"disease",
+	"a violent storm",
+	"toxic plantlife",
+	"mosntrous predators",
+	"a stampede of swinefolk",
+	"a shifting glacier",
+	"a volcanic eruption",
+	"a detachment of crusaders",
+	"a shakespearean drama"
 ];

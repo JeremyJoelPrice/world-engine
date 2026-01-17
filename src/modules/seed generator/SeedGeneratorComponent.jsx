@@ -83,6 +83,14 @@ const SeedGeneratorComponent = () => {
 		navigator.clipboard.writeText(string);
 	};
 
+	/* quest */
+	const [quest, setQuest] = useState("");
+
+	const copyQuest = () => {
+		let string = "";
+		navigator.clipboard.writeText(string);
+	};
+
 	return (
 		<Paper
 			variant="outlined"
@@ -117,6 +125,13 @@ const SeedGeneratorComponent = () => {
 							generateInnerCircle(setInnerCircle);
 						}}>
 						Inner Circle
+					</Button>
+					<Button
+						onClick={() => {
+							setDisplay("quest");
+							// generateQuest(setQuest);
+						}}>
+						Quest
 					</Button>
 				</Box>
 				<Box>
@@ -224,7 +239,8 @@ const SeedGeneratorComponent = () => {
 													{e.label.toUpperCase()}; my{" "}
 													{e.relation}
 													<br />
-													<li>They have {e.asset}</li>
+													<li>{e.desc}</li>
+													<li>they have {e.asset}</li>
 													<li>but {e.limit}</li>
 												</>
 											);
