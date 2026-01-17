@@ -78,11 +78,7 @@ export function getTemperature(climate, dayOfYear) {
 	const diurnal = high - low;
 
 	high = high + roll("2d12-13").value;
-	low = diurnal + roll("2d8-9").value;
-
-	if (low >= high) {
-		low = high - diurnal;
-	}
+	low = Math.min(low + roll("2d8-9").value, high - diurnal);
 
 	return {
 		high,
