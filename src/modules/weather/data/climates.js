@@ -22,26 +22,18 @@ const climates = [
 		precipPeriods: [
 			{
 				firstDay: 91,
-
-				disregardHemisphere: true,
 				percentChance: 0.35
 			},
 			{
 				firstDay: 121,
-
-				disregardHemisphere: true,
 				percentChance: 0.85
 			},
 			{
 				firstDay: 274,
-
-				disregardHemisphere: true,
 				percentChance: 0.35
 			},
 			{
 				firstDay: 305,
-
-				disregardHemisphere: true,
 				percentChance: 0.1
 			}
 		]
@@ -65,17 +57,14 @@ const climates = [
 		precipPeriods: [
 			{
 				firstDay: 1,
-				disregardHemisphere: true,
 				percentChance: 0.3
 			},
 			{
 				firstDay: 60,
-				disregardHemisphere: true,
 				percentChance: 0.5
 			},
 			{
 				firstDay: 152,
-				disregardHemisphere: true,
 				percentChance: 0.4
 			}
 		]
@@ -91,12 +80,10 @@ const climates = [
 		precipPeriods: [
 			{
 				firstDay: 152,
-				disregardHemisphere: true,
 				percentChance: 0.9
 			},
 			{
 				firstDay: 305,
-				disregardHemisphere: true,
 				percentChance: 0.15
 			}
 		]
@@ -173,5 +160,4 @@ const climates = [
 		precipPeriods: [{ firstDay: 1, percentChance: 0.1 }]
 	}
 ];
-
 export default climates;
