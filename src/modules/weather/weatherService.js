@@ -93,7 +93,7 @@ export function getTemperature(climate, dayOfYear) {
 export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
 	// If climate has only one season, return that season's temperature
 	if (Object.keys(climate.seasons).length === 1) {
-		return climate.seasons.summer;
+		return Object.values(climate.seasons)[0];
 	}
 
 	// Define season durations with their first days
@@ -105,62 +105,69 @@ export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
 	];
 
 	// Determine current season based on day of the year
-	const currentSeason = seasonDurations.reduce(
-		(season, { name, firstDay }) => {
-			return dayOfYear >= firstDay ? name : season;
-		},
-		"winter"
-	);
+	const currentSeason =
+		[...seasonDurations].reverse().find((s) => dayOfYear >= s.firstDay)
+			?.name || "winter";
 
-	// Return temperatures if current season exists in climate
+	// Return early if current season explicitely exists in climate object
 	if (climate.seasons[currentSeason]) {
 		return climate.seasons[currentSeason];
+	} else {
+		// Get neighbouring seasons
+		const currentIndex = seasonDurations.findIndex(
+			(s) => s.name === currentSeason
+		);
+		const prevSeason =
+			seasonDurations[
+				(currentIndex - 1 + seasonDurations.length) %
+					seasonDurations.length
+			].name;
+		const nextSeason =
+			seasonDurations[(currentIndex + 1) % seasonDurations.length].name;
+
+		// Helper: linear interpolation between two values
+		const lerp = (start, end, t) => start + (end - start) * t;
+
+		const prevSeasonObj =
+			climate.seasons[prevSeason] || climate.seasons[nextSeason];
+		const nextSeasonObj =
+			climate.seasons[nextSeason] || climate.seasons[prevSeason];
+
+		// Determine transition boundaries
+		const lastDayOfPrevTemp = seasonDurations[currentIndex].firstDay - 1;
+		const firstDayOfNextTemp =
+			seasonDurations[(currentIndex + 1) % seasonDurations.length]
+				.firstDay;
+
+		// Handle wrap-around at year-end
+		const daysInTransition =
+			firstDayOfNextTemp > lastDayOfPrevTemp
+				? firstDayOfNextTemp - lastDayOfPrevTemp
+				: firstDayOfNextTemp + 365 - lastDayOfPrevTemp;
+
+		// Progress through the transition [0..1]
+		const dayOfTransition =
+			(dayOfYear -
+				lastDayOfPrevTemp +
+				(dayOfYear < lastDayOfPrevTemp ? 365 : 0)) /
+			daysInTransition;
+
+		// Interpolate temperatures
+		const high = Math.round(
+			lerp(prevSeasonObj.high, nextSeasonObj.high, dayOfTransition)
+		);
+		const low = Math.round(
+			lerp(prevSeasonObj.low, nextSeasonObj.low, dayOfTransition)
+		);
+
+		return { high: high || 0, low: low || 0 };
 	}
-
-	// Identify neighboring seasons for interpolation
-	const neighbors = {
-		spring: ["winter", "summer"],
-		summer: ["spring", "autumn"],
-		autumn: ["summer", "winter"],
-		winter: ["autumn", "spring"]
-	}[currentSeason];
-
-	// Get previous and next season's high/low temperatures
-	const [prevSeason, nextSeason] = neighbors;
-	const { high: prevHigh, low: prevLow } = climate.seasons[prevSeason];
-	const { high: nextHigh, low: nextLow } = climate.seasons[nextSeason];
-
-	// Calculate the days between seasons for interpolation
-	const lastDayOfPrevTemp =
-		seasonDurations.find(({ name }) => name === currentSeason).firstDay - 1;
-	const firstDayOfNextTemp = seasonDurations.find(
-		({ name }) => name === nextSeason
-	).firstDay;
-
-	// Calculate step sizes for high and low temperatures
-	const daysInTransition = firstDayOfNextTemp - lastDayOfPrevTemp;
-	const highStepSize = (nextHigh - prevHigh) / daysInTransition;
-	const lowStepSize = (nextLow - prevLow) / daysInTransition;
-
-	// Calculate high and low temperatures for the current day
-	const daysSincePreviousSeason = dayOfYear - lastDayOfPrevTemp;
-	const high = Math.round(prevHigh + daysSincePreviousSeason * highStepSize);
-	const low = Math.round(prevLow + daysSincePreviousSeason * lowStepSize);
-
-	// Return temperatures, ensuring they default to 0 if rounded to 0
-	return { high: high || 0, low: low || 0 };
 }
 
 export function getPrecipitationChance(dayOfYear, precipPeriods) {
-
-	let period = precipPeriods[precipPeriods.length - 1];
-
-	for (let i = 0; i < precipPeriods.length; i++) {
-		const p = precipPeriods[i];
-		if (p.firstDay <= dayOfYear) {
-			period = p;
-		}
-	}
+	const period =
+		[...precipPeriods].reverse().find((p) => dayOfYear >= p.firstDay) ||
+		precipPeriods[precipPeriods.length - 1];
 
 	return period.percentChance;
 }

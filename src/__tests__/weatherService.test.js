@@ -37,6 +37,14 @@ describe("data validation", () => {
 						).toBe(true);
 					}
 				});
+				test("if only two seasons defined, they must be summer & winter", () => {
+					climates
+						.filter((c) => Object.keys(c.seasons).length === 2)
+						.forEach((c) => {
+							expect(c.seasons).toHaveProperty("summer");
+							expect(c.seasons).toHaveProperty("winter");
+						});
+				});
 			});
 		});
 	});
@@ -232,25 +240,42 @@ describe("getClimate()", () => {
 });
 
 describe("getTemperature()", () => {
-	describe("getAverageTemperatureOfGivenDay()", () => {
-		const climate = {
-			seasons: {
-				summer: { high: 10, low: 0 },
-				winter: { high: 0, low: -10 }
-			}
-		};
+	const springFirstDay = 60;
+	const summerFirstDay = 152;
+	const autumnFirstDay = 244;
+	const winterFirstDay = 335;
 
-		test("returns average temp for the given day", () => {
-			expect(getAverageTemperatureOfGivenDay(climate, 152)).toEqual({
-				high: 10,
-				low: 0
-			});
-			expect(getAverageTemperatureOfGivenDay(climate, 1)).toEqual({
-				high: 0,
-				low: -10
-			});
+	describe("getAverageTemperatureOfGivenDay()", () => {
+		test("handles explicitely defined seasons", () => {
+			const climate = {
+				seasons: {
+					spring: { high: 10, low: 0 },
+					summer: { high: 20, low: 10 },
+					autumn: { high: 5, low: -5 },
+					winter: { high: 0, low: -10 }
+				}
+			};
+			expect(
+				getAverageTemperatureOfGivenDay(climate, springFirstDay)
+			).toEqual(climate.seasons.spring);
+			expect(
+				getAverageTemperatureOfGivenDay(climate, summerFirstDay)
+			).toEqual(climate.seasons.summer);
+			expect(
+				getAverageTemperatureOfGivenDay(climate, autumnFirstDay)
+			).toEqual(climate.seasons.autumn);
+			expect(
+				getAverageTemperatureOfGivenDay(climate, winterFirstDay)
+			).toEqual(climate.seasons.winter);
 		});
-		test("calulates linear values for seasons with no explicit data", () => {
+
+		test("linearly interpolates daily temp when only opposite seasons are defined", () => {
+			const climate = {
+				seasons: {
+					summer: { high: 10, low: 0 },
+					winter: { high: 0, low: -10 }
+				}
+			};
 			expect(getAverageTemperatureOfGivenDay(climate, 245)).toEqual({
 				high: 10,
 				low: 0
@@ -259,41 +284,21 @@ describe("getTemperature()", () => {
 				high: 6,
 				low: -4
 			});
+			expect(getAverageTemperatureOfGivenDay(climate, 2)).toEqual({
+				high: 0,
+				low: -10
+			});
 		});
+
 		test("handles climates with only a single season specified", () => {
 			const climate = {
 				seasons: {
 					summer: { high: 33, low: 23 }
 				}
 			};
-			expect(getAverageTemperatureOfGivenDay(climate, 1)).toEqual({
-				high: 33,
-				low: 23
-			});
-		});
-		test("production data", () => {
-			expect(
-				getAverageTemperatureOfGivenDay(
-					{
-						name: "desert",
-						seasons: {
-							summer: {
-								high: 39,
-								low: 25
-							},
-							winter: {
-								high: 20,
-								low: 7
-							}
-						},
-						precipPeriods: [{ firstDay: 1, percentChance: 5 }]
-					},
-					1
-				)
-			).toEqual({
-				high: 20,
-				low: 7
-			});
+			expect(getAverageTemperatureOfGivenDay(climate, 1)).toEqual(
+				climate.seasons.summer
+			);
 		});
 	});
 });
