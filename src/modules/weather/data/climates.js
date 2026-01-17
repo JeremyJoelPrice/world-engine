@@ -1,5 +1,108 @@
 const climates = {
-	custom: [],
+	custom: [
+		{
+			name: "coastal lowlands",
+			seasons: {
+				summer: { high: 12, low: 6 },
+				winter: { high: 2, low: -5 }
+			},
+			precipPeriods: [
+				{ firstDay: 90, percentChance: 0.65 },
+				{ firstDay: 150, percentChance: 0.45 },
+				{ firstDay: 230, percentChance: 0.75 },
+				{ firstDay: 300, percentChance: 0.6 }
+			]
+		},
+		{
+			name: "fjords",
+			seasons: {
+				summer: { high: 11, low: 5 },
+				winter: { high: 1, low: -7 }
+			},
+			precipPeriods: [
+				{ firstDay: 90, percentChance: 0.7 },
+				{ firstDay: 150, percentChance: 0.5 },
+				{ firstDay: 230, percentChance: 0.8 },
+				{ firstDay: 300, percentChance: 0.6 }
+			]
+		},
+		{
+			name: "geothermal fields",
+			seasons: {
+				summer: { high: 14, low: 7 },
+				winter: { high: 5, low: -2 }
+			},
+			precipPeriods: [{ firstDay: 1, percentChance: 0.5 }]
+		},
+		{
+			name: "glacial regions",
+			seasons: {
+				summer: { high: 3, low: -3 },
+				winter: { high: -10, low: -25 }
+			},
+			precipPeriods: [
+				{ firstDay: 150, percentChance: 0.2 },
+				{ firstDay: 270, percentChance: 0.35 }
+			]
+		},
+		{
+			name: "interior highlands",
+			seasons: {
+				summer: { high: 8, low: 2 },
+				winter: { high: -5, low: -15 }
+			},
+			precipPeriods: [
+				{ firstDay: 120, percentChance: 0.4 },
+				{ firstDay: 210, percentChance: 0.3 },
+				{ firstDay: 270, percentChance: 0.5 }
+			]
+		},
+		{
+			name: "mountain ranges",
+			seasons: {
+				summer: { high: 7, low: 1 },
+				winter: { high: -8, low: -20 }
+			},
+			precipPeriods: [
+				{ firstDay: 120, percentChance: 0.4 },
+				{ firstDay: 210, percentChance: 0.35 },
+				{ firstDay: 270, percentChance: 0.5 }
+			]
+		},
+		{
+			name: "sparse coastal woodland",
+			seasons: {
+				summer: { high: 13, low: 7 },
+				winter: { high: 3, low: -4 }
+			},
+			precipPeriods: [{ firstDay: 1, percentChance: 0.6 }]
+		},
+		{
+			name: "volcanic desert",
+			seasons: {
+				summer: { high: 9, low: 3 },
+				winter: { high: -4, low: -14 }
+			},
+			precipPeriods: [
+				{ firstDay: 120, percentChance: 0.2 },
+				{ firstDay: 210, percentChance: 0.1 },
+				{ firstDay: 270, percentChance: 0.2 }
+			]
+		},
+		{
+			name: "wetlands and bogs",
+			seasons: {
+				summer: { high: 11, low: 5 },
+				winter: { high: 1, low: -6 }
+			},
+			precipPeriods: [
+				{ firstDay: 90, percentChance: 0.75 },
+				{ firstDay: 150, percentChance: 0.5 },
+				{ firstDay: 230, percentChance: 0.8 },
+				{ firstDay: 300, percentChance: 0.6 }
+			]
+		}
+	],
 	generic: [
 		{
 			name: "desert",
