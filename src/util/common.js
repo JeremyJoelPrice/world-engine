@@ -8,7 +8,7 @@ const uid = () => {
  *
  * If there are nested arrays, it continues rolling until it finds a non-array element
  * 
- * BUG: results.includes() will always return `false` if given an array of objects.
+ * TODO BUG: results.includes() will always return `false` if given an array of objects.
  */
 const rollOnTable = (table, numOfRolls = 1) => {
 	if (numOfRolls === 1) return recursivelyGetRandomElement(table);

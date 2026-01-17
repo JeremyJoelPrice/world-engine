@@ -1340,7 +1340,7 @@ const victorianProfessions = [
 	{
 		name: "Cinder Wench",
 		description:
-			"female who collected cinders from gas works and sold them door todoor"
+			"female who collected cinders from gas works and sold them door to door"
 	},
 	{ name: "Circuit Rider", description: "traveling Preacher" },
 	{ name: "Cissor", description: "a tailor." },

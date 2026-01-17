@@ -25,7 +25,7 @@ export const generateWeather = (
 		weather.cloud = previousWeather.cloud;
 		weather.wind = previousWeather.wind;
 		weather.precipitation = previousWeather.precipitation;
-		weather.daylight = previousWeather.daylight
+		weather.daylight = previousWeather.daylight;
 		return weather;
 	}
 
@@ -182,7 +182,10 @@ export function getSky(willPrecipitate, currentTemp) {
 	}
 
 	sky = rollOnTable(skyTable);
-	sky.precipitation = Math.trunc((currentTemp.high + currentTemp.low) / 2) <= 0 ? sky.snow : sky.rain;
+	sky.precipitation =
+		Math.trunc((currentTemp.high + currentTemp.low) / 2) <= 0
+			? sky.snow
+			: sky.rain;
 
 	// chance of fog
 	if (
@@ -207,7 +210,7 @@ export function getWind(diceResult) {
 	// get wind obj
 	const { description, mphMin, mphMax, wind } = windTypes.find(
 		({ diceMinResult, diceMaxResult }) =>
-			diceMinResult === diceResult || diceMaxResult === diceResult
+			diceResult >= diceMinResult && diceResult <= diceMaxResult
 	);
 
 	return {

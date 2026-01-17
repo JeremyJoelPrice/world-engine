@@ -1728,7 +1728,7 @@ describe("rollOnTable()", () => {
 				{
 					name: "Cinder Wench",
 					description:
-						"female who collected cinders from gas works and sold them door todoor"
+						"female who collected cinders from gas works and sold them door to door"
 				},
 				{ name: "Circuit Rider", description: "traveling Preacher" },
 				{ name: "Cissor", description: "a tailor." },
@@ -2144,7 +2144,7 @@ describe("rollOnTable()", () => {
 				{
 					name: "Cowkeeper, Cowman or milkseller",
 					description:
-						"kept one or more cows and sold the milk from the front door, or fromdoor to door"
+						"kept one or more cows and sold the milk from the front door, or from door to door"
 				},
 				{ name: "Cow Leech", description: "an animal doctor." },
 				{
