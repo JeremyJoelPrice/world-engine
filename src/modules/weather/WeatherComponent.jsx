@@ -15,6 +15,7 @@ import {
 	ArrowDownward,
 	ArrowUpward,
 	Cloud,
+	SwapVert,
 	Thermostat,
 	WaterDrop,
 	WbTwilight
@@ -26,6 +27,8 @@ import { generateWeather, isValidClimate } from "./weatherService";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
 import StyledSelect from "../../components/StyledSelect";
+import climates from "./data/climates";
+const customClimates = climates.custom.map((c) => c.name);
 
 dayjs.extend(dayOfYear);
 
@@ -58,6 +61,8 @@ const WeatherComponent = ({
 		}
 	});
 	const [disabled, setDisabled] = useState();
+	const [genericClimateUi, setGenericClimateUi] = useState(true);
+	const [customClimate, setCustomClimate] = useState(customClimates[0]);
 
 	const generate = () => {
 		setWeather(
@@ -176,50 +181,64 @@ const WeatherComponent = ({
 				}}>
 				<Box>
 					<Button
-					size="small"
+						size="small"
 						onClick={() => {
-							console.log("click");
+							setGenericClimateUi((prev) => !prev);
 						}}>
-						Generic Climates
+						{genericClimateUi
+							? "Generic Climates"
+							: "Custom Climates"}{" "}
+						{<SwapVert fontSize={"small"} />}
 					</Button>
+				</Box>
+				{genericClimateUi ? (
+					<>
+						<StyledSelect
+							optionsArray={terrainTypes}
+							value={terrainType}
+							setValue={setTerrainType}
+						/>
+						<FlexBox
+							sx={{
+								justifyContent: "flex-start",
+								alignItems: "center",
+								padding: "0 14px 16.5px",
+								cursor: "pointer"
+							}}
+							onClick={() => {
+								setIsCoastal(!isCoastal);
+							}}>
+							<Typography>coastal</Typography>
+							<Checkbox
+								checked={isCoastal}
+								sx={{ padding: "0 6px 0" }}
+							/>
+						</FlexBox>
+						<Box sx={{ padding: "0 14px" }}>
+							<Typography>latitude {latitude}°</Typography>
+							<Slider
+								max={90}
+								value={latitude}
+								valueLabelDisplay="auto"
+								onChangeCommitted={(event, value) =>
+									setLatitude(value)
+								}
+								sx={{
+									width: "100%"
+								}}
+							/>
+						</Box>{" "}
+					</>
+				) : (
 					<StyledSelect
-						optionsArray={terrainTypes}
-						value={terrainType}
-						setValue={setTerrainType}
+						optionsArray={customClimates}
+						value={customClimate}
+						setValue={setCustomClimate}
 					/>
-				</Box>
-				<FlexBox
-					sx={{
-						justifyContent: "flex-start",
-						alignItems: "center",
-						padding: "0 14px 16.5px",
-						cursor: "pointer"
-					}}
-					onClick={() => {
-						setIsCoastal(!isCoastal);
-					}}>
-					<Typography>coastal</Typography>
-					<Checkbox checked={isCoastal} sx={{ padding: "0 6px 0" }} />
-				</FlexBox>
-				<Box sx={{ padding: "0 14px" }}>
-					<Typography>latitude {latitude}°</Typography>
-					<Slider
-						max={90}
-						value={latitude}
-						valueLabelDisplay="auto"
-						onChangeCommitted={(event, value) => setLatitude(value)}
-						sx={{
-							width: "100%"
-						}}
-					/>
-				</Box>
+				)}
 				<Box sx={{ flexGrow: "1" }} />
 				<FlexBox sx={{ justifyContent: "center" }}>
-					<Button
-						variant="contained"
-						size="small"
-						onClick={generate}
-						disabled={disabled}>
+					<Button variant="contained" size="small" onClick={generate}>
 						{disabled ? "No Valid Climate" : "Generate Weather"}
 					</Button>
 				</FlexBox>
