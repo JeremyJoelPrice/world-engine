@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import skyTable from "../modules/weather/data/skyTable";
 import terrainTypes from "../modules/weather/data/terrainTypes";
 import windTypes from "../modules/weather/data/windTypes";
+import climates from "../modules/weather/data/climates";
 import {
 	generateWeather,
 	getAverageTemperatureOfGivenDay,
@@ -10,6 +11,36 @@ import {
 	getSky,
 	getWind
 } from "../modules/weather/weatherService";
+
+describe("data validation", () => {
+	describe("climate objects", () => {
+		climates.forEach((climate) => {
+			describe(`climate: ${climate.name}`, () => {
+				test("has required properties", () => {
+					expect(climate).toHaveProperty("name");
+					expect(climate).toHaveProperty("seasons");
+					expect(climate).toHaveProperty("precipPeriods");
+				});
+				test("precipPeriods in ascending order", () => {
+					for (let i = 1; i < climate.precipPeriods.length; i++) {
+						expect(
+							climate.precipPeriods[i].firstDay >
+								climate.precipPeriods[i - 1].firstDay
+						).toBe(true);
+					}
+				});
+				test("precipPeriods.percentChance expressed between 0 and 1", () => {
+					for (const percentChance of climate.precipPeriods) {
+						expect(
+							percentChance.percentChance >= 0 &&
+								percentChance.percentChance <= 1
+						).toBe(true);
+					}
+				});
+			});
+		});
+	});
+});
 
 describe("getClimate()", () => {
 	describe("returns correct climate or 'no valid climate' error", () => {
@@ -270,37 +301,50 @@ describe("getTemperature()", () => {
 describe("getPrecipitationChance()", () => {
 	const precipPeriods = [
 		{
+			firstDay: 2,
+			percentChance: 1
+		},
+		{
 			firstDay: 60,
-			lastDay: 151,
-			percentChance: 50
+			percentChance: 2
 		},
 		{
 			firstDay: 152,
-			lastDay: 1,
-			percentChance: 40
-		},
-		{
-			firstDay: 2,
-			lastDay: 59,
-			percentChance: 30
+			percentChance: 3
 		}
 	];
-	test("returns valid precip period", () => {
-		expect(getPrecipitationChance(65, precipPeriods)).toBe(50);
+	test("returns first precip period", () => {
+		expect(getPrecipitationChance(2, precipPeriods)).toBe(
+			precipPeriods[0].percentChance
+		);
+		expect(getPrecipitationChance(35, precipPeriods)).toBe(
+			precipPeriods[0].percentChance
+		);
+		expect(getPrecipitationChance(59, precipPeriods)).toBe(
+			precipPeriods[0].percentChance
+		);
 	});
-	test("handles period starts on day of year", () => {
-		expect(getPrecipitationChance(152, precipPeriods)).toBe(40);
+	test("returns second precip period", () => {
+		expect(getPrecipitationChance(60, precipPeriods)).toBe(
+			precipPeriods[1].percentChance
+		);
+		expect(getPrecipitationChance(85, precipPeriods)).toBe(
+			precipPeriods[1].percentChance
+		);
+		expect(getPrecipitationChance(151, precipPeriods)).toBe(
+			precipPeriods[1].percentChance
+		);
 	});
-	test("handles period ends on day of year", () => {
-		expect(getPrecipitationChance(59, precipPeriods)).toBe(30);
-	});
-	test("handles period contains end of year", () => {
-		expect(getPrecipitationChance(1, precipPeriods)).toBe(40);
-		expect(getPrecipitationChance(365, precipPeriods)).toBe(40);
-	});
-	test("handles array with a single precipPeriod", () => {
-		const preciPeriods = [{ firstDay: 1, percentChance: 40 }];
-		expect(getPrecipitationChance(50, preciPeriods)).toEqual(40);
+	test("returns third precip period", () => {
+		expect(getPrecipitationChance(152, precipPeriods)).toBe(
+			precipPeriods[2].percentChance
+		);
+		expect(getPrecipitationChance(365, precipPeriods)).toBe(
+			precipPeriods[2].percentChance
+		);
+		expect(getPrecipitationChance(1, precipPeriods)).toBe(
+			precipPeriods[2].percentChance
+		);
 	});
 });
 
@@ -421,4 +465,4 @@ function yearOfWeather() {
 	});
 }
 
-yearOfWeather();
+// yearOfWeather();

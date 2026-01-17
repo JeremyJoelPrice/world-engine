@@ -26,23 +26,20 @@ export const generateWeather = (
 		weather.wind = previousWeather.wind;
 		weather.precipitation = previousWeather.precipitation;
 		weather.daylight = previousWeather.daylight;
-		return weather;
+		console.log("repeat previous weather");
+	} else {
+		// generate cloud, precipitation & wind
+		const { cloud, precipitation, windFactor } = getSky(
+			Math.random() <=
+				getPrecipitationChance(dayOfYear, climate.precipPeriods),
+			weather.temperature
+		);
+
+		weather.cloud = cloud;
+		weather.precipitation = precipitation;
+		weather.wind = getWind(roll(windFactor).value);
 	}
 
-	// determine if it will precipitate
-	const willPrecipitate =
-		Math.random() <=
-		getPrecipitationChance(dayOfYear, climate.precipPeriods) / 100;
-
-	// generate cloud, precipitation & wind
-	const { cloud, precipitation, windFactor } = getSky(
-		willPrecipitate,
-		weather.temperature
-	);
-
-	weather.cloud = cloud;
-	weather.precipitation = precipitation;
-	weather.wind = getWind(roll(windFactor).value);
 	weather.daylight = getSunriseSunset(latitude, dayOfYear);
 
 	return weather;
@@ -69,6 +66,7 @@ export function getClimate(terrainType, latitude, isCoastal) {
 				(c.isCoastal === isCoastal || c.isCoastal === "all")
 			);
 		})[0];
+		console.log("Climate", climate);
 		return climate;
 	} catch (TypeError) {
 		throw new Error("no valid climate");
@@ -154,28 +152,23 @@ export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
 }
 
 export function getPrecipitationChance(dayOfYear, precipPeriods) {
-	const period = precipPeriods.filter(({ firstDay, lastDay }) =>
-		isWithinRange(dayOfYear, firstDay, lastDay)
-	)[0];
+
+	let period = precipPeriods[precipPeriods.length - 1];
+
+	for (let i = 0; i < precipPeriods.length; i++) {
+		const p = precipPeriods[i];
+		if (p.firstDay <= dayOfYear) {
+			period = p;
+		}
+	}
+
 	return period.percentChance;
 }
 
-function isWithinRange(n, rangeStart, rangeEnd) {
-	if (!rangeEnd) return true;
-	if (rangeStart > rangeEnd) {
-		return (
-			// 365 as in days per year
-			(n <= rangeEnd && n >= 1) || (n >= rangeStart && n <= 365)
-		);
-	} else {
-		return n >= rangeStart && n <= rangeEnd;
-	}
-}
-
-export function getSky(willPrecipitate, currentTemp) {
+export function getSky(willItPrecipitate, currentTemp) {
 	let sky;
 	// if no precipitation, bias toward clearer skies
-	if (!willPrecipitate) {
+	if (!willItPrecipitate) {
 		sky = Object.assign({}, biasedSelection(skyTable, 0, 0.2));
 		sky.precipitation = "none";
 		return sky;

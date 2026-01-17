@@ -11,7 +11,7 @@ const climates = [
 				low: 5
 			}
 		},
-		precipPeriods: [{ firstDay: 1, percentChance: 5 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 0.5 }]
 	},
 	{
 		name: "tropical savanna",
@@ -21,28 +21,28 @@ const climates = [
 		},
 		precipPeriods: [
 			{
-				firstDay: 305,
-				lastDay: 90,
-				disregardHemisphere: true,
-				percentChance: 10
-			},
-			{
 				firstDay: 91,
-				lastDay: 120,
+
 				disregardHemisphere: true,
-				percentChance: 35
+				percentChance: 0.35
 			},
 			{
 				firstDay: 121,
-				lastDay: 273,
+
 				disregardHemisphere: true,
-				percentChance: 85
+				percentChance: 0.85
 			},
 			{
 				firstDay: 274,
-				lastDay: 304,
+
 				disregardHemisphere: true,
-				percentChance: 35
+				percentChance: 0.35
+			},
+			{
+				firstDay: 305,
+
+				disregardHemisphere: true,
+				percentChance: 0.1
 			}
 		]
 	},
@@ -53,8 +53,8 @@ const climates = [
 			winter: { high: 7, low: -5 }
 		},
 		precipPeriods: [
-			{ firstDay: 182, lastDay: 243, percentChance: 5 },
-			{ firstDay: 244, lastDay: 181, percentChance: 20 }
+			{ firstDay: 182, percentChance: 0.5 },
+			{ firstDay: 244, percentChance: 0.2 }
 		]
 	},
 	{
@@ -64,22 +64,19 @@ const climates = [
 		},
 		precipPeriods: [
 			{
-				firstDay: 60,
-				lastDay: 151,
+				firstDay: 1,
 				disregardHemisphere: true,
-				percentChance: 50
+				percentChance: 0.3
+			},
+			{
+				firstDay: 60,
+				disregardHemisphere: true,
+				percentChance: 0.5
 			},
 			{
 				firstDay: 152,
-				lastDay: 365,
 				disregardHemisphere: true,
-				percentChance: 40
-			},
-			{
-				firstDay: 1,
-				lastDay: 59,
-				disregardHemisphere: true,
-				percentChance: 30
+				percentChance: 0.4
 			}
 		]
 	},
@@ -94,15 +91,13 @@ const climates = [
 		precipPeriods: [
 			{
 				firstDay: 152,
-				lastDay: 304,
 				disregardHemisphere: true,
-				percentChance: 90
+				percentChance: 0.9
 			},
 			{
 				firstDay: 305,
-				lastDay: 151,
 				disregardHemisphere: true,
-				percentChance: 15
+				percentChance: 0.15
 			}
 		]
 	},
@@ -115,7 +110,7 @@ const climates = [
 			},
 			winter: { high: -3, low: -15 }
 		},
-		precipPeriods: [{ firstDay: 1, percentChance: 40 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 0.4 }]
 	},
 	{
 		name: "warm with dry summer",
@@ -124,8 +119,8 @@ const climates = [
 			winter: { high: -6, low: -20 }
 		},
 		precipPeriods: [
-			{ firstDay: 152, lastDay: 243, percentChance: 10 },
-			{ firstDay: 244, lastDay: 151, percentChance: 30 }
+			{ firstDay: 152, percentChance: 0.1 },
+			{ firstDay: 244, percentChance: 0.3 }
 		]
 	},
 	{
@@ -136,8 +131,8 @@ const climates = [
 			winter: { high: 4, low: -10 }
 		},
 		precipPeriods: [
-			{ firstDay: 182, lastDay: 243, percentChance: 45 },
-			{ firstDay: 244, lastDay: 181, percentChance: 15 }
+			{ firstDay: 182, percentChance: 0.45 },
+			{ firstDay: 244, percentChance: 0.15 }
 		]
 	},
 	{
@@ -146,7 +141,7 @@ const climates = [
 			summer: { high: 20, low: 13 },
 			winter: { high: -4, low: -10 }
 		},
-		precipPeriods: [{ firstDay: 1, percentChance: 35 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 0.35 }]
 	},
 	{
 		name: "cool with dry winter",
@@ -155,10 +150,10 @@ const climates = [
 			winter: { high: -4, low: -9 }
 		},
 		precipPeriods: [
-			{ firstDay: 182, lastDay: 273, percentChance: 35 },
-			{ firstDay: 274, lastDay: 304, percentChance: 20 },
-			{ firstDay: 305, lastDay: 120, percentChance: 10 },
-			{ firstDay: 121, lastDay: 181, percentChance: 20 }
+			{ firstDay: 121, percentChance: 0.2 },
+			{ firstDay: 182, percentChance: 0.35 },
+			{ firstDay: 274, percentChance: 0.2 },
+			{ firstDay: 305, percentChance: 0.1 }
 		]
 	},
 	{
@@ -167,7 +162,7 @@ const climates = [
 			summer: { high: 5, low: 1 },
 			winter: { high: -20, low: -30 }
 		},
-		precipPeriods: [{ firstDay: 1, percentChance: 10 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 0.1 }]
 	},
 	{
 		name: "polar",
@@ -175,7 +170,7 @@ const climates = [
 			summer: { high: -30, low: -40 },
 			winter: { high: -62, low: -70 }
 		},
-		precipPeriods: [{ firstDay: 1, percentChance: 10 }]
+		precipPeriods: [{ firstDay: 1, percentChance: 0.1 }]
 	}
 ];
 

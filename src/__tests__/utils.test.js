@@ -7685,8 +7685,6 @@ describe("rollOnTable()", () => {
 	});
 });
 
-describe("roll()", () => {});
-
 describe("biasedSelection", () => {
 	test("returns results biased toward given index", () => {
 		const array = ["a", "b", "c", "d", "e"];
