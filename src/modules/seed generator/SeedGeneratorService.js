@@ -70,3 +70,7 @@ exports.generateInnerCircle = (setInnerCircle) => {
 
 	setInnerCircle(innerCircle);
 };
+
+exports.generateQuest = () => {
+	return `The players must [strong verb] the [compelling noun], but [severe opposition] and [complication].`;
+};
