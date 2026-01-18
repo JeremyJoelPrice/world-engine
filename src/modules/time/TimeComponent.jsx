@@ -101,7 +101,6 @@ function CircularProgressWithLabel({ onClick, value }) {
 				value={value}
 				thickness={5}
 				sx={{
-					strokeLinecap: "round",
 					zIndex: 2
 				}}
 			/>
