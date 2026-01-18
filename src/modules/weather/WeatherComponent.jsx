@@ -26,6 +26,7 @@ import Checkbox from "@mui/material/Checkbox";
 import {
 	generateWeather,
 	getLatitudeBand,
+	getSunriseSunset,
 	isValidClimate
 } from "./weatherService";
 import dayjs from "dayjs";
@@ -58,16 +59,15 @@ const WeatherComponent = ({
 			description: "",
 			speed: 0,
 			direction: ""
-		},
-		daylight: {
-			sunrise: 0,
-			sunset: 0
 		}
 	});
 	const [disabled, setDisabled] = useState();
 	const [genericClimateUi, setGenericClimateUi] = useState(true);
 	const [customClimate, setCustomClimate] = useState(customClimates[0]);
 	const [latitudeBand, setLatitudeBand] = useState(getLatitudeBand(latitude));
+	const [daylight, setDaylight] = useState(
+		getSunriseSunset(latitude, dayOfYear)
+	);
 
 	const generate = () => {
 		setWeather(
@@ -87,6 +87,7 @@ const WeatherComponent = ({
 
 	useEffect(() => {
 		setLatitudeBand(getLatitudeBand(latitude));
+		setDaylight(getSunriseSunset(latitude, dayOfYear));
 	}, [latitude]);
 
 	return (
@@ -149,7 +150,7 @@ const WeatherComponent = ({
 							<ArrowUpward fontSize={"small"} />
 							<WbTwilight fontSize={"small"} />
 							<Typography sx={{ margin: "auto 0" }}>
-								{`${formatHour(weather.daylight.sunrise)}`}
+								{`${formatHour(daylight.sunrise)}`}
 							</Typography>
 						</DataRow>
 					</Grid>
@@ -158,7 +159,7 @@ const WeatherComponent = ({
 							<ArrowDownward fontSize={"small"} />
 							<WbTwilight fontSize={"small"} />
 							<Typography sx={{ margin: "auto 0" }}>
-								{`${formatHour(weather.daylight.sunset)}`}
+								{`${formatHour(daylight.sunset)}`}
 							</Typography>
 						</DataRow>
 					</Grid>

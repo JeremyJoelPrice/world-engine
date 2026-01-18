@@ -26,7 +26,6 @@ export const generateWeather = (
 		weather.cloud = previousWeather.cloud;
 		weather.wind = previousWeather.wind;
 		weather.precipitation = previousWeather.precipitation;
-		weather.daylight = previousWeather.daylight;
 		console.log("repeat previous weather");
 	} else {
 		// generate cloud, precipitation & wind
@@ -40,8 +39,6 @@ export const generateWeather = (
 		weather.precipitation = precipitation;
 		weather.wind = getWind(roll(windFactor).value);
 	}
-
-	weather.daylight = getSunriseSunset(latitude, dayOfYear);
 
 	return weather;
 };
@@ -224,7 +221,7 @@ export function getWind(diceResult) {
 	};
 }
 
-function getSunriseSunset(latitude, dayOfYear) {
+export function getSunriseSunset(latitude, dayOfYear) {
 	// this function returns sunrise/sunset to the nearest hour,
 	// assuming solar noon is 12pm
 	const degreesPerRadian = 180 / Math.PI;
