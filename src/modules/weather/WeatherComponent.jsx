@@ -88,7 +88,7 @@ const WeatherComponent = ({
 	useEffect(() => {
 		setLatitudeBand(getLatitudeBand(latitude));
 		setDaylight(getSunriseSunset(latitude, dayOfYear));
-	}, [latitude]);
+	}, [latitude, dayOfYear]);
 
 	return (
 		<Paper
