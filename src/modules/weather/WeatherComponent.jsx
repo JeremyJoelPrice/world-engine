@@ -248,7 +248,11 @@ const WeatherComponent = ({
 				)}
 				<Box sx={{ flexGrow: "1" }} />
 				<FlexBox sx={{ justifyContent: "center" }}>
-					<Button variant="contained" size="small" onClick={generate}>
+					<Button
+						variant="contained"
+						size="small"
+						onClick={generate}
+						disabled={disabled}>
 						{disabled ? "No Valid Climate" : "Generate Weather"}
 					</Button>
 				</FlexBox>
