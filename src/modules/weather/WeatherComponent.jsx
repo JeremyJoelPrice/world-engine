@@ -23,7 +23,11 @@ import {
 import terrainTypes from "./data/terrainTypes";
 import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
-import { generateWeather, isValidClimate } from "./weatherService";
+import {
+	generateWeather,
+	getLatitudeBand,
+	isValidClimate
+} from "./weatherService";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
 import StyledSelect from "../../components/StyledSelect";
@@ -63,6 +67,7 @@ const WeatherComponent = ({
 	const [disabled, setDisabled] = useState();
 	const [genericClimateUi, setGenericClimateUi] = useState(true);
 	const [customClimate, setCustomClimate] = useState(customClimates[0]);
+	const [latitudeBand, setLatitudeBand] = useState(getLatitudeBand(latitude));
 
 	const generate = () => {
 		setWeather(
@@ -79,6 +84,10 @@ const WeatherComponent = ({
 	useEffect(() => {
 		setDisabled(!isValidClimate(terrainType, latitude, isCoastal));
 	}, [terrainType, latitude, isCoastal]);
+
+	useEffect(() => {
+		setLatitudeBand(getLatitudeBand(latitude));
+	}, [latitude]);
 
 	return (
 		<Paper
@@ -220,6 +229,7 @@ const WeatherComponent = ({
 								max={90}
 								value={latitude}
 								valueLabelDisplay="auto"
+								valueLabelFormat={(value) => latitudeBand}
 								onChangeCommitted={(event, value) =>
 									setLatitude(value)
 								}

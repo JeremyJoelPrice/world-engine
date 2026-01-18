@@ -1,6 +1,7 @@
 import { biasedSelection, rollOnTable } from "../../util/common";
 import roll from "../../util/roll";
-import climates from "./data/climateLookup";
+import climateLookup from "./data/climateLookup";
+import latitudeBands from "./data/latitudeBands";
 import skyTable from "./data/skyTable";
 import windTypes from "./data/windTypes";
 
@@ -54,23 +55,25 @@ export const isValidClimate = (terrainType, latitude, isCoastal) => {
 	}
 };
 
+export const getLatitudeBand = (latitude) => {
+	let latitudeBand;
+
+	for (const { name, latitudeMax } of [...latitudeBands].reverse()) {
+		if (latitude <= latitudeMax) latitudeBand = name;
+	}
+
+	return latitudeBand;
+};
+
 /* utility functions */
 
 export function getClimate(terrainType, latitude, isCoastal) {
-	try {
-		const { climate } = climates.filter((c) => {
-			return (
-				c.terrainType === terrainType &&
-				c.latitudeMin <= latitude &&
-				c.latitudeMax >= latitude &&
-				(c.isCoastal === isCoastal || c.isCoastal === "all")
-			);
-		})[0];
-		console.log("Climate", climate);
-		return climate;
-	} catch (TypeError) {
-		throw new Error("no valid climate");
-	}
+	const latitudeBand = getLatitudeBand(latitude);
+	console.log(terrainType, isCoastal, `${latitudeBand} (${latitude})`);
+	const climate = climateLookup[terrainType][isCoastal][latitudeBand];
+	if (!climate) throw new Error("no valid climate");
+	console.log("Climate", climate);
+	return climate;
 }
 
 export function getTemperature(climate, dayOfYear) {

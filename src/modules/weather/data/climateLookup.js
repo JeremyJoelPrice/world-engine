@@ -1,307 +1,133 @@
-import climateData from "./climates";
+import climates from "./climates";
 
-const climates = [
-	{
-		terrainType: "broken land",
-		isCoastal: false,
-		latitudeMin: 21,
-		latitudeMax: 40,
-		climate: climateData.generic[7] // warm with dry winter
+const climateLookup = {
+	"broken land": {
+		true: {
+			tropical: climates.generic[0], // desert
+			subtropical: climates.generic[6], // warm with dry summer
+			temperate: climates.generic[6], // warm with dry summer
+			"cool temperate": climates.generic[6], // warm with dry summer
+			subpolar: climates.generic[9], // cool with dry winter
+			polar: climates.generic[10] // tundra
+		},
+		false: {
+			subtropical: climates.generic[7], // warm with dry winter
+			temperate: climates.generic[7], // warm with dry winter
+			"cool temperate": climates.generic[8], // cool & rainy
+			subpolar: climates.generic[8], // cool & rainy
+			polar: climates.generic[11] // polar
+		}
 	},
-	{
-		terrainType: "broken land",
-		isCoastal: false,
-		latitudeMin: 41,
-		latitudeMax: 70,
-		climate: climateData.generic[8] // cool & rainy
+	desert: {
+		true: {
+			tropical: climates.generic[0], // desert
+			subtropical: climates.generic[0] // desert
+		},
+		false: {
+			tropical: climates.generic[0], // desert
+			subtropical: climates.generic[0] // desert
+		}
 	},
-	{
-		terrainType: "broken land",
-		isCoastal: false,
-		latitudeMin: 71,
-		latitudeMax: 90,
-		climate: climateData.generic[11] // polar
+	forest: {
+		true: {
+			tropical: climates.generic[1], // tropical savanna
+			subtropical: climates.generic[5], // warm & rainy
+			temperate: climates.generic[5], // warm & rainy
+			"cool temperate": climates.generic[5], // warm & rainy
+			subpolar: climates.generic[9] // cool with dry winter
+		},
+		false: {
+			tropical: climates.generic[1], // tropical savanna
+			subtropical: climates.generic[7], // warm with dry winter
+			temperate: climates.generic[7], // warm with dry winter
+			"cool temperate": climates.generic[7], // warm with dry winter
+			subpolar: climates.generic[8] // cool & rainy
+		}
 	},
-	{
-		terrainType: "broken land",
-		isCoastal: true,
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[0] // desert
+	grassland: {
+		true: {
+			tropical: climates.generic[1], // tropical savanna
+			subtropical: climates.generic[6], // warm with dry summer
+			temperate: climates.generic[6], // warm with dry summer
+			"cool temperate": climates.generic[6], // warm with dry summer
+			subpolar: climates.generic[9], // cool with dry winter
+			polar: climates.generic[10] // tundra
+		},
+		false: {
+			tropical: climates.generic[1], // tropical savanna
+			subtropical: climates.generic[2], // steppe
+			temperate: climates.generic[2], // steppe
+			"cool temperate": climates.generic[2], // steppe
+			subpolar: climates.generic[8], // cool & rainy
+			polar: climates.generic[10] // tundra
+		}
 	},
-	{
-		terrainType: "broken land",
-		isCoastal: true,
-		latitudeMin: 21,
-		latitudeMax: 50,
-		climate: climateData.generic[6] // warm with dry summer
+	hills: {
+		true: {
+			tropical: climates.generic[1], // tropical savanna
+			subtropical: climates.generic[6], // warm with dry summer
+			temperate: climates.generic[6], // warm with dry summer
+			"cool temperate": climates.generic[6], // warm with dry summer
+			subpolar: climates.generic[9], // cool with dry winter
+			polar: climates.generic[10] // tundra
+		},
+		false: {
+			tropical: climates.generic[1], // tropical savanna
+			subtropical: climates.generic[7], // warm with dry winter
+			temperate: climates.generic[7], // warm with dry winter
+			"cool temperate": climates.generic[8], // cool & rainy
+			subpolar: climates.generic[8], // cool & rainy
+			polar: climates.generic[11] // polar
+		}
 	},
-	{
-		terrainType: "broken land",
-		isCoastal: true,
-		latitudeMin: 51,
-		latitudeMax: 70,
-		climate: climateData.generic[9] // cool with dry winter
+	jungle: {
+		true: {
+			tropical: climates.generic[4], // monsoon
+			subtropical: climates.generic[5], // warm & rainy
+			temperate: climates.generic[5], // warm & rainy
+			"cool temperate": climates.generic[5], // warm & rainy
+			subpolar: climates.generic[9] // cool with dry winter
+		},
+		false: {
+			tropical: climates.generic[3] // equatorial
+		}
 	},
-	{
-		terrainType: "broken land",
-		isCoastal: true,
-		latitudeMin: 71,
-		latitudeMax: 90,
-		climate: climateData.generic[10] // tundra
+	mountains: {
+		true: {
+			tropical: climates.generic[5], // warm & rainy
+			subtropical: climates.generic[6], // warm with dry summer
+			temperate: climates.generic[6], // warm with dry summer
+			"cool temperate": climates.generic[9], // cool with dry winter
+			subpolar: climates.generic[9], // cool with dry winter
+			polar: climates.generic[10] // tundra
+		},
+		false: {
+			tropical: climates.generic[5], // warm & rainy
+			subtropical: climates.generic[7], // warm with dry winter
+			"cool temperate": climates.generic[8], // cool & rainy
+			temperate: climates.generic[7], // warm with dry winter
+			subpolar: climates.generic[8], // cool & rainy
+			polar: climates.generic[11] // polar
+		}
 	},
-	{
-		terrainType: "desert",
-		isCoastal: "all",
-		latitudeMin: 0,
-		latitudeMax: 30,
-		climate: climateData.generic[0] // desert
-	},
-	{
-		terrainType: "forest",
-		isCoastal: "all",
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[1] // tropical savanna
-	},
-	{
-		terrainType: "forest",
-		isCoastal: false,
-		latitudeMin: 21,
-		latitudeMax: 50,
-		climate: climateData.generic[7] // warm with dry winter
-	},
-	{
-		terrainType: "forest",
-		isCoastal: false,
-		latitudeMin: 51,
-		latitudeMax: 70,
-		climate: climateData.generic[8] // cool & rainy
-	},
-	{
-		terrainType: "forest",
-		isCoastal: true,
-		latitudeMin: 21,
-		latitudeMax: 50,
-		climate: climateData.generic[5] // warm & rainy
-	},
-	{
-		terrainType: "forest",
-		isCoastal: true,
-		latitudeMin: 51,
-		latitudeMax: 70,
-		climate: climateData.generic[9] // cool with dry winter
-	},
-	{
-		terrainType: "grassland",
-		isCoastal: "all",
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[1] // tropical savanna
-	},
-	{
-		terrainType: "grassland",
-		isCoastal: false,
-		latitudeMin: 21,
-		latitudeMax: 50,
-		climate: climateData.generic[2] // steppe
-	},
-	{
-		terrainType: "grassland",
-		isCoastal: false,
-		latitudeMin: 51,
-		latitudeMax: 70,
-		climate: climateData.generic[8] // cool & rainy
-	},
-	{
-		terrainType: "grassland",
-		isCoastal: true,
-		latitudeMin: 21,
-		latitudeMax: 50,
-		climate: climateData.generic[6] // warm with dry summer
-	},
-	{
-		terrainType: "grassland",
-		isCoastal: true,
-		latitudeMin: 51,
-		latitudeMax: 70,
-		climate: climateData.generic[9] // cool with dry winter
-	},
-	{
-		terrainType: "grassland",
-		isCoastal: "all",
-		latitudeMin: 71,
-		latitudeMax: 90,
-		climate: climateData.generic[10] // tundra
-	},
-	{
-		terrainType: "hills",
-		isCoastal: false,
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[1] // tropical savanna
-	},
-	{
-		terrainType: "hills",
-		isCoastal: false,
-		latitudeMin: 21,
-		latitudeMax: 40,
-		climate: climateData.generic[7] // warm with dry winter
-	},
-	{
-		terrainType: "hills",
-		isCoastal: false,
-		latitudeMin: 41,
-		latitudeMax: 70,
-		climate: climateData.generic[8] // cool & rainy
-	},
-	{
-		terrainType: "hills",
-		isCoastal: false,
-		latitudeMin: 71,
-		latitudeMax: 90,
-		climate: climateData.generic[11] // polar
-	},
-	{
-		terrainType: "hills",
-		isCoastal: true,
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[1] // tropical savanna
-	},
-	{
-		terrainType: "hills",
-		isCoastal: true,
-		latitudeMin: 21,
-		latitudeMax: 50,
-		climate: climateData.generic[6] // warm with dry summer
-	},
-	{
-		terrainType: "hills",
-		isCoastal: true,
-		latitudeMin: 51,
-		latitudeMax: 70,
-		climate: climateData.generic[9] // cool with dry winter
-	},
-	{
-		terrainType: "hills",
-		isCoastal: true,
-		latitudeMin: 71,
-		latitudeMax: 90,
-		climate: climateData.generic[10] // tundra
-	},
-	{
-		terrainType: "jungle",
-		isCoastal: false,
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[3] // equatorial
-	},
-	{
-		terrainType: "jungle",
-		isCoastal: true,
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[4] // monsoon
-	},
-	{
-		terrainType: "jungle",
-		isCoastal: true,
-		latitudeMin: 21,
-		latitudeMax: 50,
-		climate: climateData.generic[5] // warm & rainy
-	},
-	{
-		terrainType: "jungle",
-		isCoastal: true,
-		latitudeMin: 51,
-		latitudeMax: 70,
-		climate: climateData.generic[9] // cool with dry winter
-	},
-	{
-		terrainType: "mountains",
-		isCoastal: "all",
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[5] // warm & rainy
-	},
-	{
-		terrainType: "mountains",
-		isCoastal: false,
-		latitudeMin: 21,
-		latitudeMax: 40,
-		climate: climateData.generic[7] // warm with dry winter
-	},
-	{
-		terrainType: "mountains",
-		isCoastal: false,
-		latitudeMin: 41,
-		latitudeMax: 70,
-		climate: climateData.generic[8] // cool & rainy
-	},
-	{
-		terrainType: "mountains",
-		isCoastal: false,
-		latitudeMin: 71,
-		latitudeMax: 90,
-		climate: climateData.generic[11] // polar
-	},
-	{
-		terrainType: "mountains",
-		isCoastal: true,
-		latitudeMin: 21,
-		latitudeMax: 40,
-		climate: climateData.generic[6] // warm with dry summer
-	},
-	{
-		terrainType: "mountains",
-		isCoastal: true,
-		latitudeMin: 41,
-		latitudeMax: 70,
-		climate: climateData.generic[9] // cool with dry winter
-	},
-	{
-		terrainType: "mountains",
-		isCoastal: true,
-		latitudeMin: 71,
-		latitudeMax: 90,
-		climate: climateData.generic[10] // tundra
-	},
-	{
-		terrainType: "swamp",
-		isCoastal: false,
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[3] // equatorial
-	},
-	{
-		terrainType: "swamp",
-		isCoastal: false,
-		latitudeMin: 21,
-		latitudeMax: 40,
-		climate: climateData.generic[6] // warm with dry summer
-	},
-	{
-		terrainType: "swamp",
-		isCoastal: true,
-		latitudeMin: 0,
-		latitudeMax: 20,
-		climate: climateData.generic[4] // monsoon
-	},
-	{
-		terrainType: "swamp",
-		isCoastal: true,
-		latitudeMin: 21,
-		latitudeMax: 40,
-		climate: climateData.generic[5] // warm & rainy
-	},
-	{
-		terrainType: "swamp",
-		isCoastal: "all",
-		latitudeMin: 41,
-		latitudeMax: 90,
-		climate: climateData.generic[10] // tundra
+	swamp: {
+		true: {
+			tropical: climates.generic[4], // monsoon
+			subtropical: climates.generic[5], // warm & rainy
+			temperate: climates.generic[5], // warm & rainy
+			"cool temperate": climates.generic[10], // tundra
+			subpolar: climates.generic[10], // tundra
+			polar: climates.generic[10] // tundra
+		},
+		false: {
+			tropical: climates.generic[3], // equatorial
+			subtropical: climates.generic[6], // warm with dry summer
+			temperate: climates.generic[6], // warm with dry summer
+			"cool temperate": climates.generic[10], // tundra
+			subpolar: climates.generic[10], // tundra
+			polar: climates.generic[10] // tundra
+		}
 	}
-];
+};
 
-export default climates;
+export default climateLookup;
