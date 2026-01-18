@@ -149,9 +149,11 @@ export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
 		const high = Math.round(
 			lerp(prevSeasonObj.high, nextSeasonObj.high, dayOfTransition)
 		);
-		const low = Math.round(
+		let low = Math.round(
 			lerp(prevSeasonObj.low, nextSeasonObj.low, dayOfTransition)
 		);
+
+		low = low === -0 ? 0 : low;
 
 		return { high: high, low: low };
 	}
