@@ -67,7 +67,7 @@ export const getLatitudeBand = (latitude) => {
 export function getClimate(terrainType, latitude, isCoastal) {
 	const latitudeBand = getLatitudeBand(latitude);
 	console.log(terrainType, isCoastal, `${latitudeBand} (${latitude})`);
-	const climate = climateLookup[terrainType][isCoastal][latitudeBand];
+	const climate = climateLookup?.[terrainType]?.[isCoastal]?.[latitudeBand];
 	if (!climate) throw new Error("no valid climate");
 	console.log("Climate", climate);
 	return climate;
@@ -121,9 +121,6 @@ export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
 		const nextSeason =
 			seasonDurations[(currentIndex + 1) % seasonDurations.length].name;
 
-		// Helper: linear interpolation between two values
-		const lerp = (start, end, t) => start + (end - start) * t;
-
 		const prevSeasonObj =
 			climate.seasons[prevSeason] || climate.seasons[nextSeason];
 		const nextSeasonObj =
@@ -156,8 +153,12 @@ export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
 			lerp(prevSeasonObj.low, nextSeasonObj.low, dayOfTransition)
 		);
 
-		return { high: high || 0, low: low || 0 };
+		return { high: high, low: low };
 	}
+}
+
+function lerp(start, end, t) {
+	return start + (end - start) * t;
 }
 
 export function getPrecipitationChance(dayOfYear, precipPeriods) {
