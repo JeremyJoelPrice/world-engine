@@ -99,8 +99,16 @@ function CircularProgressWithLabel({ onClick, value }) {
 				variant="determinate"
 				size="70px"
 				value={value}
+				thickness={5}
+				sx={{
+					strokeLinecap: "round",
+					zIndex: 2
+				}}
 			/>
-			<StyledTenMinuteButton variant="outlined" onClick={onClick}>
+			<StyledTenMinuteButton
+				variant="outlined"
+				onClick={onClick}
+				sx={{ zIndex: 1 }}>
 				+10m
 			</StyledTenMinuteButton>
 		</StyleBox>
@@ -133,4 +141,5 @@ const StyledCircularProgress = styled(CircularProgress)`
 	position: absolute;
 	top: 0;
 	right: 0;
+	pointer-events: none;
 `;
