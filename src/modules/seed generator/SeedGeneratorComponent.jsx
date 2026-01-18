@@ -84,12 +84,12 @@ const SeedGeneratorComponent = () => {
 	};
 
 	/* quest */
-	const [quest, setQuest] = useState("");
+	// const [quest, setQuest] = useState("");
 
-	const copyQuest = () => {
-		let string = "";
-		navigator.clipboard.writeText(string);
-	};
+	// const copyQuest = () => {
+	// 	let string = "";
+	// 	navigator.clipboard.writeText(string);
+	// };
 
 	return (
 		<Paper
