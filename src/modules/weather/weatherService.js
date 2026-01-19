@@ -26,18 +26,15 @@ export const generateWeather = (
 		weather.cloud = previousWeather.cloud;
 		weather.wind = previousWeather.wind;
 		weather.precipitation = previousWeather.precipitation;
-		console.log("repeat previous weather");
+		// console.log("repeat previous weather");
 	} else {
-		// generate cloud, precipitation & wind
-		const { cloud, precipitation, windFactor } = getSky(
-			Math.random() <=
-				getPrecipitationChance(dayOfYear, climate.precipPeriods),
-			weather.temperature
+		weather.precipitation = getPrecipitation(
+			climate,
+			dayOfYear,
+			weather.temperature.high
 		);
-
-		weather.cloud = cloud;
-		weather.precipitation = precipitation;
-		weather.wind = getWind(roll(windFactor).value);
+		weather.cloud = getCloud(weather.precipitation);
+		weather.wind = getWind(weather.cloud);
 	}
 
 	return weather;
@@ -171,40 +168,6 @@ export function getPrecipitationChance(dayOfYear, precipPeriods) {
 	return period.percentChance;
 }
 
-export function getSky(willItPrecipitate, currentTemp) {
-	let sky;
-	// if no precipitation, bias toward clearer skies
-	if (!willItPrecipitate) {
-		sky = Object.assign({}, biasedSelection(skyTable, 0, 0.2));
-		sky.precipitation = "none";
-		return sky;
-	}
-
-	sky = rollOnTable(skyTable);
-	sky.precipitation =
-		Math.trunc((currentTemp.high + currentTemp.low) / 2) <= 0
-			? sky.snow
-			: sky.rain;
-
-	// chance of fog
-	if (
-		sky.precipitation === "light mist" &&
-		currentTemp?.high > 0 &&
-		Math.random() < 0.4
-	) {
-		sky.precipitation = "fog";
-	}
-
-	// chance of thunderstorm or hail
-	if (sky.cloud === "dark rainclouds" && Math.random() < 0.4) {
-		sky.cloud = "thunderstorm";
-	} else if (sky.cloud === "dark stormclouds" && Math.random() < 0.4) {
-		sky.snow = "hail mixed with snow";
-	}
-
-	return sky;
-}
-
 export function getPrecipitation(climate, dayOfYear, currentTemp) {
 	const { precipPeriods } = climate;
 
@@ -219,7 +182,27 @@ export function getPrecipitation(climate, dayOfYear, currentTemp) {
 	return currentTemp <= 0 ? snow : rain;
 }
 
-export function getWind(diceResult) {
+export function getCloud(precipitation) {
+	if (precipitation === "none")
+		return biasedSelection(skyTable, 0, 0.2).cloud;
+
+	for (const sky of skyTable) {
+		if (sky.rain === precipitation || sky.snow === precipitation) {
+			return sky.cloud;
+		}
+	}
+	return skyTable.find(
+		(s) => s.rain === precipitation || s.snow === precipitation
+	).cloud;
+}
+
+export function getWind(cloud) {
+	console.log("cloud", cloud);
+	console.log(skyTable.find((s) => s.cloud === cloud));
+	const { windTypeFactor } = skyTable.find((s) => s.cloud === cloud);
+
+	const diceResult = roll(windTypeFactor).value;
+
 	// get wind obj
 	const { description, mphMin, mphMax, wind } = windTypes.find(
 		({ diceMinResult, diceMaxResult }) =>

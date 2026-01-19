@@ -1,15 +1,14 @@
 import dayjs from "dayjs";
 import skyTable from "../modules/weather/data/skyTable";
 import terrainTypes from "../modules/weather/data/terrainTypes";
-import windTypes from "../modules/weather/data/windTypes";
 import climates from "../modules/weather/data/climates";
 import {
 	generateWeather,
 	getAverageTemperatureOfGivenDay,
 	getClimate,
+	getCloud,
 	getPrecipitation,
 	getPrecipitationChance,
-	getSky,
 	getSunriseSunset,
 	getWind
 } from "../modules/weather/weatherService";
@@ -352,79 +351,6 @@ describe("getPrecipitationChance()", () => {
 	});
 });
 
-describe("getSky", () => {
-	test("returns a random sky", () => {
-		for (let i = 0; i < 1000; i++) {
-			expect(getSky()).toMatchObject({
-				precipitation: expect.any(String),
-				cloud: expect.any(String),
-				windTypeFactor: expect.any(String)
-			});
-		}
-	});
-	test("respects willPrecipitate boolean value", () => {
-		let totals = {};
-
-		for (let i = 0; i < 10000; i++) {
-			const { precipitation } = getSky(false, 0);
-			totals[precipitation] = totals[precipitation]
-				? totals[precipitation] + 1
-				: 1;
-		}
-
-		expect(totals.none).toEqual(10000);
-
-		totals = { none: 0 };
-
-		for (let i = 0; i < 10000; i++) {
-			const { precipitation } = getSky(true, 0);
-			totals[precipitation] = totals[precipitation]
-				? totals[precipitation] + 1
-				: 1;
-		}
-		expect(totals.none).toEqual(0);
-	});
-	test("bias toward clearer skies when no precipitation", () => {
-		const totals = {};
-		totals[skyTable[0].cloud] = 0;
-		totals[skyTable[1].cloud] = 0;
-		totals[skyTable[2].cloud] = 0;
-		totals[skyTable[3].cloud] = 0;
-		totals[skyTable[4].cloud] = 0;
-		totals[skyTable[5].cloud] = 0;
-
-		for (let i = 0; i < 10000; i++) {
-			const { cloud } = getSky(0);
-			totals[cloud]++;
-		}
-		expect(Math.max(...Object.values(totals))).toEqual(
-			totals[skyTable[0].cloud]
-		);
-	});
-	describe("getWind()", () => {
-		test("returns wind based on give dice result", () => {
-			expect(getWind(1)).toMatchObject({
-				type: windTypes[0].wind,
-				speed: expect.any(Number),
-				direction: expect.any(String),
-				description: windTypes[0].description
-			});
-			expect(getWind(10)).toMatchObject({
-				type: windTypes[5].wind,
-				speed: expect.any(Number),
-				direction: expect.any(String),
-				description: windTypes[5].description
-			});
-			expect(getWind(19)).toMatchObject({
-				type: windTypes[10].wind,
-				speed: expect.any(Number),
-				direction: expect.any(String),
-				description: windTypes[10].description
-			});
-		});
-	});
-});
-
 describe("getPrecipitation()", () => {
 	const climate = {
 		name: "sample climate",
@@ -449,7 +375,7 @@ describe("getPrecipitation()", () => {
 	};
 
 	afterEach(() => {
-		jest.spyOn(global.Math, "random").mockRestore();
+		jest.restoreAllMocks();
 	});
 
 	test("respects precipitation chance", () => {
@@ -462,6 +388,34 @@ describe("getPrecipitation()", () => {
 		jest.spyOn(global.Math, "random").mockReturnValue(0.1);
 		expect(getPrecipitation(climate, 91, -5)).toBe("few flakes");
 		expect(getPrecipitation(climate, 91, 5)).toBe("light mist");
+	});
+});
+
+describe("getCloud()", () => {
+	test("bias toward clearer skies when no precipitation", () => {
+		const totals = {};
+		totals[skyTable[0].cloud] = 0;
+		totals[skyTable[1].cloud] = 0;
+		totals[skyTable[2].cloud] = 0;
+		totals[skyTable[3].cloud] = 0;
+		totals[skyTable[4].cloud] = 0;
+		totals[skyTable[5].cloud] = 0;
+
+		for (let i = 0; i < 10000; i++) {
+			const cloud = getCloud("none");
+			totals[cloud]++;
+		}
+		expect(Math.max(...Object.values(totals))).toEqual(
+			totals[skyTable[0].cloud]
+		);
+	});
+});
+
+describe("getWind()", () => {
+	test("returns wind based on given clouds", () => {
+		expect(["Calm", "Light air", "Light breeze"]).toContain(
+			getWind(skyTable[0].cloud).type
+		);
 	});
 });
 

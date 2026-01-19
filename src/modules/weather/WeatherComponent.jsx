@@ -52,13 +52,13 @@ const WeatherComponent = ({
 			high: 0,
 			low: 0
 		},
-		cloud: "",
-		precipitation: "",
+		cloud: "clear",
+		precipitation: "none",
 		wind: {
-			type: "",
-			description: "",
+			type: "Calm",
+			description: "Smoke rises vertically",
 			speed: 0,
-			direction: ""
+			direction: "SW"
 		}
 	});
 	const [disabled, setDisabled] = useState();
