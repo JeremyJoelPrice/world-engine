@@ -7,6 +7,7 @@ import {
 	generateWeather,
 	getAverageTemperatureOfGivenDay,
 	getClimate,
+	getPrecipitation,
 	getPrecipitationChance,
 	getSky,
 	getSunriseSunset,
@@ -421,6 +422,46 @@ describe("getSky", () => {
 				description: windTypes[10].description
 			});
 		});
+	});
+});
+
+describe("getPrecipitation()", () => {
+	const climate = {
+		name: "sample climate",
+		seasons: {
+			summer: { high: 37, low: 29 },
+			winter: { high: 32, low: 16 }
+		},
+		precipPeriods: [
+			{
+				firstDay: 91,
+				percentChance: 1
+			},
+			{
+				firstDay: 121,
+				percentChance: 0
+			},
+			{
+				firstDay: 274,
+				percentChance: 0.5
+			}
+		]
+	};
+
+	afterEach(() => {
+		jest.spyOn(global.Math, "random").mockRestore();
+	});
+
+	test("respects precipitation chance", () => {
+		jest.spyOn(global.Math, "random").mockReturnValue(0.5);
+		expect(getPrecipitation(climate, 121, 1)).toBe("none");
+		expect(getPrecipitation(climate, 91, 1)).toBe("strong rainfall");
+	});
+
+	test("respectes temperature for rain vs snow", () => {
+		jest.spyOn(global.Math, "random").mockReturnValue(0.1);
+		expect(getPrecipitation(climate, 91, -5)).toBe("few flakes");
+		expect(getPrecipitation(climate, 91, 5)).toBe("light mist");
 	});
 });
 

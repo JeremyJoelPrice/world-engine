@@ -205,6 +205,20 @@ export function getSky(willItPrecipitate, currentTemp) {
 	return sky;
 }
 
+export function getPrecipitation(climate, dayOfYear, currentTemp) {
+	const { precipPeriods } = climate;
+
+	const { percentChance } =
+		[...precipPeriods].reverse().find((p) => dayOfYear >= p.firstDay) ||
+		precipPeriods[precipPeriods.length - 1];
+
+	if (Math.random() > percentChance) return "none";
+
+	const { rain, snow } = rollOnTable(skyTable);
+
+	return currentTemp <= 0 ? snow : rain;
+}
+
 export function getWind(diceResult) {
 	// get wind obj
 	const { description, mphMin, mphMax, wind } = windTypes.find(
