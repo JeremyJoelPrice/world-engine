@@ -77,8 +77,8 @@ export function getTemperature(climate, dayOfYear) {
 	let { high, low } = getAverageTemperatureOfGivenDay(climate, dayOfYear);
 	const diurnal = high - low;
 
-	high = high + roll("2d12-13").value;
-	low = Math.min(low + roll("2d8-9").value, high - diurnal);
+	high = high + roll("2d6-7").value;
+	low = Math.min(low + roll("2d4-5").value, high - diurnal);
 
 	return {
 		high,
