@@ -116,7 +116,7 @@ const climates = {
 					low: 5
 				}
 			},
-			precipPeriods: [{ firstDay: 1, percentChance: 0.5 }]
+			precipPeriods: [{ firstDay: 1, percentChance: 0.05 }]
 		},
 		{
 			name: "tropical savanna",
@@ -150,7 +150,7 @@ const climates = {
 				winter: { high: 7, low: -5 }
 			},
 			precipPeriods: [
-				{ firstDay: 182, percentChance: 0.5 },
+				{ firstDay: 182, percentChance: 0.05 },
 				{ firstDay: 244, percentChance: 0.2 }
 			]
 		},
