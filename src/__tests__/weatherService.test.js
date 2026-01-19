@@ -9,6 +9,7 @@ import {
 	getClimate,
 	getPrecipitationChance,
 	getSky,
+	getSunriseSunset,
 	getWind
 } from "../modules/weather/weatherService";
 
@@ -444,6 +445,8 @@ function yearOfWeather() {
 			previousWeather
 		);
 
+		const { sunrise, sunset } = getSunriseSunset(latitude, dayOfYear);
+
 		// write weather to fileContents
 		const date = dayjs("0793-01-01")
 			.add(dayOfYear - 1, "day")
@@ -457,8 +460,8 @@ function yearOfWeather() {
 		fileContents += `${weather.wind.type},`;
 		fileContents += `${weather.wind.speed} mph,`;
 		fileContents += `${weather.wind.direction},`;
-		fileContents += `${weather.daylight.sunrise}:00,`;
-		fileContents += `${weather.daylight.sunset}:00\n`;
+		fileContents += `${sunrise}:00,`;
+		fileContents += `${sunset}:00\n`;
 	}
 
 	const fs = require("node:fs");
