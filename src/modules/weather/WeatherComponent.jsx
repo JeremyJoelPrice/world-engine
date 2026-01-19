@@ -25,9 +25,9 @@ import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import {
 	generateWeather,
+	getClimate,
 	getLatitudeBand,
-	getSunriseSunset,
-	isValidClimate
+	getSunriseSunset
 } from "./weatherService";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
@@ -82,7 +82,12 @@ const WeatherComponent = ({
 	};
 
 	useEffect(() => {
-		setDisabled(!isValidClimate(terrainType, latitude, isCoastal));
+		try {
+			getClimate(terrainType, latitude, isCoastal);
+			setDisabled(false);
+		} catch (e) {
+			setDisabled(true);
+		}
 	}, [terrainType, latitude, isCoastal]);
 
 	useEffect(() => {

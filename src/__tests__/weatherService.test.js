@@ -8,7 +8,6 @@ import {
 	getClimate,
 	getCloud,
 	getPrecipitation,
-	getPrecipitationChance,
 	getSunriseSunset,
 	getWind
 } from "../modules/weather/weatherService";
@@ -297,56 +296,6 @@ describe("getAverageTemperatureOfGivenDay()", () => {
 		};
 		expect(getAverageTemperatureOfGivenDay(climate, 1)).toEqual(
 			climate.seasons.summer
-		);
-	});
-});
-
-describe("getPrecipitationChance()", () => {
-	const precipPeriods = [
-		{
-			firstDay: 2,
-			percentChance: 1
-		},
-		{
-			firstDay: 60,
-			percentChance: 2
-		},
-		{
-			firstDay: 152,
-			percentChance: 3
-		}
-	];
-	test("returns first precip period", () => {
-		expect(getPrecipitationChance(2, precipPeriods)).toBe(
-			precipPeriods[0].percentChance
-		);
-		expect(getPrecipitationChance(35, precipPeriods)).toBe(
-			precipPeriods[0].percentChance
-		);
-		expect(getPrecipitationChance(59, precipPeriods)).toBe(
-			precipPeriods[0].percentChance
-		);
-	});
-	test("returns second precip period", () => {
-		expect(getPrecipitationChance(60, precipPeriods)).toBe(
-			precipPeriods[1].percentChance
-		);
-		expect(getPrecipitationChance(85, precipPeriods)).toBe(
-			precipPeriods[1].percentChance
-		);
-		expect(getPrecipitationChance(151, precipPeriods)).toBe(
-			precipPeriods[1].percentChance
-		);
-	});
-	test("returns third precip period", () => {
-		expect(getPrecipitationChance(152, precipPeriods)).toBe(
-			precipPeriods[2].percentChance
-		);
-		expect(getPrecipitationChance(365, precipPeriods)).toBe(
-			precipPeriods[2].percentChance
-		);
-		expect(getPrecipitationChance(1, precipPeriods)).toBe(
-			precipPeriods[2].percentChance
 		);
 	});
 });

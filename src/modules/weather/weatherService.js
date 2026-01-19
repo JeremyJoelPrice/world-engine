@@ -40,15 +40,6 @@ export const generateWeather = (
 	return weather;
 };
 
-export const isValidClimate = (terrainType, latitude, isCoastal) => {
-	try {
-		getClimate(terrainType, latitude, isCoastal);
-		return true;
-	} catch (e) {
-		return false;
-	}
-};
-
 export const getLatitudeBand = (latitude) => {
 	let latitudeBand;
 
@@ -158,14 +149,6 @@ export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
 
 function lerp(start, end, t) {
 	return start + (end - start) * t;
-}
-
-export function getPrecipitationChance(dayOfYear, precipPeriods) {
-	const period =
-		[...precipPeriods].reverse().find((p) => dayOfYear >= p.firstDay) ||
-		precipPeriods[precipPeriods.length - 1];
-
-	return period.percentChance;
 }
 
 export function getPrecipitation(climate, dayOfYear, currentTemp) {
