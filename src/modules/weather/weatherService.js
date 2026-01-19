@@ -26,7 +26,7 @@ export const generateWeather = (
 		weather.cloud = previousWeather.cloud;
 		weather.wind = previousWeather.wind;
 		weather.precipitation = previousWeather.precipitation;
-		// console.log("repeat previous weather");
+		console.log("repeating previous weather");
 	} else {
 		weather.precipitation = getPrecipitation(
 			climate,
@@ -54,10 +54,8 @@ export const getLatitudeBand = (latitude) => {
 
 export function getClimate(terrainType, latitude, isCoastal) {
 	const latitudeBand = getLatitudeBand(latitude);
-	console.log(terrainType, isCoastal, `${latitudeBand} (${latitude})`);
 	const climate = climateLookup?.[terrainType]?.[isCoastal]?.[latitudeBand];
 	if (!climate) throw new Error("no valid climate");
-	console.log("Climate", climate);
 	return climate;
 }
 
@@ -180,8 +178,6 @@ export function getCloud(precipitation) {
 }
 
 export function getWind(cloud) {
-	console.log("cloud", cloud);
-	console.log(skyTable.find((s) => s.cloud === cloud));
 	const { windTypeFactor } = skyTable.find((s) => s.cloud === cloud);
 
 	const diceResult = roll(windTypeFactor).value;
