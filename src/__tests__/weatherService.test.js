@@ -14,11 +14,13 @@ import {
 
 describe("data validation", () => {
 	describe("climate objects", () => {
-		const allClimates = climates.generic.concat(climates.custom);
+		const allClimates = [
+			...Object.values(climates.generic),
+			...Object.values(climates.custom)
+		];
 		allClimates.forEach((climate) => {
 			describe(`climate: ${climate.name}`, () => {
 				test("has required properties", () => {
-					expect(climate).toHaveProperty("name");
 					expect(climate).toHaveProperty("seasons");
 					expect(climate).toHaveProperty("precipPeriods");
 				});
@@ -57,40 +59,90 @@ describe("getClimate() returns correct climate or 'no valid climate' error", () 
 		expect(() => getClimate(t, 0, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 10, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 20, false)).toThrow(/no valid climate/);
-		expect(getClimate(t, 30, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 40, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 50, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 60, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 70, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 80, false).name).toBe("polar");
-		expect(getClimate(t, 90, false).name).toBe("polar");
-		expect(getClimate(t, 0, true).name).toBe("desert");
-		expect(getClimate(t, 10, true).name).toBe("desert");
-		expect(getClimate(t, 20, true).name).toBe("desert");
-		expect(getClimate(t, 30, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 40, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 50, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 60, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 70, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 80, true).name).toBe("tundra");
-		expect(getClimate(t, 90, true).name).toBe("tundra");
+		expect(getClimate(t, 30, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 40, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 50, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 60, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 70, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 80, false)).toMatchObject(
+			climates.generic["polar"]
+		);
+		expect(getClimate(t, 90, false)).toMatchObject(
+			climates.generic["polar"]
+		);
+		expect(getClimate(t, 0, true)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 10, true)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 20, true)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 30, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 40, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 50, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 60, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 70, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 80, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 90, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
 	});
 	test(`${terrainTypes[1]} terrain`, () => {
 		const t = terrainTypes[1];
-		expect(getClimate(t, 0, false).name).toBe("desert");
-		expect(getClimate(t, 10, false).name).toBe("desert");
-		expect(getClimate(t, 20, false).name).toBe("desert");
-		expect(getClimate(t, 30, false).name).toBe("desert");
+		expect(getClimate(t, 0, false)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 10, false)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 20, false)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 30, false)).toMatchObject(
+			climates.generic["desert"]
+		);
 		expect(() => getClimate(t, 40, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 50, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 60, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 70, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 80, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 90, false)).toThrow(/no valid climate/);
-		expect(getClimate(t, 0, true).name).toBe("desert");
-		expect(getClimate(t, 10, true).name).toBe("desert");
-		expect(getClimate(t, 20, true).name).toBe("desert");
-		expect(getClimate(t, 30, true).name).toBe("desert");
+		expect(getClimate(t, 0, true)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 10, true)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 20, true)).toMatchObject(
+			climates.generic["desert"]
+		);
+		expect(getClimate(t, 30, true)).toMatchObject(
+			climates.generic["desert"]
+		);
 		expect(() => getClimate(t, 40, true)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 50, true)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 60, true)).toThrow(/no valid climate/);
@@ -100,78 +152,196 @@ describe("getClimate() returns correct climate or 'no valid climate' error", () 
 	});
 	test(`${terrainTypes[2]} terrain`, () => {
 		const t = terrainTypes[2];
-		expect(getClimate(t, 0, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 10, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 20, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 30, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 40, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 50, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 60, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 70, false).name).toBe("cool & rainy");
+		expect(getClimate(t, 0, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 10, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 20, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 30, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 40, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 50, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 60, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 70, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
 		expect(() => getClimate(t, 80, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 90, false)).toThrow(/no valid climate/);
-		expect(getClimate(t, 0, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 10, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 20, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 30, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 40, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 50, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 60, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 70, true).name).toBe("cool with dry winter");
+		expect(getClimate(t, 0, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 10, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 20, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 30, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 40, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 50, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 60, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 70, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
 		expect(() => getClimate(t, 80, true)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 90, true)).toThrow(/no valid climate/);
 	});
 	test(`${terrainTypes[3]} terrain`, () => {
 		const t = terrainTypes[3];
-		expect(getClimate(t, 0, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 10, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 20, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 30, false).name).toBe("steppe");
-		expect(getClimate(t, 40, false).name).toBe("steppe");
-		expect(getClimate(t, 50, false).name).toBe("steppe");
-		expect(getClimate(t, 60, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 70, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 80, false).name).toBe("tundra");
-		expect(getClimate(t, 90, false).name).toBe("tundra");
-		expect(getClimate(t, 0, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 10, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 20, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 30, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 40, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 50, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 60, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 70, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 80, true).name).toBe("tundra");
-		expect(getClimate(t, 90, true).name).toBe("tundra");
+		expect(getClimate(t, 0, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 10, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 20, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 30, false)).toMatchObject(
+			climates.generic["steppe"]
+		);
+		expect(getClimate(t, 40, false)).toMatchObject(
+			climates.generic["steppe"]
+		);
+		expect(getClimate(t, 50, false)).toMatchObject(
+			climates.generic["steppe"]
+		);
+		expect(getClimate(t, 60, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 70, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 80, false)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 90, false)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 0, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 10, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 20, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 30, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 40, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 50, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 60, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 70, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 80, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 90, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
 	});
 	test(`${terrainTypes[4]} terrain`, () => {
 		const t = terrainTypes[4];
-		expect(getClimate(t, 0, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 10, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 20, false).name).toBe("tropical savanna");
-		expect(getClimate(t, 30, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 40, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 50, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 60, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 70, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 80, false).name).toBe("polar");
-		expect(getClimate(t, 90, false).name).toBe("polar");
-		expect(getClimate(t, 0, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 10, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 20, true).name).toBe("tropical savanna");
-		expect(getClimate(t, 30, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 40, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 50, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 60, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 70, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 80, true).name).toBe("tundra");
-		expect(getClimate(t, 90, true).name).toBe("tundra");
+		expect(getClimate(t, 0, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 10, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 20, false)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 30, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 40, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 50, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 60, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 70, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 80, false)).toMatchObject(
+			climates.generic["polar"]
+		);
+		expect(getClimate(t, 90, false)).toMatchObject(
+			climates.generic["polar"]
+		);
+		expect(getClimate(t, 0, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 10, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 20, true)).toMatchObject(
+			climates.generic["tropical savanna"]
+		);
+		expect(getClimate(t, 30, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 40, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 50, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 60, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 70, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 80, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 90, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
 	});
 	test(`${terrainTypes[5]} terrain`, () => {
 		const t = terrainTypes[5];
-		expect(getClimate(t, 0, false).name).toBe("equatorial");
-		expect(getClimate(t, 10, false).name).toBe("equatorial");
-		expect(getClimate(t, 20, false).name).toBe("equatorial");
+		expect(getClimate(t, 0, false)).toMatchObject(
+			climates.generic["equatorial"]
+		);
+		expect(getClimate(t, 10, false)).toMatchObject(
+			climates.generic["equatorial"]
+		);
+		expect(getClimate(t, 20, false)).toMatchObject(
+			climates.generic["equatorial"]
+		);
 		expect(() => getClimate(t, 30, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 40, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 50, false)).toThrow(/no valid climate/);
@@ -179,62 +349,158 @@ describe("getClimate() returns correct climate or 'no valid climate' error", () 
 		expect(() => getClimate(t, 70, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 80, false)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 90, false)).toThrow(/no valid climate/);
-		expect(getClimate(t, 0, true).name).toBe("monsoon");
-		expect(getClimate(t, 10, true).name).toBe("monsoon");
-		expect(getClimate(t, 20, true).name).toBe("monsoon");
-		expect(getClimate(t, 30, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 40, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 50, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 60, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 70, true).name).toBe("cool with dry winter");
+		expect(getClimate(t, 0, true)).toMatchObject(
+			climates.generic["monsoon"]
+		);
+		expect(getClimate(t, 10, true)).toMatchObject(
+			climates.generic["monsoon"]
+		);
+		expect(getClimate(t, 20, true)).toMatchObject(
+			climates.generic["monsoon"]
+		);
+		expect(getClimate(t, 30, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 40, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 50, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 60, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 70, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
 		expect(() => getClimate(t, 80, true)).toThrow(/no valid climate/);
 		expect(() => getClimate(t, 90, true)).toThrow(/no valid climate/);
 	});
 	test(`${terrainTypes[6]} terrain`, () => {
 		const t = terrainTypes[6];
-		expect(getClimate(t, 0, false).name).toBe("warm & rainy");
-		expect(getClimate(t, 10, false).name).toBe("warm & rainy");
-		expect(getClimate(t, 20, false).name).toBe("warm & rainy");
-		expect(getClimate(t, 30, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 40, false).name).toBe("warm with dry winter");
-		expect(getClimate(t, 50, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 60, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 70, false).name).toBe("cool & rainy");
-		expect(getClimate(t, 80, false).name).toBe("polar");
-		expect(getClimate(t, 90, false).name).toBe("polar");
-		expect(getClimate(t, 0, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 10, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 20, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 30, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 40, true).name).toBe("warm with dry summer");
-		expect(getClimate(t, 50, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 60, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 70, true).name).toBe("cool with dry winter");
-		expect(getClimate(t, 80, true).name).toBe("tundra");
-		expect(getClimate(t, 90, true).name).toBe("tundra");
+		expect(getClimate(t, 0, false)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 10, false)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 20, false)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 30, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 40, false)).toMatchObject(
+			climates.generic["warm with dry winter"]
+		);
+		expect(getClimate(t, 50, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 60, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 70, false)).toMatchObject(
+			climates.generic["cool & rainy"]
+		);
+		expect(getClimate(t, 80, false)).toMatchObject(
+			climates.generic["polar"]
+		);
+		expect(getClimate(t, 90, false)).toMatchObject(
+			climates.generic["polar"]
+		);
+		expect(getClimate(t, 0, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 10, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 20, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 30, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 40, true)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 50, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 60, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 70, true)).toMatchObject(
+			climates.generic["cool with dry winter"]
+		);
+		expect(getClimate(t, 80, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 90, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
 	});
 	test(`${terrainTypes[7]} terrain`, () => {
 		const t = terrainTypes[7];
-		expect(getClimate(t, 0, false).name).toBe("equatorial");
-		expect(getClimate(t, 10, false).name).toBe("equatorial");
-		expect(getClimate(t, 20, false).name).toBe("equatorial");
-		expect(getClimate(t, 30, false).name).toBe("warm with dry summer");
-		expect(getClimate(t, 40, false).name).toBe("warm with dry summer");
-		expect(getClimate(t, 50, false).name).toBe("tundra");
-		expect(getClimate(t, 60, false).name).toBe("tundra");
-		expect(getClimate(t, 70, false).name).toBe("tundra");
-		expect(getClimate(t, 80, false).name).toBe("tundra");
-		expect(getClimate(t, 90, false).name).toBe("tundra");
-		expect(getClimate(t, 0, true).name).toBe("monsoon");
-		expect(getClimate(t, 10, true).name).toBe("monsoon");
-		expect(getClimate(t, 20, true).name).toBe("monsoon");
-		expect(getClimate(t, 30, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 40, true).name).toBe("warm & rainy");
-		expect(getClimate(t, 50, true).name).toBe("tundra");
-		expect(getClimate(t, 60, true).name).toBe("tundra");
-		expect(getClimate(t, 70, true).name).toBe("tundra");
-		expect(getClimate(t, 80, true).name).toBe("tundra");
-		expect(getClimate(t, 90, true).name).toBe("tundra");
+		expect(getClimate(t, 0, false)).toMatchObject(
+			climates.generic["equatorial"]
+		);
+		expect(getClimate(t, 10, false)).toMatchObject(
+			climates.generic["equatorial"]
+		);
+		expect(getClimate(t, 20, false)).toMatchObject(
+			climates.generic["equatorial"]
+		);
+		expect(getClimate(t, 30, false)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 40, false)).toMatchObject(
+			climates.generic["warm with dry summer"]
+		);
+		expect(getClimate(t, 50, false)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 60, false)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 70, false)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 80, false)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 90, false)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 0, true)).toMatchObject(
+			climates.generic["monsoon"]
+		);
+		expect(getClimate(t, 10, true)).toMatchObject(
+			climates.generic["monsoon"]
+		);
+		expect(getClimate(t, 20, true)).toMatchObject(
+			climates.generic["monsoon"]
+		);
+		expect(getClimate(t, 30, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 40, true)).toMatchObject(
+			climates.generic["warm & rainy"]
+		);
+		expect(getClimate(t, 50, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 60, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 70, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 80, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
+		expect(getClimate(t, 90, true)).toMatchObject(
+			climates.generic["tundra"]
+		);
 	});
 });
 

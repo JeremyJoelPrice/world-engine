@@ -33,7 +33,7 @@ import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
 import StyledSelect from "../../components/StyledSelect";
 import climates from "./data/climates";
-const customClimates = climates.custom.map((c) => c.name);
+const customClimates = Object.values(climates.custom).map((c) => c.name);
 
 dayjs.extend(dayOfYear);
 

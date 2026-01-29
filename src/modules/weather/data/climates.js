@@ -1,7 +1,6 @@
 const climates = {
-	custom: [
-		{
-			name: "coastal lowlands",
+	custom: {
+		"coastal lowlands": {
 			seasons: {
 				summer: { high: 12, low: 6 },
 				winter: { high: 2, low: -5 }
@@ -13,8 +12,7 @@ const climates = {
 				{ firstDay: 300, percentChance: 0.6 }
 			]
 		},
-		{
-			name: "fjords",
+		fjords: {
 			seasons: {
 				summer: { high: 11, low: 5 },
 				winter: { high: 1, low: -7 }
@@ -26,16 +24,14 @@ const climates = {
 				{ firstDay: 300, percentChance: 0.6 }
 			]
 		},
-		{
-			name: "geothermal fields",
+		"geothermal fields": {
 			seasons: {
 				summer: { high: 14, low: 7 },
 				winter: { high: 5, low: -2 }
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 0.5 }]
 		},
-		{
-			name: "glacial regions",
+		"glacial regions": {
 			seasons: {
 				summer: { high: 3, low: -3 },
 				winter: { high: -10, low: -25 }
@@ -45,8 +41,7 @@ const climates = {
 				{ firstDay: 270, percentChance: 0.35 }
 			]
 		},
-		{
-			name: "interior highlands",
+		"interior highlands": {
 			seasons: {
 				summer: { high: 8, low: 2 },
 				winter: { high: -5, low: -15 }
@@ -57,8 +52,7 @@ const climates = {
 				{ firstDay: 270, percentChance: 0.5 }
 			]
 		},
-		{
-			name: "mountain ranges",
+		"mountain ranges": {
 			seasons: {
 				summer: { high: 7, low: 1 },
 				winter: { high: -8, low: -20 }
@@ -69,16 +63,14 @@ const climates = {
 				{ firstDay: 270, percentChance: 0.5 }
 			]
 		},
-		{
-			name: "sparse coastal woodland",
+		"sparse coastal woodland": {
 			seasons: {
 				summer: { high: 13, low: 7 },
 				winter: { high: 3, low: -4 }
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 0.6 }]
 		},
-		{
-			name: "volcanic desert",
+		"volcanic desert": {
 			seasons: {
 				summer: { high: 9, low: 3 },
 				winter: { high: -4, low: -14 }
@@ -89,8 +81,7 @@ const climates = {
 				{ firstDay: 270, percentChance: 0.2 }
 			]
 		},
-		{
-			name: "wetlands and bogs",
+		"wetlands and bogs": {
 			seasons: {
 				summer: { high: 11, low: 5 },
 				winter: { high: 1, low: -6 }
@@ -102,10 +93,9 @@ const climates = {
 				{ firstDay: 300, percentChance: 0.6 }
 			]
 		}
-	],
-	generic: [
-		{
-			name: "desert",
+	},
+	generic: {
+		desert: {
 			seasons: {
 				summer: {
 					high: 39,
@@ -118,8 +108,7 @@ const climates = {
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 0.05 }]
 		},
-		{
-			name: "tropical savanna",
+		"tropical savanna": {
 			seasons: {
 				summer: { high: 37, low: 29 },
 				winter: { high: 32, low: 16 }
@@ -143,8 +132,7 @@ const climates = {
 				}
 			]
 		},
-		{
-			name: "steppe",
+		steppe: {
 			seasons: {
 				summer: { high: 34, low: 20 },
 				winter: { high: 7, low: -5 }
@@ -154,8 +142,7 @@ const climates = {
 				{ firstDay: 244, percentChance: 0.2 }
 			]
 		},
-		{
-			name: "equatorial",
+		equatorial: {
 			seasons: {
 				summer: { high: 33, low: 23 }
 			},
@@ -174,8 +161,7 @@ const climates = {
 				}
 			]
 		},
-		{
-			name: "monsoon",
+		monsoon: {
 			seasons: {
 				summer: {
 					high: 35,
@@ -193,8 +179,7 @@ const climates = {
 				}
 			]
 		},
-		{
-			name: "warm & rainy",
+		"warm & rainy": {
 			seasons: {
 				summer: {
 					high: 25,
@@ -204,8 +189,7 @@ const climates = {
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 0.4 }]
 		},
-		{
-			name: "warm with dry summer",
+		"warm with dry summer": {
 			seasons: {
 				summer: { high: 26, low: 13 },
 				winter: { high: -6, low: -20 }
@@ -215,8 +199,7 @@ const climates = {
 				{ firstDay: 244, percentChance: 0.3 }
 			]
 		},
-		{
-			name: "warm with dry winter",
+		"warm with dry winter": {
 			seasons: {
 				spring: { high: 27, low: 11 },
 				summer: { high: 30, low: 12 },
@@ -227,16 +210,14 @@ const climates = {
 				{ firstDay: 244, percentChance: 0.15 }
 			]
 		},
-		{
-			name: "cool & rainy",
+		"cool & rainy": {
 			seasons: {
 				summer: { high: 20, low: 13 },
 				winter: { high: -4, low: -10 }
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 0.35 }]
 		},
-		{
-			name: "cool with dry winter",
+		"cool with dry winter": {
 			seasons: {
 				summer: { high: 18, low: 11 },
 				winter: { high: -4, low: -9 }
@@ -248,22 +229,20 @@ const climates = {
 				{ firstDay: 305, percentChance: 0.1 }
 			]
 		},
-		{
-			name: "tundra",
+		tundra: {
 			seasons: {
 				summer: { high: 5, low: 1 },
 				winter: { high: -20, low: -30 }
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 0.1 }]
 		},
-		{
-			name: "polar",
+		polar: {
 			seasons: {
 				summer: { high: -30, low: -40 },
 				winter: { high: -62, low: -70 }
 			},
 			precipPeriods: [{ firstDay: 1, percentChance: 0.1 }]
 		}
-	]
+	}
 };
 export default climates;

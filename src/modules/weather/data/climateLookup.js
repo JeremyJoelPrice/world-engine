@@ -3,129 +3,129 @@ import climates from "./climates";
 const climateLookup = {
 	"broken land": {
 		true: {
-			tropical: climates.generic[0], // desert
-			subtropical: climates.generic[6], // warm with dry summer
-			temperate: climates.generic[6], // warm with dry summer
-			"cool temperate": climates.generic[6], // warm with dry summer
-			subpolar: climates.generic[9], // cool with dry winter
-			polar: climates.generic[10] // tundra
+			tropical: climates.generic.desert,
+			subtropical: climates.generic["warm with dry summer"],
+			temperate: climates.generic["warm with dry summer"],
+			"cool temperate": climates.generic["warm with dry summer"],
+			subpolar: climates.generic["cool with dry winter"],
+			polar: climates.generic.tundra
 		},
 		false: {
-			subtropical: climates.generic[7], // warm with dry winter
-			temperate: climates.generic[7], // warm with dry winter
-			"cool temperate": climates.generic[8], // cool & rainy
-			subpolar: climates.generic[8], // cool & rainy
-			polar: climates.generic[11] // polar
+			subtropical: climates.generic["warm with dry winter"],
+			temperate: climates.generic["warm with dry winter"],
+			"cool temperate": climates.generic["cool & rainy"],
+			subpolar: climates.generic["cool & rainy"],
+			polar: climates.generic.polar
 		}
 	},
 	desert: {
 		true: {
-			tropical: climates.generic[0], // desert
-			subtropical: climates.generic[0] // desert
+			tropical: climates.generic.desert,
+			subtropical: climates.generic.desert
 		},
 		false: {
-			tropical: climates.generic[0], // desert
-			subtropical: climates.generic[0] // desert
+			tropical: climates.generic.desert,
+			subtropical: climates.generic.desert
 		}
 	},
 	forest: {
 		true: {
-			tropical: climates.generic[1], // tropical savanna
-			subtropical: climates.generic[5], // warm & rainy
-			temperate: climates.generic[5], // warm & rainy
-			"cool temperate": climates.generic[5], // warm & rainy
-			subpolar: climates.generic[9] // cool with dry winter
+			tropical: climates.generic["tropical savanna"],
+			subtropical: climates.generic["warm & rainy"],
+			temperate: climates.generic["warm & rainy"],
+			"cool temperate": climates.generic["warm & rainy"],
+			subpolar: climates.generic["cool with dry winter"]
 		},
 		false: {
-			tropical: climates.generic[1], // tropical savanna
-			subtropical: climates.generic[7], // warm with dry winter
-			temperate: climates.generic[7], // warm with dry winter
-			"cool temperate": climates.generic[7], // warm with dry winter
-			subpolar: climates.generic[8] // cool & rainy
+			tropical: climates.generic["tropical savanna"],
+			subtropical: climates.generic["warm with dry winter"],
+			temperate: climates.generic["warm with dry winter"],
+			"cool temperate": climates.generic["warm with dry winter"],
+			subpolar: climates.generic["cool & rainy"]
 		}
 	},
 	grassland: {
 		true: {
-			tropical: climates.generic[1], // tropical savanna
-			subtropical: climates.generic[6], // warm with dry summer
-			temperate: climates.generic[6], // warm with dry summer
-			"cool temperate": climates.generic[6], // warm with dry summer
-			subpolar: climates.generic[9], // cool with dry winter
-			polar: climates.generic[10] // tundra
+			tropical: climates.generic["tropical savanna"],
+			subtropical: climates.generic["warm with dry summer"],
+			temperate: climates.generic["warm with dry summer"],
+			"cool temperate": climates.generic["warm with dry summer"],
+			subpolar: climates.generic["cool with dry winter"],
+			polar: climates.generic.tundra
 		},
 		false: {
-			tropical: climates.generic[1], // tropical savanna
-			subtropical: climates.generic[2], // steppe
-			temperate: climates.generic[2], // steppe
-			"cool temperate": climates.generic[2], // steppe
-			subpolar: climates.generic[8], // cool & rainy
-			polar: climates.generic[10] // tundra
+			tropical: climates.generic["tropical savanna"],
+			subtropical: climates.generic.steppe,
+			temperate: climates.generic.steppe,
+			"cool temperate": climates.generic.steppe,
+			subpolar: climates.generic["cool & rainy"],
+			polar: climates.generic.tundra
 		}
 	},
 	hills: {
 		true: {
-			tropical: climates.generic[1], // tropical savanna
-			subtropical: climates.generic[6], // warm with dry summer
-			temperate: climates.generic[6], // warm with dry summer
-			"cool temperate": climates.generic[6], // warm with dry summer
-			subpolar: climates.generic[9], // cool with dry winter
-			polar: climates.generic[10] // tundra
+			tropical: climates.generic["tropical savanna"],
+			subtropical: climates.generic["warm with dry summer"],
+			temperate: climates.generic["warm with dry summer"],
+			"cool temperate": climates.generic["warm with dry summer"],
+			subpolar: climates.generic["cool with dry winter"],
+			polar: climates.generic.tundra
 		},
 		false: {
-			tropical: climates.generic[1], // tropical savanna
-			subtropical: climates.generic[7], // warm with dry winter
-			temperate: climates.generic[7], // warm with dry winter
-			"cool temperate": climates.generic[8], // cool & rainy
-			subpolar: climates.generic[8], // cool & rainy
-			polar: climates.generic[11] // polar
+			tropical: climates.generic["tropical savanna"],
+			subtropical: climates.generic["warm with dry winter"],
+			temperate: climates.generic["warm with dry winter"],
+			"cool temperate": climates.generic["cool & rainy"],
+			subpolar: climates.generic["cool & rainy"],
+			polar: climates.generic.polar
 		}
 	},
 	jungle: {
 		true: {
-			tropical: climates.generic[4], // monsoon
-			subtropical: climates.generic[5], // warm & rainy
-			temperate: climates.generic[5], // warm & rainy
-			"cool temperate": climates.generic[5], // warm & rainy
-			subpolar: climates.generic[9] // cool with dry winter
+			tropical: climates.generic.monsoon,
+			subtropical: climates.generic["warm & rainy"],
+			temperate: climates.generic["warm & rainy"],
+			"cool temperate": climates.generic["warm & rainy"],
+			subpolar: climates.generic["cool with dry winter"]
 		},
 		false: {
-			tropical: climates.generic[3] // equatorial
+			tropical: climates.generic.equatorial
 		}
 	},
 	mountains: {
 		true: {
-			tropical: climates.generic[5], // warm & rainy
-			subtropical: climates.generic[6], // warm with dry summer
-			temperate: climates.generic[6], // warm with dry summer
-			"cool temperate": climates.generic[9], // cool with dry winter
-			subpolar: climates.generic[9], // cool with dry winter
-			polar: climates.generic[10] // tundra
+			tropical: climates.generic["warm & rainy"],
+			subtropical: climates.generic["warm with dry summer"],
+			temperate: climates.generic["warm with dry summer"],
+			"cool temperate": climates.generic["cool with dry winter"],
+			subpolar: climates.generic["cool with dry winter"],
+			polar: climates.generic.tundra
 		},
 		false: {
-			tropical: climates.generic[5], // warm & rainy
-			subtropical: climates.generic[7], // warm with dry winter
-			"cool temperate": climates.generic[8], // cool & rainy
-			temperate: climates.generic[7], // warm with dry winter
-			subpolar: climates.generic[8], // cool & rainy
-			polar: climates.generic[11] // polar
+			tropical: climates.generic["warm & rainy"],
+			subtropical: climates.generic["warm with dry winter"],
+			"cool temperate": climates.generic["cool & rainy"],
+			temperate: climates.generic["warm with dry winter"],
+			subpolar: climates.generic["cool & rainy"],
+			polar: climates.generic.polar
 		}
 	},
 	swamp: {
 		true: {
-			tropical: climates.generic[4], // monsoon
-			subtropical: climates.generic[5], // warm & rainy
-			temperate: climates.generic[5], // warm & rainy
-			"cool temperate": climates.generic[10], // tundra
-			subpolar: climates.generic[10], // tundra
-			polar: climates.generic[10] // tundra
+			tropical: climates.generic.monsoon,
+			subtropical: climates.generic["warm & rainy"],
+			temperate: climates.generic["warm & rainy"],
+			"cool temperate": climates.generic.tundra,
+			subpolar: climates.generic.tundra,
+			polar: climates.generic.tundra
 		},
 		false: {
-			tropical: climates.generic[3], // equatorial
-			subtropical: climates.generic[6], // warm with dry summer
-			temperate: climates.generic[6], // warm with dry summer
-			"cool temperate": climates.generic[10], // tundra
-			subpolar: climates.generic[10], // tundra
-			polar: climates.generic[10] // tundra
+			tropical: climates.generic.equatorial,
+			subtropical: climates.generic["warm with dry summer"],
+			temperate: climates.generic["warm with dry summer"],
+			"cool temperate": climates.generic.tundra,
+			subpolar: climates.generic.tundra,
+			polar: climates.generic.tundra
 		}
 	}
 };
