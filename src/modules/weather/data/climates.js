@@ -8,8 +8,8 @@ const climates = {
 			precipPeriods: [
 				{ firstDay: 90, percentChance: 0.65 },
 				{ firstDay: 150, percentChance: 0.45 },
-				{ firstDay: 230, percentChance: 0.75 },
-				{ firstDay: 300, percentChance: 0.6 }
+				{ firstDay: 230, percentChance: 0.8 },
+				{ firstDay: 300, percentChance: 0.7 }
 			]
 		},
 		fjords: {
@@ -37,8 +37,8 @@ const climates = {
 				winter: { high: -10, low: -25 }
 			},
 			precipPeriods: [
-				{ firstDay: 150, percentChance: 0.2 },
-				{ firstDay: 270, percentChance: 0.35 }
+				{ firstDay: 150, percentChance: 0.3 },
+				{ firstDay: 270, percentChance: 0.4 }
 			]
 		},
 		"interior highlands": {
