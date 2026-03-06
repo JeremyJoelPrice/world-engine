@@ -1,235 +1,87 @@
-import { biasedSelection, rollOnTable } from "../../util/common";
 import roll from "../../util/roll";
-import climateLookup from "./data/climateLookup";
-import latitudeBands from "./data/latitudeBands";
-import skyTable from "./data/skyTable";
-import windTypes from "./data/windTypes";
 
-/* API */
+/**
+ * UI
+ *
+ * WHEN I click the generate weather button
+ * THEN I see the current weather in detail, meaning how does it impact play (vision, ranged weapons, exposure to cold, etc).
+ *
+ * WHEN I click the generate weather button
+ * THEN I see the entire weather journey, from the initial boring state to the final boring state.
+ *
+ * GIVEN I have generated a weather journey,
+ * AND I have updated the date/time far enough to trigger the next chapter of the current weather journey,
+ * THEN I see the current weather section update to show the weather chapter which matches the current date/time.
+ *
+ * GIVEN I have a generated a weather journey,
+ * AND I have updated the date/time far enough to trigger the FINAL chapter of the current weather journey,
+ * THEN I see some kind of indicator that the journey is over, and I am prompted to generate a new weather journey.
+ *
+ */
 
-export const generateWeather = (
-	terrainType,
-	latitude,
-	isCoastal,
-	dayOfYear,
-	previousWeather
-) => {
-	const weather = {};
-	// get climate
-	const climate = getClimate(terrainType, latitude, isCoastal);
+/**
+ * WEATHER EVENTS
+ *
+ * Examples:
+ * - rain
+ * - snow
+ * - wind
+ * - wind & rain
+ * - wind & snow
+ * - thunderstorm
+ * - blizzard
+ * - fog
+ * - aurora
+ * - hail
+ * - fog & snow
+ * - tornado
+ *
+ */
 
-	// generate temperature
-	weather.temperature = getTemperature(climate, dayOfYear);
+/**
+ * PROGRAM FLOW
+ *
+ * 0. prepare a list of candidate weather events based on season & latitude
+ *
+ * 1. select weather event
+ *
+ * 2. set intitial state as 'boring'
+ *
+ * 3. print initial state with timestamp
+ *
+ * 3. roll dice
+ *
+ * 4. parse result, update state
+ *
+ * 5. print new state with timestamp
+ *
+ * 6. check if event is over, if not go to step 3
+ *
+ * Event is over when either:
+ * a) the state returns to 'boring'
+ * b) 3 consecutive 'boring' states
+ *
+ */
 
-	// 40% chance to repeat previous weather, if provided
-	if (previousWeather && Math.random() <= 0.4) {
-		weather.cloud = previousWeather.cloud;
-		weather.wind = previousWeather.wind;
-		weather.precipitation = previousWeather.precipitation;
-		console.log("repeating previous weather");
-	} else {
-		weather.precipitation = getPrecipitation(
-			climate,
-			dayOfYear,
-			weather.temperature.high
-		);
-		weather.cloud = getCloud(weather.precipitation);
-		weather.wind = getWind(weather.cloud);
-	}
+function generateWeather(season, latitude) {
+	// prepare a list of candidate weather events based on season & latitude
+	const candidateWeathers = makeWeatherEventsMenu(season, latitude);
 
-	return weather;
-};
-
-export const getLatitudeBand = (latitude) => {
-	let latitudeBand;
-
-	for (const { name, latitudeMax } of [...latitudeBands].reverse()) {
-		if (latitude <= latitudeMax) latitudeBand = name;
-	}
-
-	return latitudeBand;
-};
-
-/* utility functions */
-
-export function getClimate(terrainType, latitude, isCoastal) {
-	const latitudeBand = getLatitudeBand(latitude);
-	const climate = climateLookup?.[terrainType]?.[isCoastal]?.[latitudeBand];
-	if (!climate) throw new Error("no valid climate");
-	return climate;
+	// select weather event
+	console.log(roll("1d6").value);
 }
 
-export function getTemperature(climate, dayOfYear) {
-	let { high, low } = getAverageTemperatureOfGivenDay(climate, dayOfYear);
-	const diurnal = high - low;
-
-	high = high + roll("2d6-7").value;
-	low = Math.min(low + roll("2d4-5").value, high - diurnal);
-
-	return {
-		high,
-		low
-	};
-}
-
-export function getAverageTemperatureOfGivenDay(climate, dayOfYear) {
-	// If climate has only one season, return that season's temperature
-	if (Object.keys(climate.seasons).length === 1) {
-		return Object.values(climate.seasons)[0];
-	}
-
-	// Define season durations with their first days
-	const seasonDurations = [
-		{ name: "spring", firstDay: 60 },
-		{ name: "summer", firstDay: 152 },
-		{ name: "autumn", firstDay: 244 },
-		{ name: "winter", firstDay: 335 }
-	];
-
-	// Determine current season based on day of the year
-	const currentSeason =
-		[...seasonDurations].reverse().find((s) => dayOfYear >= s.firstDay)
-			?.name || "winter";
-
-	// Return early if current season explicitely exists in climate object
-	if (climate.seasons[currentSeason]) {
-		return climate.seasons[currentSeason];
-	} else {
-		// Get neighbouring seasons
-		const currentIndex = seasonDurations.findIndex(
-			(s) => s.name === currentSeason
-		);
-		const prevSeason =
-			seasonDurations[
-				(currentIndex - 1 + seasonDurations.length) %
-					seasonDurations.length
-			].name;
-		const nextSeason =
-			seasonDurations[(currentIndex + 1) % seasonDurations.length].name;
-
-		const prevSeasonObj =
-			climate.seasons[prevSeason] || climate.seasons[nextSeason];
-		const nextSeasonObj =
-			climate.seasons[nextSeason] || climate.seasons[prevSeason];
-
-		// Determine transition boundaries
-		const lastDayOfPrevTemp = seasonDurations[currentIndex].firstDay - 1;
-		const firstDayOfNextTemp =
-			seasonDurations[(currentIndex + 1) % seasonDurations.length]
-				.firstDay;
-
-		// Handle wrap-around at year-end
-		const daysInTransition =
-			firstDayOfNextTemp > lastDayOfPrevTemp
-				? firstDayOfNextTemp - lastDayOfPrevTemp
-				: firstDayOfNextTemp + 365 - lastDayOfPrevTemp;
-
-		// Progress through the transition [0..1]
-		const dayOfTransition =
-			(dayOfYear -
-				lastDayOfPrevTemp +
-				(dayOfYear < lastDayOfPrevTemp ? 365 : 0)) /
-			daysInTransition;
-
-		// Interpolate temperatures
-		const high = Math.round(
-			lerp(prevSeasonObj.high, nextSeasonObj.high, dayOfTransition)
-		);
-		let low = Math.round(
-			lerp(prevSeasonObj.low, nextSeasonObj.low, dayOfTransition)
-		);
-
-		low = low === -0 ? 0 : low;
-
-		return { high: high, low: low };
-	}
-}
-
-function lerp(start, end, t) {
-	return start + (end - start) * t;
-}
-
-export function getPrecipitation(climate, dayOfYear, currentTemp) {
-	const { precipPeriods } = climate;
-
-	const { percentChance } =
-		[...precipPeriods].reverse().find((p) => dayOfYear >= p.firstDay) ||
-		precipPeriods[precipPeriods.length - 1];
-
-	if (Math.random() > percentChance) return "none";
-
-	const { rain, snow } = rollOnTable(skyTable);
-
-	return currentTemp <= 0 ? snow : rain;
-}
-
-export function getCloud(precipitation) {
-	if (precipitation === "none")
-		return biasedSelection(skyTable, 0, 0.2).cloud;
-
-	for (const sky of skyTable) {
-		if (sky.rain === precipitation || sky.snow === precipitation) {
-			return sky.cloud;
+function makeWeatherEventsMenu(season, latitude) {
+	// returns a list of weather events based on season and latitude
+	return [
+		{
+			label: "rain",
+			event: "heavy rain",
+			brewing: "dark clouds gather",
+			impact: "vision is reduced, ranged weapons are less effective, exposure to cold increases",
+			fallout: "petrichor smell, wet ground"
 		}
-	}
-	return skyTable.find(
-		(s) => s.rain === precipitation || s.snow === precipitation
-	).cloud;
+	];
 }
 
-export function getWind(cloud) {
-	const { windTypeFactor } = skyTable.find((s) => s.cloud === cloud);
-
-	const diceResult = roll(windTypeFactor).value;
-
-	// get wind obj
-	const { description, mphMin, mphMax, wind } = windTypes.find(
-		({ diceMinResult, diceMaxResult }) =>
-			diceResult >= diceMinResult && diceResult <= diceMaxResult
-	);
-
-	return {
-		type: wind,
-		description,
-		speed: Math.round(Math.random() * (mphMax - mphMin) + mphMin),
-		direction: biasedSelection(
-			["SW", "W", "NW", "N", "NE", "E", "SE", "S"],
-			0,
-			0.4
-		)
-	};
-}
-
-export function getSunriseSunset(latitude, dayOfYear) {
-	// this function returns sunrise/sunset to the nearest hour,
-	// assuming solar noon is 12pm
-	const degreesPerRadian = 180 / Math.PI;
-	const radiansPerDegree = Math.PI / 180;
-	const springEquinoxDayOfYear = 80;
-	const daysSinceSpringEquinox =
-		(dayOfYear - springEquinoxDayOfYear + 365) % 365;
-	const solarDeclination =
-		23.45 *
-		Math.sin(((360 * daysSinceSpringEquinox) / 365) * radiansPerDegree);
-	const solarHourAngle =
-		Math.acos(
-			Math.max(
-				Math.min(
-					-Math.tan(solarDeclination * radiansPerDegree) *
-						Math.tan(latitude * radiansPerDegree),
-					1.0
-				),
-				-1.0
-			)
-		) * degreesPerRadian;
-
-	/**
-	 * earth rotates at 15º/h
-	 * solarHourAngle / 15º = hours from sunrise to noon,
-	 * and therefore hours from noon to sunset
-	 */
-	const sunrise = Math.round(12 - solarHourAngle / 15);
-	const sunset = Math.round(12 + solarHourAngle / 15);
-
-	return { sunrise, sunset };
-}
+generateWeather();

@@ -4,7 +4,8 @@ const colors = {
 	grey: "rgb(142, 142, 142)",
 	darkgrey: "rgba(40, 40, 40, 0.8)",
 	darkgrey2: "rgb(72, 72, 72)",
-	bluegrey: "rgb(32, 32, 42)"
+	bluegrey: "rgb(32, 32, 42)",
+	bluegreen: "rgb(62, 214, 199)"
 };
 
 export default colors;

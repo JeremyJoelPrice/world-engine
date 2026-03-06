@@ -20,80 +20,74 @@ import {
 	WaterDrop,
 	WbTwilight
 } from "@mui/icons-material";
-import terrainTypes from "./data/terrainTypes";
 import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
-import {
-	generateWeather,
-	getClimate,
-	getLatitudeBand,
-	getSunriseSunset
-} from "./weatherService";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import StyledSelect from "../../components/StyledSelect";
-import climates from "./data/climates";
-const customClimates = Object.values(climates.custom).map((c) => c.name);
+import roll from "../../util/roll";
+import colors from "../../util/colors";
+import { blue } from "@mui/material/colors";
 
 dayjs.extend(dayOfYear);
+dayjs.extend(isSameOrAfter);
 
-const WeatherComponent = ({
-	datetime,
-	terrainType,
-	setTerrainType,
-	isCoastal,
-	setIsCoastal,
-	latitude,
-	setLatitude
-}) => {
-	const dayOfYear = datetime.dayOfYear();
-	const [weather, setWeather] = useState({
-		temperature: {
-			high: 0,
-			low: 0
-		},
-		cloud: "clear",
-		precipitation: "none",
-		wind: {
-			type: "Calm",
-			description: "Smoke rises vertically",
-			speed: 0,
-			direction: "SW"
-		}
+const WeatherComponent = ({ datetime }) => {
+	const [weatherSteps, setWeatherSteps] = useState([]);
+
+	function handleGenerate() {
+		const steps = [];
+		let time = datetime;
+		steps.push({
+			time,
+			desc: "clear skies, calm winds",
+			impact: "full visibility and hearing, mild temperature, no additional exposure"
+		});
+		time = time.add(roll("1d3").value, "hour");
+
+		steps.push({
+			time,
+			desc: "clear skies, calm winds",
+			impact: "excellent visibility and hearing, slightly cooler air, comfortable exposure"
+		});
+		time = time.add(roll("1d3").value, "hour");
+
+		steps.push({
+			time,
+			desc: "clouds gather, light breeze",
+			impact: "visibility slightly reduced, distant sounds muffled, mild chill begins"
+		});
+		time = time.add(roll("1d3").value, "hour");
+
+		steps.push({
+			time,
+			desc: "light rain, moderate breeze",
+			impact: "visibility reduced by rain, sound partially muffled, wind intensifies cold exposure"
+		});
+		time = time.add(roll("1d3").value, "hour");
+
+		steps.push({
+			time,
+			desc: "clouds part, breeze dies down",
+			impact: "visibility improves, sound clearer, temperature stabilizes, exposure decreases"
+		});
+		time = time.add(roll("1d3").value, "hour");
+
+		steps.push({
+			time,
+			desc: "clear skies, calm winds",
+			impact: "full visibility and hearing restored, temperature mild, minimal exposure"
+		});
+		setWeatherSteps(steps);
+	}
+
+	const currentStepIndex = weatherSteps.findIndex((step, i) => {
+		const next = weatherSteps[i + 1];
+		return !next
+			? datetime.isSameOrAfter(step.time)
+			: datetime.isSameOrAfter(step.time) && datetime.isBefore(next.time);
 	});
-	const [disabled, setDisabled] = useState();
-	const [genericClimateUi, setGenericClimateUi] = useState(true);
-	const [customClimate, setCustomClimate] = useState(customClimates[0]);
-	const [latitudeBand, setLatitudeBand] = useState(getLatitudeBand(latitude));
-	const [daylight, setDaylight] = useState(
-		getSunriseSunset(latitude, dayOfYear)
-	);
-
-	const generate = () => {
-		setWeather(
-			generateWeather(
-				terrainType,
-				latitude,
-				isCoastal,
-				dayOfYear,
-				weather
-			)
-		);
-	};
-
-	useEffect(() => {
-		try {
-			getClimate(terrainType, latitude, isCoastal);
-			setDisabled(false);
-		} catch (e) {
-			setDisabled(true);
-		}
-	}, [terrainType, latitude, isCoastal]);
-
-	useEffect(() => {
-		setLatitudeBand(getLatitudeBand(latitude));
-		setDaylight(getSunriseSunset(latitude, dayOfYear));
-	}, [latitude, dayOfYear]);
 
 	return (
 		<Paper
@@ -101,206 +95,54 @@ const WeatherComponent = ({
 			sx={{
 				gridColumn: "2 / span 1",
 				gridRow: "1 / span 1",
-				display: "flex"
+				p: 2,
+				height: "100%",
+				display: "grid",
+				gridTemplateRows: "2fr 1fr",
+				gridTemplateColumns: "3fr 1fr",
+				gap: 3
 			}}>
-			<FlexBox
-				sx={{
-					padding: "32px 20px 20px",
-					flexDirection: "column",
-					width: "fit-content"
+			<div
+				style={{
+					gridColumn: "1 / span 2",
+					borderBottom: "1px solid rgba(255, 255, 255, 0.12)"
 				}}>
-				<Grid container spacing={3}>
-					<Grid size={6} sx={{ minHeight: "50px" }}>
-						<DataRow>
-							<Thermostat fontSize={"small"} />
-							<Typography sx={{ margin: "auto 0" }}>
-								{`${weather.temperature.high}°/${weather.temperature.low}°`}
-							</Typography>
-						</DataRow>
-					</Grid>
-					<Grid size={6} sx={{ minHeight: "50px" }}>
-						<DataRow>
-							<Cloud fontSize={"small"} />
-							<Typography sx={{ margin: "auto 0" }}>
-								{weather.cloud}
-							</Typography>
-						</DataRow>
-					</Grid>
-					<Grid size={6} sx={{ minHeight: "50px" }}>
-						<DataRow>
-							<Air fontSize={"small"} />
-							<Typography sx={{ margin: "auto 0" }}>
-								{`${weather.wind.speed}mph / ${weather.wind.direction}`}
-							</Typography>
-						</DataRow>
-					</Grid>
-					<Grid size={6} sx={{ minHeight: "50px" }}>
-						<DataRow>
-							{Math.trunc(
-								(weather.temperature.high +
-									weather.temperature.low) /
-									2
-							) <= 0 ? (
-								<AcUnit fontSize={"small"} />
-							) : (
-								<WaterDrop fontSize={"small"} />
-							)}
-							<Typography sx={{ margin: "auto 0" }}>
-								{`${weather.precipitation}`}
-							</Typography>
-						</DataRow>
-					</Grid>
-					<Grid size={6} sx={{ minHeight: "50px" }}>
-						<DataRow>
-							<ArrowUpward fontSize={"small"} />
-							<WbTwilight fontSize={"small"} />
-							<Typography sx={{ margin: "auto 0" }}>
-								{`${formatHour(daylight.sunrise)}`}
-							</Typography>
-						</DataRow>
-					</Grid>
-					<Grid size={6} sx={{ minHeight: "50px" }}>
-						<DataRow>
-							<ArrowDownward fontSize={"small"} />
-							<WbTwilight fontSize={"small"} />
-							<Typography sx={{ margin: "auto 0" }}>
-								{`${formatHour(daylight.sunset)}`}
-							</Typography>
-						</DataRow>
-					</Grid>
-				</Grid>
-				<Card variant={"outlined"} sx={{ flexGrow: 1 }}>
-					<CardContent>
-						<Typography
-							variant={"body2"}
-							sx={{
-								color: "rgba(255, 255, 255, 0.7)"
-							}}>
-							{weather.wind.type}
-						</Typography>
-						<br />
-						<Typography>{weather.wind.description}</Typography>
-					</CardContent>
-				</Card>
-			</FlexBox>
-			<Divider
-				orientation="vertical"
-				flexItem
-				sx={{ margin: "20px 0" }}
-			/>
-			<FlexBox
-				sx={{
-					width: "40%",
-					padding: "20px 10px",
-					flexDirection: "column"
-				}}>
-				<Box>
-					<Button
-						size="small"
-						onClick={() => {
-							setGenericClimateUi((prev) => !prev);
-						}}>
-						{genericClimateUi
-							? "Generic Climates"
-							: "Custom Climates"}{" "}
-						{<SwapVert fontSize={"small"} />}
-					</Button>
-				</Box>
-				{genericClimateUi ? (
-					<>
-						<StyledSelect
-							optionsArray={terrainTypes}
-							value={terrainType}
-							setValue={setTerrainType}
-						/>
-						<FlexBox
-							sx={{
-								justifyContent: "flex-start",
-								alignItems: "center",
-								padding: "0 14px 16.5px",
-								cursor: "pointer"
-							}}
-							onClick={() => {
-								setIsCoastal(!isCoastal);
-							}}>
-							<Typography>coastal</Typography>
-							<Checkbox
-								checked={isCoastal}
-								sx={{ padding: "0 6px 0" }}
-							/>
-						</FlexBox>
-						<Box sx={{ padding: "0 14px" }}>
-							<Typography>latitude {latitude}°</Typography>
-							<Slider
-								max={90}
-								value={latitude}
-								valueLabelDisplay="auto"
-								valueLabelFormat={(value) => latitudeBand}
-								onChangeCommitted={(event, value) =>
-									setLatitude(value)
-								}
-								sx={{
-									width: "100%"
-								}}
-							/>
-						</Box>{" "}
-					</>
-				) : (
-					<StyledSelect
-						optionsArray={customClimates}
-						value={customClimate}
-						setValue={setCustomClimate}
+				{weatherSteps.map((step, index) => (
+					<WeatherStep
+						key={index}
+						time={step.time}
+						desc={step.desc}
+						highlight={index === currentStepIndex}
 					/>
-				)}
-				<Box sx={{ flexGrow: "1" }} />
-				<FlexBox sx={{ justifyContent: "center" }}>
-					<Button
-						variant="contained"
-						size="small"
-						onClick={generate}
-						disabled={disabled}>
-						{disabled ? "No Valid Climate" : "Generate Weather"}
-					</Button>
-				</FlexBox>
-				<Box sx={{ flexGrow: "1" }} />
-			</FlexBox>
+				))}
+			</div>
+
+			<div>{weatherSteps[currentStepIndex]?.impact}</div>
+
+			<div>
+				<Button
+					variant="contained"
+					size="small"
+					onClick={handleGenerate}>
+					Generate
+				</Button>
+			</div>
 		</Paper>
 	);
 };
 
 export default WeatherComponent;
 
-/* helper functions */
-
-const formatHour = (hour) => {
-	if (hour === 24) return "00:00";
-	if (hour < 10) return `0${hour}:00`;
-	return `${hour}:00`;
-};
-
-/* other components */
-
-const DataRow = ({ children }) => {
+const WeatherStep = ({ time, desc, highlight }) => {
 	return (
-		<Box
-			sx={{
-				display: "flex",
-				columnGap: "8px",
-				margin: "0 0"
-			}}>
-			{children}
-		</Box>
+		<div>
+			<span
+				style={{
+					color: highlight ? colors.bluegreen : colors.grey
+				}}>
+				{`[${time.format("HH:mm")}] - `}
+			</span>
+			{`${desc}`}
+		</div>
 	);
 };
-
-const FlexBox = ({ children, sx = {}, ...props }) => (
-	<Box
-		sx={{
-			display: "flex",
-			justifyContent: "space-between",
-			...sx
-		}}
-		{...props}>
-		{children}
-	</Box>
-);

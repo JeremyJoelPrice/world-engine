@@ -13,7 +13,6 @@ import { useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 import ProcedureComponent from "./modules/procedure/ProcedureComponent";
 import lzString from "lz-string";
-import terrainTypes from "./modules/weather/data/terrainTypes";
 import SeedGeneratorComponent from "./modules/seed generator/SeedGeneratorComponent";
 
 const App = () => {
@@ -61,55 +60,31 @@ const App = () => {
 	const initialStates = (() => {
 		const encoded = searchParams.get("s");
 		if (encoded) {
-			const decoded = decodeState(encoded);
-			return decoded;
+			return decodeState(encoded);
+		} else {
+			const states = {
+				datetime: "0793-04-08T00:00:00.000"
+			};
+
+			return states;
 		}
-
-		const states = {
-			weather: {
-				terrainType: terrainTypes[3],
-				isCoastal: true,
-				latitude: 65
-			},
-			datetime: "0793-06-08 00:00:00.000Z"
-		};
-		return states;
 	})();
-
-	const [terrainType, setTerrainType] = useState(
-		initialStates.weather.terrainType
-	);
-	const [isCoastal, setIsCoastal] = useState(initialStates.weather.isCoastal);
-	const [latitude, setLatitude] = useState(initialStates.weather.latitude);
 	const [datetime, setDatetime] = useState(dayjs(initialStates.datetime));
 
 	// Sync datetime to URL on change
 	useEffect(() => {
 		const encoded = encodeState({
-			datetime: datetime.toISOString(),
-			weather: {
-				terrainType,
-				isCoastal,
-				latitude
-			}
+			datetime: datetime.toISOString()
 		});
 		setSearchParams({ s: encoded });
-	}, [datetime, terrainType, isCoastal, latitude, setSearchParams]);
+	}, [datetime, setSearchParams]);
 
 	return (
 		<ThemeProvider theme={myTheme}>
 			<CssBaseline />
 			<DashboardLayout>
 				<ProcedureComponent />
-				<WeatherComponent
-					datetime={datetime}
-					terrainType={terrainType}
-					setTerrainType={setTerrainType}
-					isCoastal={isCoastal}
-					setIsCoastal={setIsCoastal}
-					latitude={latitude}
-					setLatitude={setLatitude}
-				/>
+				<WeatherComponent datetime={datetime} />
 				<TimeComponent datetime={datetime} setDatetime={setDatetime} />
 				<NpcWindow />
 				<SeedGeneratorComponent />
