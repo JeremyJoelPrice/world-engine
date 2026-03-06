@@ -1,36 +1,10 @@
-import {
-	Box,
-	Button,
-	Card,
-	CardContent,
-	Divider,
-	Grid2 as Grid,
-	Paper,
-	Slider,
-	Typography
-} from "@mui/material";
-import {
-	AcUnit,
-	Air,
-	ArrowDownward,
-	ArrowUpward,
-	Cloud,
-	SwapVert,
-	Thermostat,
-	WaterDrop,
-	WbTwilight
-} from "@mui/icons-material";
-import { useEffect, useState } from "react";
-import Checkbox from "@mui/material/Checkbox";
+import { Button, Paper } from "@mui/material";
+import { useState } from "react";
 import dayjs from "dayjs";
-import dayOfYear from "dayjs/plugin/dayOfYear";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import StyledSelect from "../../components/StyledSelect";
 import roll from "../../util/roll";
 import colors from "../../util/colors";
-import { blue } from "@mui/material/colors";
 
-dayjs.extend(dayOfYear);
 dayjs.extend(isSameOrAfter);
 
 const WeatherComponent = ({ datetime }) => {

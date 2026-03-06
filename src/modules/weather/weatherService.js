@@ -1,5 +1,3 @@
-import roll from "../../util/roll";
-
 /**
  * UI
  *
@@ -62,26 +60,3 @@ import roll from "../../util/roll";
  * b) 3 consecutive 'boring' states
  *
  */
-
-function generateWeather(season, latitude) {
-	// prepare a list of candidate weather events based on season & latitude
-	const candidateWeathers = makeWeatherEventsMenu(season, latitude);
-
-	// select weather event
-	console.log(roll("1d6").value);
-}
-
-function makeWeatherEventsMenu(season, latitude) {
-	// returns a list of weather events based on season and latitude
-	return [
-		{
-			label: "rain",
-			event: "heavy rain",
-			brewing: "dark clouds gather",
-			impact: "vision is reduced, ranged weapons are less effective, exposure to cold increases",
-			fallout: "petrichor smell, wet ground"
-		}
-	];
-}
-
-generateWeather();
