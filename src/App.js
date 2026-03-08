@@ -91,9 +91,9 @@ const App = () => {
 					datetime: datetime.toISOString(),
 					weather: {
 						label: weatherJourney.label,
-						journey: weatherJourney.journey.map((step) => ({
-							hourOfDay: step.hourOfDay.toISOString(),
-							id: step.id
+						journey: weatherJourney.journey.map(({hourOfDay, state}) => ({
+							hourOfDay: hourOfDay.toISOString(),
+							state
 						}))
 					}
 				})

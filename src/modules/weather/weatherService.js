@@ -92,7 +92,7 @@ function getNextState(currentState, diceResult) {
 function recursivelyCompleteJourney(journey, state, hourOfDay) {
 	// add new state with timestamp
 	journey.push({
-		id: weather[state].id,
+		state,
 		hourOfDay: hourOfDay,
 		desc: weather[state].desc,
 		impact: weather[state].impact
@@ -122,9 +122,9 @@ export function getDecompressedWeatherJourney({ label, journey }) {
 	const weatherData = weathers.filter((w) => w.label === label)[0];
 
 	// recreate journey
-	journey = journey.map(({ id, hourOfDay }) => {
-		const { desc, impact } = weatherData[id];
-		return { id, hourOfDay: dayjs(hourOfDay), desc, impact };
+	journey = journey.map(({ state, hourOfDay }) => {
+		const { desc, impact } = weatherData[state];
+		return { state, hourOfDay: dayjs(hourOfDay), desc, impact };
 	});
 
 	return { label, journey };
