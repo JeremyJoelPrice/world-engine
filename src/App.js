@@ -15,6 +15,10 @@ import ProcedureComponent from "./modules/procedure/ProcedureComponent";
 import lzString from "lz-string";
 import SeedGeneratorComponent from "./modules/seed generator/SeedGeneratorComponent";
 import colors from "./util/colors";
+import {
+	generateWeatherJourney,
+	getDecompressedWeatherJourney
+} from "./modules/weather/weatherService";
 
 const App = () => {
 	const myTheme = createTheme({
@@ -56,35 +60,59 @@ const App = () => {
 
 	const [searchParams, setSearchParams] = useSearchParams();
 
-	// URL states
+	/* URL data */
+
 	const initialStates = (() => {
 		const encoded = searchParams.get("s");
 		if (encoded) {
-			return decodeState(encoded);
-		} else {
-			const states = {
-				datetime: "0793-04-08T00:00:00.000"
+			let { datetime, weather } = decodeState(encoded);
+			return {
+				datetime: dayjs(datetime),
+				weather: getDecompressedWeatherJourney(weather)
 			};
-
-			return states;
+		} else {
+			// default states in case of nothing in URL
+			return {
+				datetime: dayjs("0793-04-08T00:00:00.000"),
+				weather: generateWeatherJourney(
+					dayjs("0793-04-08T00:00:00.000")
+				)
+			};
 		}
 	})();
 	const [datetime, setDatetime] = useState(dayjs(initialStates.datetime));
+	const [weatherJourney, setWeatherJourney] = useState(initialStates.weather);
 
-	// Sync datetime to URL on change
+	// Sync data to URL on change
 	useEffect(() => {
-		const encoded = encodeState({
-			datetime: datetime.toISOString()
+		setSearchParams({
+			s: lzString.compressToEncodedURIComponent(
+				JSON.stringify({
+					datetime: datetime.toISOString(),
+					weather: {
+						label: weatherJourney.label,
+						journey: weatherJourney.journey.map((step) => ({
+							hourOfDay: step.hourOfDay.toISOString(),
+							id: step.id
+						}))
+					}
+				})
+			)
 		});
-		setSearchParams({ s: encoded });
-	}, [datetime, setSearchParams]);
+	}, [datetime, weatherJourney, setSearchParams]);
+
+	/* end of URL data */
 
 	return (
 		<ThemeProvider theme={myTheme}>
 			<CssBaseline />
 			<DashboardLayout>
 				<ProcedureComponent />
-				<WeatherComponent datetime={datetime} />
+				<WeatherComponent
+					datetime={datetime}
+					weatherJourney={weatherJourney}
+					setWeatherJourney={setWeatherJourney}
+				/>
 				<TimeComponent datetime={datetime} setDatetime={setDatetime} />
 				<NpcWindow />
 				<SeedGeneratorComponent />
@@ -99,14 +127,13 @@ export default App;
 
 const decodeState = (encoded) => {
 	try {
-		return JSON.parse(lzString.decompressFromEncodedURIComponent(encoded));
+		const state = JSON.parse(
+			lzString.decompressFromEncodedURIComponent(encoded)
+		);
+		return state;
 	} catch {
 		return null;
 	}
-};
-
-const encodeState = (states) => {
-	return lzString.compressToEncodedURIComponent(JSON.stringify(states));
 };
 
 /* styled components */

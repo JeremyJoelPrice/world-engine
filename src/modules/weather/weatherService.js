@@ -29,6 +29,7 @@ import {
 	STATE_EVENT
 } from "./constants";
 import roll from "../../util/roll";
+import dayjs from "dayjs";
 
 /**
  * WEATHER EVENTS
@@ -60,7 +61,8 @@ export function generateWeatherJourney(hourOfDay) {
 	let state = STATE_BORING;
 
 	// 3. populate weather journey
-	return recursivelyCompleteJourney([], state, hourOfDay);
+	const journey = recursivelyCompleteJourney([], state, hourOfDay);
+	return { label: weather.label, journey };
 }
 
 function rollWeatherDice() {
@@ -90,6 +92,7 @@ function getNextState(currentState, diceResult) {
 function recursivelyCompleteJourney(journey, state, hourOfDay) {
 	// add new state with timestamp
 	journey.push({
+		id: weather[state].id,
 		hourOfDay: hourOfDay,
 		desc: weather[state].desc,
 		impact: weather[state].impact
@@ -112,4 +115,17 @@ function recursivelyCompleteJourney(journey, state, hourOfDay) {
 		state,
 		hourOfDay.add(roll("1d3").value, "hour")
 	);
+}
+
+export function getDecompressedWeatherJourney({ label, journey }) {
+	// get weather
+	const weatherData = weathers.filter((w) => w.label === label)[0];
+
+	// recreate journey
+	journey = journey.map(({ id, hourOfDay }) => {
+		const { desc, impact } = weatherData[id];
+		return { id, hourOfDay: dayjs(hourOfDay), desc, impact };
+	});
+
+	return { label, journey };
 }

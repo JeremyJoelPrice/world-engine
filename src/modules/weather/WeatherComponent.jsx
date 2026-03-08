@@ -1,5 +1,4 @@
 import { Button, Paper } from "@mui/material";
-import { useState } from "react";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import colors from "../../util/colors";
@@ -7,11 +6,9 @@ import { generateWeatherJourney } from "./weatherService";
 
 dayjs.extend(isSameOrAfter);
 
-const WeatherComponent = ({ datetime }) => {
-	const [weatherJourney, setWeatherJourney] = useState([]);
-
-	const currentStepIndex = weatherJourney.findIndex((step, i) => {
-		const next = weatherJourney[i + 1];
+const WeatherComponent = ({ datetime, weatherJourney, setWeatherJourney }) => {
+	const currentStepIndex = weatherJourney.journey.findIndex((step, i) => {
+		const next = weatherJourney.journey[i + 1];
 		return !next
 			? datetime.isSameOrAfter(step.hourOfDay)
 			: datetime.isSameOrAfter(step.hourOfDay) &&
@@ -45,7 +42,7 @@ const WeatherComponent = ({ datetime }) => {
 					scrollbarWidth: "thin",
 					scrollbarColor: "#888 #1e1e1e"
 				}}>
-				{weatherJourney.map((step, index) => (
+				{weatherJourney.journey.map((step, index) => (
 					<WeatherStep
 						key={index}
 						hourOfDay={step.hourOfDay}
@@ -56,7 +53,7 @@ const WeatherComponent = ({ datetime }) => {
 			</div>
 
 			<div style={{ gridColumn: 1, gridRow: 2 }}>
-				{weatherJourney[currentStepIndex]?.impact}
+				{weatherJourney.journey[currentStepIndex].impact}
 			</div>
 
 			<div style={{ gridColumn: 2, gridRow: 2 }}>
