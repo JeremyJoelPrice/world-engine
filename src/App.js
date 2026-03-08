@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import ProcedureComponent from "./modules/procedure/ProcedureComponent";
 import lzString from "lz-string";
 import SeedGeneratorComponent from "./modules/seed generator/SeedGeneratorComponent";
+import colors from "./util/colors";
 
 const App = () => {
 	const myTheme = createTheme({
@@ -21,8 +22,7 @@ const App = () => {
 			mode: "dark",
 			primary: {
 				// defaults first, custom second
-				main: "rgba(62, 214, 199, 0.9)",
-				dark: "rgba(62, 214, 199, 1)",
+				main: colors.bluegreen,
 				contrastText: "#000"
 			},
 			text: {
