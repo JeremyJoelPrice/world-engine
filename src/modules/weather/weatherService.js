@@ -17,6 +17,19 @@
  *
  */
 
+import weathers from "./data/weathers";
+import {
+	DICE_RESULT_PRIMARY,
+	DICE_RESULT_SECONDARY,
+	DICE_RESULT_TERTIARY,
+	STATE_AFTERMATH,
+	STATE_BORING,
+	STATE_BUILDING,
+	STATE_CLIMAX,
+	STATE_EVENT
+} from "./constants";
+import roll from "../../util/roll";
+
 /**
  * WEATHER EVENTS
  *
@@ -36,27 +49,67 @@
  *
  */
 
-/**
- * PROGRAM FLOW
- *
- * 0. prepare a list of candidate weather events based on season & latitude
- *
- * 1. select weather event
- *
- * 2. set intitial state as 'boring'
- *
- * 3. print initial state with timestamp
- *
- * 3. roll dice
- *
- * 4. parse result, update state
- *
- * 5. print new state with timestamp
- *
- * 6. check if event is over, if not go to step 3
- *
- * Event is over when either:
- * a) the state returns to 'boring'
- * b) 3 consecutive 'boring' states
- *
- */
+let weather;
+
+export function generateWeatherJourney(hourOfDay) {
+	// 0. prepare a list of candidate weathers based on season & latitude
+	// 1. select a weather
+	weather = weathers[0];
+
+	// 2. set intitial state as 'boring'
+	let state = STATE_BORING;
+
+	// 3. populate weather journey
+	return recursivelyCompleteJourney([], state, hourOfDay);
+}
+
+function rollWeatherDice() {
+	const result = roll("2d6l1").value;
+
+	if (result <= 2) {
+		return DICE_RESULT_PRIMARY;
+	} else if (result <= 4) {
+		return DICE_RESULT_SECONDARY;
+	} else {
+		return DICE_RESULT_TERTIARY;
+	}
+}
+
+function getNextState(currentState, diceResult) {
+	const stateMatrix = {
+		[STATE_BORING]: [STATE_BORING, STATE_BUILDING, STATE_BUILDING],
+		[STATE_BUILDING]: [STATE_EVENT, STATE_BORING, STATE_BUILDING],
+		[STATE_EVENT]: [STATE_AFTERMATH, STATE_CLIMAX, STATE_EVENT],
+		[STATE_CLIMAX]: [STATE_AFTERMATH, STATE_AFTERMATH, STATE_CLIMAX],
+		[STATE_AFTERMATH]: [STATE_BORING, STATE_BORING, STATE_BUILDING]
+	};
+
+	return stateMatrix[currentState][diceResult];
+}
+
+function recursivelyCompleteJourney(journey, state, hourOfDay) {
+	// add new state with timestamp
+	journey.push({
+		hourOfDay: hourOfDay,
+		desc: weather[state].desc,
+		impact: weather[state].impact
+	});
+
+	/**
+	 * Event is over when either:
+	 * a) the state returns to 'boring'
+	 * b) 3 consecutive 'boring' states
+	 */
+	state = getNextState(state, rollWeatherDice());
+	if (
+		journey.length >= 3 &&
+		journey[journey.length - 1].desc === weather[STATE_BORING].desc
+	) {
+		return journey;
+	}
+	return recursivelyCompleteJourney(
+		journey,
+		state,
+		hourOfDay.add(roll("1d3").value, "hour")
+	);
+}

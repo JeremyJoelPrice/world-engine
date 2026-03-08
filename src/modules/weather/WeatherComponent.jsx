@@ -2,65 +2,20 @@ import { Button, Paper } from "@mui/material";
 import { useState } from "react";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import roll from "../../util/roll";
 import colors from "../../util/colors";
+import { generateWeatherJourney } from "./weatherService";
 
 dayjs.extend(isSameOrAfter);
 
 const WeatherComponent = ({ datetime }) => {
-	const [weatherSteps, setWeatherSteps] = useState([]);
+	const [weatherJourney, setWeatherJourney] = useState([]);
 
-	function handleGenerate() {
-		const steps = [];
-		let time = datetime;
-		steps.push({
-			time,
-			desc: "clear skies, calm winds",
-			impact: "full visibility and hearing, mild temperature, no additional exposure"
-		});
-		time = time.add(roll("1d3").value, "hour");
-
-		steps.push({
-			time,
-			desc: "clear skies, calm winds",
-			impact: "excellent visibility and hearing, slightly cooler air, comfortable exposure"
-		});
-		time = time.add(roll("1d3").value, "hour");
-
-		steps.push({
-			time,
-			desc: "clouds gather, light breeze",
-			impact: "visibility slightly reduced, distant sounds muffled, mild chill begins"
-		});
-		time = time.add(roll("1d3").value, "hour");
-
-		steps.push({
-			time,
-			desc: "light rain, moderate breeze",
-			impact: "visibility reduced by rain, sound partially muffled, wind intensifies cold exposure"
-		});
-		time = time.add(roll("1d3").value, "hour");
-
-		steps.push({
-			time,
-			desc: "clouds part, breeze dies down",
-			impact: "visibility improves, sound clearer, temperature stabilizes, exposure decreases"
-		});
-		time = time.add(roll("1d3").value, "hour");
-
-		steps.push({
-			time,
-			desc: "clear skies, calm winds",
-			impact: "full visibility and hearing restored, temperature mild, minimal exposure"
-		});
-		setWeatherSteps(steps);
-	}
-
-	const currentStepIndex = weatherSteps.findIndex((step, i) => {
-		const next = weatherSteps[i + 1];
+	const currentStepIndex = weatherJourney.findIndex((step, i) => {
+		const next = weatherJourney[i + 1];
 		return !next
-			? datetime.isSameOrAfter(step.time)
-			: datetime.isSameOrAfter(step.time) && datetime.isBefore(next.time);
+			? datetime.isSameOrAfter(step.hourOfDay)
+			: datetime.isSameOrAfter(step.hourOfDay) &&
+					datetime.isBefore(next.hourOfDay);
 	});
 
 	return (
@@ -81,23 +36,25 @@ const WeatherComponent = ({ datetime }) => {
 					gridColumn: "1 / span 2",
 					borderBottom: "1px solid rgba(255, 255, 255, 0.12)"
 				}}>
-				{weatherSteps.map((step, index) => (
+				{weatherJourney.map((step, index) => (
 					<WeatherStep
 						key={index}
-						time={step.time}
+						hourOfDay={step.hourOfDay}
 						desc={step.desc}
 						highlight={index === currentStepIndex}
 					/>
 				))}
 			</div>
 
-			<div>{weatherSteps[currentStepIndex]?.impact}</div>
+			<div>{weatherJourney[currentStepIndex]?.impact}</div>
 
 			<div>
 				<Button
 					variant="contained"
 					size="small"
-					onClick={handleGenerate}>
+					onClick={() =>
+						setWeatherJourney(generateWeatherJourney(datetime))
+					}>
 					Generate
 				</Button>
 			</div>
@@ -107,14 +64,18 @@ const WeatherComponent = ({ datetime }) => {
 
 export default WeatherComponent;
 
-const WeatherStep = ({ time, desc, highlight }) => {
+const WeatherStep = ({ hourOfDay, desc, highlight }) => {
 	return (
-		<div>
+		<div
+			style={{
+				padding: "4px 0"
+			}}>
 			<span
 				style={{
 					color: highlight ? colors.bluegreen : colors.grey
+					// color: colors.bluegreen
 				}}>
-				{`[${time.format("HH:mm")}] - `}
+				{`[${hourOfDay.format("HH:mm")}] - `}
 			</span>
 			{`${desc}`}
 		</div>
