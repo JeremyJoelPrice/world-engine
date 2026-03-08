@@ -34,7 +34,16 @@ const WeatherComponent = ({ datetime }) => {
 			<div
 				style={{
 					gridColumn: "1 / span 2",
-					borderBottom: "1px solid rgba(255, 255, 255, 0.12)"
+					borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
+					height: "272px",
+					overflowY: "auto",
+					"&::WebkitScrollbarTrack": { background: "#1e1e1e" },
+					"&::WebkitScrollbarThumb": {
+						backgroundColor: "#888",
+						borderRadius: 4
+					},
+					scrollbarWidth: "thin",
+					scrollbarColor: "#888 #1e1e1e"
 				}}>
 				{weatherJourney.map((step, index) => (
 					<WeatherStep
@@ -46,9 +55,11 @@ const WeatherComponent = ({ datetime }) => {
 				))}
 			</div>
 
-			<div>{weatherJourney[currentStepIndex]?.impact}</div>
+			<div style={{ gridColumn: 1, gridRow: 2 }}>
+				{weatherJourney[currentStepIndex]?.impact}
+			</div>
 
-			<div>
+			<div style={{ gridColumn: 2, gridRow: 2 }}>
 				<Button
 					variant="contained"
 					size="small"
@@ -73,11 +84,12 @@ const WeatherStep = ({ hourOfDay, desc, highlight }) => {
 			<span
 				style={{
 					color: highlight ? colors.bluegreen : colors.grey
-					// color: colors.bluegreen
 				}}>
 				{`[${hourOfDay.format("HH:mm")}] - `}
 			</span>
-			{`${desc}`}
+			<span style={highlight ? {} : { color: colors.grey }}>
+				{`${desc}`}
+			</span>
 		</div>
 	);
 };
