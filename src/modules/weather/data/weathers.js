@@ -1,4 +1,6 @@
 import {
+	HIGH_IMPACT,
+	MODERATE_IMPACT,
 	STATE_AFTERMATH,
 	STATE_BORING,
 	STATE_BUILDING,
@@ -28,15 +30,23 @@ const weathers = [
 		},
 		[STATE_EVENT]: {
 			desc: "steady rainfall, cool breeze",
-			impact: "exposure increased, ranged accuracy reduced, rain muffles soft sounds"
+			impact: {
+				exposure: MODERATE_IMPACT,
+				accuracy: MODERATE_IMPACT,
+				hearing: MODERATE_IMPACT
+			}
 		},
 		[STATE_CLIMAX]: {
 			desc: "heavy rainfall, thunder rumbles overhead",
-			impact: "exposure increased, ranged weapons impaired, vision reduced, rain muffles most sounds"
+			impact: {
+				exposure: MODERATE_IMPACT,
+				accuracy: MODERATE_IMPACT,
+				vision: MODERATE_IMPACT,
+				hearing: HIGH_IMPACT
+			}
 		},
 		[STATE_AFTERMATH]: {
-			desc: "clouds parting, wet ground",
-			impact: "petrichor scent"
+			desc: "clouds parting, wet ground, petrichor"
 		}
 	}
 ];

@@ -3,7 +3,11 @@ import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import colors from "../../util/colors";
 import { generateWeatherJourney } from "./weatherService";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import HearingIcon from "@mui/icons-material/Hearing";
+import AdsClickIcon from "@mui/icons-material/AdsClick";
+import { Thermostat } from "@mui/icons-material";
+import { HIGH_IMPACT, MODERATE_IMPACT } from "./constants";
 dayjs.extend(isSameOrAfter);
 
 const WeatherComponent = ({ datetime, weatherJourney, setWeatherJourney }) => {
@@ -52,8 +56,41 @@ const WeatherComponent = ({ datetime, weatherJourney, setWeatherJourney }) => {
 				))}
 			</div>
 
-			<div style={{ gridColumn: 1, gridRow: 2 }}>
-				{weatherJourney.journey[currentStepIndex].impact}
+			<div
+				style={{
+					gridColumn: 1,
+					gridRow: 2,
+					display: "grid",
+					gridTemplateColumns: "repeat(2, 1fr)",
+					gridTemplateRows: "repeat(2, 1fr)",
+					gap: "4px"
+				}}>
+				<Impact
+					icon={<VisibilityIcon fontSize={"small"} />}
+					impact={
+						weatherJourney.journey[currentStepIndex].impact?.vision
+					}
+				/>
+				<Impact
+					icon={<Thermostat fontSize={"small"} />}
+					impact={
+						weatherJourney.journey[currentStepIndex].impact
+							?.exposure
+					}
+				/>
+				<Impact
+					icon={<HearingIcon fontSize={"small"} />}
+					impact={
+						weatherJourney.journey[currentStepIndex].impact?.hearing
+					}
+				/>
+				<Impact
+					icon={<AdsClickIcon fontSize={"small"} />}
+					impact={
+						weatherJourney.journey[currentStepIndex].impact
+							?.accuracy
+					}
+				/>
 			</div>
 
 			<div style={{ gridColumn: 2, gridRow: 2 }}>
@@ -87,6 +124,28 @@ const WeatherStep = ({ hourOfDay, desc, highlight }) => {
 			<span style={highlight ? {} : { color: colors.grey }}>
 				{`${desc}`}
 			</span>
+		</div>
+	);
+};
+
+const Impact = ({ icon, impact }) => {
+	let flag = "?";
+	switch (impact) {
+		case MODERATE_IMPACT:
+			flag = "🟠";
+			break;
+		case HIGH_IMPACT:
+			flag = "🔴";
+			break;
+		default:
+			flag = "🟢";
+			break;
+	}
+
+	return (
+		<div>
+			{icon}
+			<span style={{ verticalAlign: "top", margin: "5px" }}>{flag}</span>
 		</div>
 	);
 };
