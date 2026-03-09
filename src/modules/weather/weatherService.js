@@ -1,22 +1,3 @@
-/**
- * UI
- *
- * WHEN I click the generate weather button
- * THEN I see the current weather in detail, meaning how does it impact play (vision, ranged weapons, exposure to cold, etc).
- *
- * WHEN I click the generate weather button
- * THEN I see the entire weather journey, from the initial boring state to the final boring state.
- *
- * GIVEN I have generated a weather journey,
- * AND I have updated the date/time far enough to trigger the next chapter of the current weather journey,
- * THEN I see the current weather section update to show the weather chapter which matches the current date/time.
- *
- * GIVEN I have a generated a weather journey,
- * AND I have updated the date/time far enough to trigger the FINAL chapter of the current weather journey,
- * THEN I see some kind of indicator that the journey is over, and I am prompted to generate a new weather journey.
- *
- */
-
 import weathers from "./data/weathers";
 import {
 	DICE_RESULT_PRIMARY,
@@ -31,37 +12,28 @@ import {
 import roll from "../../util/roll";
 import dayjs from "dayjs";
 
-/**
- * WEATHER EVENTS
- *
- * Examples:
- * - rain
- * - snow
- * - wind
- * - wind & rain
- * - wind & snow
- * - thunderstorm
- * - blizzard
- * - fog
- * - aurora
- * - hail
- * - fog & snow
- * - tornado
- *
- */
-
-let weather;
-
 export function generateWeatherJourney(hourOfDay) {
-	// 0. prepare a list of candidate weathers based on season & latitude
-	// 1. select a weather
-	weather = weathers[0];
-
-	// 2. set intitial state as 'boring'
+	// TODO prepare a list of candidate weathers based on season & latitude
+	const weather = weathers[0];
 	let state = STATE_BORING;
+	let journey = [];
+	let futureHour = hourOfDay;
+	while (
+		!(
+			journey.length >= 3 &&
+			journey[journey.length - 1].desc === weather[STATE_BORING].desc
+		)
+	) {
+		journey.push({
+			state,
+			hourOfDay: futureHour,
+			desc: weather[state].desc,
+			impact: weather[state].impact
+		});
+		state = getNextState(state, rollWeatherDice());
+		futureHour = futureHour.add(roll("1d3").value, "hour");
+	}
 
-	// 3. populate weather journey
-	const journey = recursivelyCompleteJourney([], state, hourOfDay);
 	return { label: weather.label, journey };
 }
 
@@ -89,39 +61,9 @@ function getNextState(currentState, diceResult) {
 	return stateMatrix[currentState][diceResult];
 }
 
-function recursivelyCompleteJourney(journey, state, hourOfDay) {
-	// add new state with timestamp
-	journey.push({
-		state,
-		hourOfDay: hourOfDay,
-		desc: weather[state].desc,
-		impact: weather[state].impact
-	});
-
-	/**
-	 * Event is over when either:
-	 * a) the state returns to 'boring'
-	 * b) 3 consecutive 'boring' states
-	 */
-	state = getNextState(state, rollWeatherDice());
-	if (
-		journey.length >= 3 &&
-		journey[journey.length - 1].desc === weather[STATE_BORING].desc
-	) {
-		return journey;
-	}
-	return recursivelyCompleteJourney(
-		journey,
-		state,
-		hourOfDay.add(roll("1d3").value, "hour")
-	);
-}
-
 export function getDecompressedWeatherJourney({ label, journey }) {
-	// get weather
 	const weatherData = weathers.filter((w) => w.label === label)[0];
 
-	// recreate journey
 	journey = journey.map(({ state, hourOfDay }) => {
 		const { desc, impact } = weatherData[state];
 		return { state, hourOfDay: dayjs(hourOfDay), desc, impact };
