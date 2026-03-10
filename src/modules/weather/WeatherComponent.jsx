@@ -9,6 +9,7 @@ import AdsClickIcon from "@mui/icons-material/AdsClick";
 import { Thermostat } from "@mui/icons-material";
 import { HIGH_IMPACT, LATITUDE_BANDS, MODERATE_IMPACT } from "./constants";
 import StyledSelect from "../../components/StyledSelect";
+import { useEffect } from "react";
 dayjs.extend(isSameOrAfter);
 
 const WeatherComponent = ({
@@ -18,6 +19,10 @@ const WeatherComponent = ({
 	latitude,
 	setLatitude
 }) => {
+	const generateNewWeatherJourney = () => {
+		setWeatherJourney(generateWeatherJourney(datetime));
+	};
+
 	const currentStepIndex = weatherJourney.journey.findIndex((step, i) => {
 		const next = weatherJourney.journey[i + 1];
 		return !next
@@ -25,6 +30,12 @@ const WeatherComponent = ({
 			: datetime.isSameOrAfter(step.hourOfDay) &&
 					datetime.isBefore(next.hourOfDay);
 	});
+
+	useEffect(() => {
+		if (currentStepIndex === weatherJourney.journey.length - 1)
+			generateNewWeatherJourney();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentStepIndex]);
 
 	return (
 		<Paper
@@ -106,15 +117,13 @@ const WeatherComponent = ({
 					value={latitude}
 					setValue={(value) => {
 						setLatitude(value);
-						setWeatherJourney(generateWeatherJourney(datetime));
+						generateNewWeatherJourney();
 					}}
 				/>
 				<Button
 					variant="contained"
 					size="small"
-					onClick={() =>
-						setWeatherJourney(generateWeatherJourney(datetime))
-					}>
+					onClick={() => generateNewWeatherJourney()}>
 					Generate
 				</Button>
 			</div>
