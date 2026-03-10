@@ -86,26 +86,27 @@ const WeatherComponent = ({
 				<Impact
 					icon={<VisibilityIcon fontSize={"large"} />}
 					impact={
-						weatherJourney.journey[currentStepIndex].impact?.vision
+						weatherJourney.journey[currentStepIndex]?.impact?.vision
 					}
 				/>
 				<Impact
 					icon={<Thermostat fontSize={"large"} />}
 					impact={
-						weatherJourney.journey[currentStepIndex].impact
+						weatherJourney.journey[currentStepIndex]?.impact
 							?.exposure
 					}
 				/>
 				<Impact
 					icon={<HearingIcon fontSize={"large"} />}
 					impact={
-						weatherJourney.journey[currentStepIndex].impact?.hearing
+						weatherJourney.journey[currentStepIndex]?.impact
+							?.hearing
 					}
 				/>
 				<Impact
 					icon={<AdsClickIcon fontSize={"large"} />}
 					impact={
-						weatherJourney.journey[currentStepIndex].impact
+						weatherJourney.journey[currentStepIndex]?.impact
 							?.accuracy
 					}
 				/>
