@@ -19,6 +19,7 @@ import {
 	generateWeatherJourney,
 	getDecompressedWeatherJourney
 } from "./modules/weather/weatherService";
+import { LATITUDE_BANDS } from "./modules/weather/constants";
 
 const App = () => {
 	const myTheme = createTheme({
@@ -61,14 +62,14 @@ const App = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	/* URL data */
-
 	const initialStates = (() => {
 		const encoded = searchParams.get("s");
 		if (encoded) {
-			let { datetime, weather } = decodeState(encoded);
+			let { datetime, weather, latitude } = decodeState(encoded);
 			return {
 				datetime: dayjs(datetime),
-				weather: getDecompressedWeatherJourney(weather)
+				weather: getDecompressedWeatherJourney(weather),
+				latitude
 			};
 		} else {
 			// default states in case of nothing in URL
@@ -76,12 +77,14 @@ const App = () => {
 				datetime: dayjs("0793-04-08T00:00:00.000"),
 				weather: generateWeatherJourney(
 					dayjs("0793-04-08T00:00:00.000")
-				)
+				),
+				latitude: LATITUDE_BANDS[1]
 			};
 		}
 	})();
 	const [datetime, setDatetime] = useState(dayjs(initialStates.datetime));
 	const [weatherJourney, setWeatherJourney] = useState(initialStates.weather);
+	let [latitude, setLatitude] = useState(initialStates.latitude);
 
 	// Sync data to URL on change
 	useEffect(() => {
@@ -91,15 +94,18 @@ const App = () => {
 					datetime: datetime.toISOString(),
 					weather: {
 						label: weatherJourney.label,
-						journey: weatherJourney.journey.map(({hourOfDay, state}) => ({
-							hourOfDay: hourOfDay.toISOString(),
-							state
-						}))
-					}
+						journey: weatherJourney.journey.map(
+							({ hourOfDay, state }) => ({
+								hourOfDay: hourOfDay.toISOString(),
+								state
+							})
+						)
+					},
+					latitude
 				})
 			)
 		});
-	}, [datetime, weatherJourney, setSearchParams]);
+	}, [datetime, weatherJourney, latitude, setSearchParams]);
 
 	/* end of URL data */
 
@@ -112,6 +118,8 @@ const App = () => {
 					datetime={datetime}
 					weatherJourney={weatherJourney}
 					setWeatherJourney={setWeatherJourney}
+					latitude={latitude}
+					setLatitude={setLatitude}
 				/>
 				<TimeComponent datetime={datetime} setDatetime={setDatetime} />
 				<NpcWindow />

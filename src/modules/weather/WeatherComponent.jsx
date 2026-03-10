@@ -7,10 +7,17 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import HearingIcon from "@mui/icons-material/Hearing";
 import AdsClickIcon from "@mui/icons-material/AdsClick";
 import { Thermostat } from "@mui/icons-material";
-import { HIGH_IMPACT, MODERATE_IMPACT } from "./constants";
+import { HIGH_IMPACT, LATITUDE_BANDS, MODERATE_IMPACT } from "./constants";
+import StyledSelect from "../../components/StyledSelect";
 dayjs.extend(isSameOrAfter);
 
-const WeatherComponent = ({ datetime, weatherJourney, setWeatherJourney }) => {
+const WeatherComponent = ({
+	datetime,
+	weatherJourney,
+	setWeatherJourney,
+	latitude,
+	setLatitude
+}) => {
 	const currentStepIndex = weatherJourney.journey.findIndex((step, i) => {
 		const next = weatherJourney.journey[i + 1];
 		return !next
@@ -66,26 +73,26 @@ const WeatherComponent = ({ datetime, weatherJourney, setWeatherJourney }) => {
 					gap: "4px"
 				}}>
 				<Impact
-					icon={<VisibilityIcon fontSize={"small"} />}
+					icon={<VisibilityIcon fontSize={"large"} />}
 					impact={
 						weatherJourney.journey[currentStepIndex].impact?.vision
 					}
 				/>
 				<Impact
-					icon={<Thermostat fontSize={"small"} />}
+					icon={<Thermostat fontSize={"large"} />}
 					impact={
 						weatherJourney.journey[currentStepIndex].impact
 							?.exposure
 					}
 				/>
 				<Impact
-					icon={<HearingIcon fontSize={"small"} />}
+					icon={<HearingIcon fontSize={"large"} />}
 					impact={
 						weatherJourney.journey[currentStepIndex].impact?.hearing
 					}
 				/>
 				<Impact
-					icon={<AdsClickIcon fontSize={"small"} />}
+					icon={<AdsClickIcon fontSize={"large"} />}
 					impact={
 						weatherJourney.journey[currentStepIndex].impact
 							?.accuracy
@@ -94,6 +101,14 @@ const WeatherComponent = ({ datetime, weatherJourney, setWeatherJourney }) => {
 			</div>
 
 			<div style={{ gridColumn: 2, gridRow: 2 }}>
+				<StyledSelect
+					optionsArray={LATITUDE_BANDS}
+					value={latitude}
+					setValue={(value) => {
+						setLatitude(value);
+						setWeatherJourney(generateWeatherJourney(datetime));
+					}}
+				/>
 				<Button
 					variant="contained"
 					size="small"
@@ -129,23 +144,16 @@ const WeatherStep = ({ hourOfDay, desc, highlight }) => {
 };
 
 const Impact = ({ icon, impact }) => {
-	let flag = "?";
-	switch (impact) {
-		case MODERATE_IMPACT:
-			flag = "🟠";
-			break;
-		case HIGH_IMPACT:
-			flag = "🔴";
-			break;
-		default:
-			flag = "🟢";
-			break;
-	}
+	let color =
+		impact === MODERATE_IMPACT
+			? "orange"
+			: impact === HIGH_IMPACT
+				? "red"
+				: colors.grey;
 
 	return (
-		<div>
+		<div style={{ color, display: "flex", justifyContent: "center" }}>
 			{icon}
-			<span style={{ verticalAlign: "top", margin: "5px" }}>{flag}</span>
 		</div>
 	);
 };
