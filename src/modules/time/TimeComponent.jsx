@@ -58,10 +58,6 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 							width: "120px"
 						}}
 					/>
-					<CircularProgressWithLabel
-						value={tenMinTurns}
-						onClick={() => incrementTenMinTurns()}
-					/>
 				</FlexRow>
 				<TimeClock
 					ampm={false}
@@ -70,19 +66,26 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 					onChange={setDatetime}
 				/>
 				<Box sx={{ display: "flex", justifyContent: "center" }}>
-					<Button onClick={() => incrementTime(-1, "day")}>
-						-1 Day
-					</Button>
-					<Button onClick={() => incrementTime(-1, "hour")}>
-						-1 Hr
-					</Button>
-					<Button onClick={() => incrementTime(1, "hour")}>
-						+1 Hr
+					<Button onClick={() => incrementTime(1, "week")}>
+						+Week
 					</Button>
 					<Button onClick={() => incrementTime(1, "day")}>
-						+1 Day
+						+Day
+					</Button>
+					<Button onClick={() => incrementTime(1, "hour")}>
+						+Hour
 					</Button>
 				</Box>
+				<CircularProgressWithLabel
+					value={tenMinTurns}
+					onClick={() => incrementTenMinTurns()}
+				/>
+				<Box
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						width: "100%"
+					}}></Box>
 			</LocalizationProvider>
 		</Paper>
 	);
@@ -94,7 +97,7 @@ export default TimeComponent;
 
 function CircularProgressWithLabel({ onClick, value }) {
 	return (
-		<StyleBox>
+		<StyledBox>
 			<StyledCircularProgress
 				variant="determinate"
 				size="70px"
@@ -110,7 +113,7 @@ function CircularProgressWithLabel({ onClick, value }) {
 				sx={{ zIndex: 1 }}>
 				+10m
 			</StyledTenMinuteButton>
-		</StyleBox>
+		</StyledBox>
 	);
 }
 
@@ -120,15 +123,13 @@ const FlexRow = styled.div`
 	display: flex;
 `;
 
-const StyleBox = styled(Box)`
+const StyledBox = styled(Box)`
 	position: relative;
-	flex-grow: 1;
+	display: flex;
+	justify-content: center;
 `;
 
 const StyledTenMinuteButton = styled(Button)`
-	top: 0;
-	bottom: 0;
-	right: 0;
 	position: absolute;
 
 	border-radius: 25pt;
@@ -138,7 +139,5 @@ const StyledTenMinuteButton = styled(Button)`
 
 const StyledCircularProgress = styled(CircularProgress)`
 	position: absolute;
-	top: 0;
-	right: 0;
 	pointer-events: none;
 `;
