@@ -110,7 +110,11 @@ const App = () => {
 					latitude={latitude}
 					setLatitude={setLatitude}
 				/>
-				<TimeComponent datetime={datetime} setDatetime={setDatetime} />
+				<TimeComponent
+					datetime={datetime}
+					setDatetime={setDatetime}
+					latitude={latitude}
+				/>
 				<NpcWindow />
 				<SeedGeneratorComponent />
 			</DashboardLayout>

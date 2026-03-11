@@ -1,4 +1,10 @@
-import { Box, Button, CircularProgress, Paper } from "@mui/material";
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Paper,
+	Typography
+} from "@mui/material";
 import {
 	LocalizationProvider,
 	MobileDatePicker,
@@ -6,11 +12,24 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import { getSunriseSunset } from "./timeService";
+import {
+	ArrowDownward,
+	ArrowUpward,
+	WbTwilight
+} from "@mui/icons-material";
 
-const TimeComponent = ({ datetime, setDatetime }) => {
+const TimeComponent = ({ datetime, setDatetime, latitude }) => {
 	const [tenMinTurns, setTenMinTurns] = useState(0);
+	const [sunriseSunset, setSunriseSunset] = useState(
+		getSunriseSunset(latitude, datetime)
+	);
+
+	useEffect(() => {
+		setSunriseSunset(getSunriseSunset(latitude, datetime));
+	}, [latitude, datetime]);
 
 	const incrementTime = (value, unitString) => {
 		setDatetime((prev) => prev.add(value, unitString));
@@ -58,6 +77,20 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 							width: "120px"
 						}}
 					/>
+					<Box>
+						<ArrowUpward fontSize={"small"} />
+						<WbTwilight fontSize={"small"} />
+						<Typography sx={{ margin: "auto 0" }}>
+							{`${sunriseSunset.sunrise.format("HH:mm")}`}
+						</Typography>
+					</Box>
+					<Box>
+						<ArrowDownward fontSize={"small"} />
+						<WbTwilight fontSize={"small"} />
+						<Typography sx={{ margin: "auto 0" }}>
+							{`${sunriseSunset.sunset.format("HH:mm")}`}
+						</Typography>
+					</Box>
 				</FlexRow>
 				<TimeClock
 					ampm={false}
@@ -80,12 +113,6 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 					value={tenMinTurns}
 					onClick={() => incrementTenMinTurns()}
 				/>
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						width: "100%"
-					}}></Box>
 			</LocalizationProvider>
 		</Paper>
 	);
@@ -121,6 +148,7 @@ function CircularProgressWithLabel({ onClick, value }) {
 
 const FlexRow = styled.div`
 	display: flex;
+	justify-content: space-between;
 `;
 
 const StyledBox = styled(Box)`
