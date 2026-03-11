@@ -64,7 +64,6 @@ export function getMoon(datetime, sunset) {
 		moonriseHour < moonsetHour
 			? datetime.hour() >= moonriseHour && datetime.hour() < moonsetHour
 			: datetime.hour() >= moonriseHour || datetime.hour() < moonsetHour;
-	console.log("visible", visible);
 
 	return {
 		phase: getMoonPhase(lunarDay),
