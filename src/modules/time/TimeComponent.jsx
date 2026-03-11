@@ -1,4 +1,10 @@
-import { Box, Button, CircularProgress, Paper } from "@mui/material";
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Paper,
+	Typography
+} from "@mui/material";
 import {
 	LocalizationProvider,
 	MobileDatePicker,
@@ -6,11 +12,23 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import { getMoon, getSunriseSunset } from "./timeService";
+import { WbSunny, WbTwilight } from "@mui/icons-material";
 
-const TimeComponent = ({ datetime, setDatetime }) => {
+const TimeComponent = ({ datetime, setDatetime, latitude }) => {
 	const [tenMinTurns, setTenMinTurns] = useState(0);
+	const [sunriseSunset, setSunriseSunset] = useState(
+		getSunriseSunset(latitude, datetime)
+	);
+	const [moon, setMoon] = useState(getMoon(datetime, sunriseSunset.sunset));
+
+	useEffect(() => {
+		setSunriseSunset(getSunriseSunset(latitude, datetime));
+		setMoon(getMoon(datetime, sunriseSunset.sunset));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [latitude, datetime]);
 
 	const incrementTime = (value, unitString) => {
 		setDatetime((prev) => prev.add(value, unitString));
@@ -36,7 +54,7 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 				padding: "15px"
 			}}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
-				<FlexRow>
+				<FlexBox>
 					<MobileDatePicker
 						views={["day", "month", "year"]}
 						value={datetime}
@@ -58,13 +76,37 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 							width: "120px"
 						}}
 					/>
-				</FlexRow>
-				<TimeClock
-					ampm={false}
-					value={datetime}
-					views={["hours"]}
-					onChange={setDatetime}
-				/>
+				</FlexBox>
+				<FlexBox>
+					<FlexBox
+						style={{
+							flexDirection: "column",
+							justifyContent: "space-around",
+							margin: "16px 0"
+						}}>
+						<Box>
+							<WbSunny fontSize={"small"} />
+							<Typography sx={{ margin: "auto 0" }}>
+								{`${sunriseSunset.sunrise.format("HH:mm")}`}
+							</Typography>
+						</Box>
+						<Box>
+							<WbTwilight fontSize={"small"} />
+							<Typography sx={{ margin: "auto 0" }}>
+								{`${sunriseSunset.sunset.format("HH:mm")}`}
+							</Typography>
+						</Box>
+					</FlexBox>
+					<TimeClock
+						ampm={false}
+						value={datetime}
+						views={["hours"]}
+						onChange={setDatetime}
+					/>
+					<Box style={{ margin: "16px 0" }}>
+						<MoonPhase moon={moon} />
+					</Box>
+				</FlexBox>
 				<Box sx={{ display: "flex", justifyContent: "center" }}>
 					<Button onClick={() => incrementTime(1, "week")}>
 						+Week
@@ -80,12 +122,6 @@ const TimeComponent = ({ datetime, setDatetime }) => {
 					value={tenMinTurns}
 					onClick={() => incrementTenMinTurns()}
 				/>
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						width: "100%"
-					}}></Box>
 			</LocalizationProvider>
 		</Paper>
 	);
@@ -117,10 +153,34 @@ function CircularProgressWithLabel({ onClick, value }) {
 	);
 }
 
+function MoonPhase({ moon }) {
+	const { phase, visible } = moon;
+	console.log(phase, visible);
+
+	const textDecoration = visible ? "none" : "line-through";
+	const opacity = visible ? "" : "20%";
+
+	return (
+		<>
+			<div style={{ fontSize: "24pt", opacity }}>{phase.emoji}</div>
+			<div
+				style={{
+					fontSize: "10pt",
+					maxWidth: "40px",
+					textDecoration
+				}}>
+				{phase.label}
+			</div>
+			<span>{visible}</span>
+		</>
+	);
+}
+
 /* styled components */
 
-const FlexRow = styled.div`
+const FlexBox = styled(Box)`
 	display: flex;
+	justify-content: space-between;
 `;
 
 const StyledBox = styled(Box)`
