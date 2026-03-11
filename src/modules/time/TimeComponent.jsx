@@ -155,7 +155,6 @@ function CircularProgressWithLabel({ onClick, value }) {
 
 function MoonPhase({ moon }) {
 	const { phase, visible } = moon;
-	console.log(phase, visible);
 
 	const textDecoration = visible ? "none" : "line-through";
 	const opacity = visible ? "" : "20%";
