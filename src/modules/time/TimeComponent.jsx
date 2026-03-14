@@ -16,17 +16,20 @@ import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { getMoon, getSunriseSunset } from "./timeService";
 import { WbSunny, WbTwilight } from "@mui/icons-material";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 const TimeComponent = ({ datetime, setDatetime, latitude }) => {
 	const [tenMinTurns, setTenMinTurns] = useState(0);
 	const [sunriseSunset, setSunriseSunset] = useState(
 		getSunriseSunset(latitude, datetime)
 	);
-	const [moon, setMoon] = useState(getMoon(datetime, sunriseSunset.sunset));
+	const [moon, setMoon] = useState(getMoon(datetime, latitude.º));
 
 	useEffect(() => {
-		setSunriseSunset(getSunriseSunset(latitude, datetime));
-		setMoon(getMoon(datetime, sunriseSunset.sunset));
+		setSunriseSunset(getSunriseSunset(latitude.º, datetime));
+		setMoon(getMoon(datetime, latitude.º));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [latitude, datetime]);
 
@@ -101,7 +104,9 @@ const TimeComponent = ({ datetime, setDatetime, latitude }) => {
 						ampm={false}
 						value={datetime}
 						views={["hours"]}
-						onChange={setDatetime}
+						onChange={(v) => {
+							setDatetime(v.minute(0).second(0));
+						}}
 					/>
 					<Box style={{ margin: "16px 0" }}>
 						<MoonPhase moon={moon} />

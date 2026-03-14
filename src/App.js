@@ -74,9 +74,9 @@ const App = () => {
 		} else {
 			// default states in case of nothing in URL
 			return {
-				datetime: dayjs("0793-04-08T00:00:00.000"),
+				datetime: dayjs("0793-06-08T00:00:00.000Z"),
 				weather: generateWeatherJourney(
-					dayjs("0793-04-08T00:00:00.000")
+					dayjs("0793-06-08T00:00:00.000Z")
 				),
 				latitude: LATITUDE_BANDS[1]
 			};

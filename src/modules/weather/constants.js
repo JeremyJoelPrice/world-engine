@@ -12,9 +12,9 @@ export const MODERATE_IMPACT = 1;
 export const HIGH_IMPACT = 2;
 
 export const LATITUDE_BANDS = [
-	"polar",
-	"subpolar",
-	"temperate",
-	"subtropical",
-	"tropical"
+	{ label: "polar", º: 75 },
+	{ label: "subpolar", º: 60 },
+	{ label: "temperate", º: 45 },
+	{ label: "subtropical", º: 30 },
+	{ label: "tropical", º: 15 }
 ];

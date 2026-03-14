@@ -114,10 +114,14 @@ const WeatherComponent = ({
 
 			<div style={{ gridColumn: 2, gridRow: 2 }}>
 				<StyledSelect
-					optionsArray={LATITUDE_BANDS}
-					value={latitude}
-					setValue={(value) => {
-						setLatitude(value);
+					optionsArray={LATITUDE_BANDS.map(({ label }) => label)}
+					value={latitude.label}
+					setValue={(currentLabel) => {
+						setLatitude(
+							LATITUDE_BANDS.filter(
+								({ label }) => label === currentLabel
+							)[0]
+						);
 						generateNewWeatherJourney();
 					}}
 				/>

@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+
 dayjs.extend(dayOfYear);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 export function getSunriseSunset(latitude, datetime) {
 	const dayOfYear = datetime.dayOfYear();
@@ -40,30 +45,33 @@ export function getSunriseSunset(latitude, datetime) {
 	};
 }
 
-export function getMoon(datetime, sunset) {
+export function getMoon(datetime, latitude) {
 	const FULL_MOON_REFERENCE = dayjs("0793-06-14");
 
 	// Days since reference full moon
 	const daysSince = Math.floor(datetime.diff(FULL_MOON_REFERENCE, "day"));
+	const lunarCycleLength = 29;
+	const lunarDay =
+		((daysSince % lunarCycleLength) + lunarCycleLength) % lunarCycleLength; // a day number from 0-28
 
-	// 28-day lunar cycle
-	// handles negative days i.e. days before the reference full moon
-	const lunarDay = ((daysSince % 28) + 28) % 28;
+	// Moon rises later each day
+	const moonriseHour =
+		(Math.round((lunarCycleLength / 24) * lunarDay) + 18) % 24;
 
-	// Moonrise shifts ~1 hour later per day
-	const moonrise = sunset.add(lunarDay, "hour");
+	let moonrise = datetime
+		.startOf("day")
+		.add(moonriseHour, "hour")
+		.minute(0)
+		.second(0);
 
-	// Moon is visible roughly 12 hours
-	const moonset = moonrise.add(12, "hour");
+	// --- Latitude adjustment ---
+	const latitudeFactor = latitude / 90;
+	const visibleHours = Math.round(12 + latitudeFactor * 4);
 
-	// Handle midnight wrapping
-	const moonriseHour = moonrise.hour();
-	const moonsetHour = moonset.hour();
+	let moonset = moonrise.add(visibleHours, "hour");
 
 	const visible =
-		moonriseHour < moonsetHour
-			? datetime.hour() >= moonriseHour && datetime.hour() < moonsetHour
-			: datetime.hour() >= moonriseHour || datetime.hour() < moonsetHour;
+		datetime.isSameOrAfter(moonrise) && datetime.isSameOrBefore(moonset);
 
 	return {
 		phase: getMoonPhase(lunarDay),
