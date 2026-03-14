@@ -8,15 +8,6 @@ import {
 	STATE_EVENT
 } from "../constants";
 
-/**
- * impact:
- * - vision
- * - ranged weapons
- * - exposure to cold
- *
- * desc:
- */
-
 const boring = {
 	desc: "calm & clear"
 };
