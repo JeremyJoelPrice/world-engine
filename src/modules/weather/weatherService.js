@@ -11,10 +11,11 @@ import {
 } from "./constants";
 import roll from "../../util/roll";
 import dayjs from "dayjs";
+import { rollOnTable } from "../../util/common";
 
 export function generateWeatherJourney(hourOfDay) {
 	// TODO prepare a list of candidate weathers based on season & latitude
-	const weather = weathers[0];
+	const weather = rollOnTable(weathers);
 	let state = STATE_BORING;
 	let journey = [];
 	let futureHour = hourOfDay;

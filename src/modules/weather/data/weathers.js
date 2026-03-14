@@ -39,6 +39,33 @@ const weathers = [
 		[STATE_AFTERMATH]: {
 			desc: "clouds parting, wet ground, petrichor"
 		}
+	},
+	{
+		label: "gale",
+		[STATE_BORING]: boring,
+		[STATE_BUILDING]: {
+			desc: "wind picking up"
+		},
+		[STATE_EVENT]: {
+			desc: "strong wind",
+			impact: {
+				exposure: MODERATE_IMPACT,
+				accuracy: MODERATE_IMPACT,
+				hearing: MODERATE_IMPACT
+			}
+		},
+		[STATE_CLIMAX]: {
+			desc: "furious gale",
+			impact: {
+				exposure: MODERATE_IMPACT,
+				accuracy: HIGH_IMPACT,
+				vision: MODERATE_IMPACT,
+				hearing: HIGH_IMPACT
+			}
+		},
+		[STATE_AFTERMATH]: {
+			desc: "air clearing, occasional gusts only"
+		}
 	}
 ];
 
