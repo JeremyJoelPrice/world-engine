@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import { FULL_MOON_REFERENCE } from "./constants";
 
 dayjs.extend(dayOfYear);
 dayjs.extend(isSameOrBefore);
@@ -46,8 +47,22 @@ export function getSunriseSunset(latitude, datetime) {
 }
 
 export function getMoon(datetime, latitude) {
-	const FULL_MOON_REFERENCE = dayjs("0793-06-14");
+	const { moonrise, moonset, phase } = getMoonOfGivenDay(datetime, latitude);
+	const { moonrise: yesterdayMoonrise, moonset: yesterdayMoonset } =
+		getMoonOfGivenDay(datetime.subtract(1, "day"), latitude);
+	const visible =
+		(datetime.isSameOrAfter(moonrise) &&
+			datetime.isSameOrBefore(moonset)) ||
+		(datetime.isSameOrAfter(yesterdayMoonrise) &&
+			datetime.isSameOrBefore(yesterdayMoonset));
 
+	return {
+		phase,
+		visible
+	};
+}
+
+function getMoonOfGivenDay(datetime, latitude) {
 	// Days since reference full moon
 	const daysSince = Math.floor(datetime.diff(FULL_MOON_REFERENCE, "day"));
 	const lunarCycleLength = 29;
@@ -56,7 +71,7 @@ export function getMoon(datetime, latitude) {
 
 	// Moon rises later each day
 	const moonriseHour =
-		(Math.round((lunarCycleLength / 24) * lunarDay) + 18) % 24;
+		(Math.round((24 / lunarCycleLength) * lunarDay) + 18) % 24;
 
 	let moonrise = datetime
 		.startOf("day")
@@ -70,16 +85,12 @@ export function getMoon(datetime, latitude) {
 
 	let moonset = moonrise.add(visibleHours, "hour");
 
-	const visible =
-		datetime.isSameOrAfter(moonrise) && datetime.isSameOrBefore(moonset);
+	const phase = getMoonPhaseOfLunarDay(lunarDay);
 
-	return {
-		phase: getMoonPhase(lunarDay),
-		visible
-	};
+	return { moonrise, moonset, phase };
 }
 
-function getMoonPhase(lunarDay) {
+function getMoonPhaseOfLunarDay(lunarDay) {
 	if (lunarDay <= 2) return { label: "Full", emoji: "🌕" };
 	if (lunarDay <= 6) return { label: "Waning Gibbous", emoji: "🌖" };
 	if (lunarDay <= 9) return { label: "Last Quarter", emoji: "🌗" };
