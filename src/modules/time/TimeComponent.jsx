@@ -20,11 +20,15 @@ import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 
-const TimeComponent = ({ datetime, setDatetime, latitude }) => {
+const TimeComponent = ({
+	datetime,
+	setDatetime,
+	latitude,
+	sunriseSunset,
+	setSunriseSunset
+}) => {
 	const [tenMinTurns, setTenMinTurns] = useState(0);
-	const [sunriseSunset, setSunriseSunset] = useState(
-		getSunriseSunset(latitude, datetime)
-	);
+
 	const [moon, setMoon] = useState(getMoon(datetime, latitude.º));
 
 	useEffect(() => {

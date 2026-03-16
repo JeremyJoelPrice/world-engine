@@ -1,8 +1,13 @@
 import { Button, Paper } from "@mui/material";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import dayOfYear from "dayjs/plugin/dayOfYear";
 import colors from "../../util/colors";
-import { generateWeatherJourney } from "./weatherService";
+import {
+	generateWeatherJourney,
+	getAverageTempOfGivenDay,
+	getCurrentTemp
+} from "./weatherService";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import HearingIcon from "@mui/icons-material/Hearing";
 import AdsClickIcon from "@mui/icons-material/AdsClick";
@@ -10,6 +15,9 @@ import { Thermostat } from "@mui/icons-material";
 import { HIGH_IMPACT, LATITUDE_BANDS, MODERATE_IMPACT } from "./constants";
 import StyledSelect from "../../components/StyledSelect";
 import { useEffect } from "react";
+import climates from "./data/climates";
+
+dayjs.extend(dayOfYear);
 dayjs.extend(isSameOrAfter);
 
 const WeatherComponent = ({
@@ -17,7 +25,9 @@ const WeatherComponent = ({
 	weatherJourney,
 	setWeatherJourney,
 	latitude,
-	setLatitude
+	setLatitude,
+	sunriseSunset,
+	tempModifier
 }) => {
 	const generateNewWeatherJourney = () => {
 		setWeatherJourney(generateWeatherJourney(datetime));
@@ -31,11 +41,20 @@ const WeatherComponent = ({
 					datetime.isBefore(next.hourOfDay);
 	});
 
+	const temp = Math.round(
+		getCurrentTemp(
+			datetime.hour(),
+			getAverageTempOfGivenDay(climates[0], datetime.dayOfYear()),
+			sunriseSunset.sunrise,
+			tempModifier
+		)
+	);
+
 	useEffect(() => {
 		if (currentStepIndex === weatherJourney.journey.length - 1)
 			generateNewWeatherJourney();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [currentStepIndex]);
+	}, [datetime]);
 
 	return (
 		<Paper
@@ -89,13 +108,16 @@ const WeatherComponent = ({
 						weatherJourney.journey[currentStepIndex]?.impact?.vision
 					}
 				/>
-				<Impact
-					icon={<Thermostat fontSize={"large"} />}
-					impact={
-						weatherJourney.journey[currentStepIndex]?.impact
-							?.exposure
-					}
-				/>
+				<div>
+					<Impact
+						icon={<Thermostat fontSize={"large"} />}
+						impact={
+							weatherJourney.journey[currentStepIndex]?.impact
+								?.exposure
+						}
+						label={`${temp}º`}
+					/>
+				</div>
 				<Impact
 					icon={<HearingIcon fontSize={"large"} />}
 					impact={
@@ -157,7 +179,7 @@ const WeatherStep = ({ hourOfDay, desc, highlight }) => {
 	);
 };
 
-const Impact = ({ icon, impact }) => {
+const Impact = ({ icon, impact, label }) => {
 	let color =
 		impact === MODERATE_IMPACT
 			? "orange"
@@ -166,8 +188,11 @@ const Impact = ({ icon, impact }) => {
 				: colors.grey;
 
 	return (
-		<div style={{ color, display: "flex", justifyContent: "center" }}>
-			{icon}
-		</div>
+		<>
+			<div style={{ color, display: "flex" }}>
+				{icon}
+				{label}
+			</div>
+		</>
 	);
 };

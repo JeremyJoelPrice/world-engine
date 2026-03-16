@@ -18,3 +18,17 @@ export const LATITUDE_BANDS = [
 	{ label: "subtropical", º: 30 },
 	{ label: "tropical", º: 15 }
 ];
+
+export const SPRING = "spring";
+export const SUMMER = "summer";
+export const AUTUMN = "autumn";
+export const WINTER = "winter";
+
+export const SEASON_PERIODS = [
+	{ label: [SPRING], firstDay: 60 },
+	{ label: [SUMMER], firstDay: 152 },
+	{ label: [AUTUMN], firstDay: 244 },
+	{ label: [WINTER], firstDay: 335 }
+];
+
+export const HOTTEST_HOUR_OF_DAY = 14;
