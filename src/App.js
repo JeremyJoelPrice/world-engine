@@ -84,7 +84,7 @@ const App = () => {
 	})();
 	const [datetime, setDatetime] = useState(dayjs(initialStates.datetime));
 	const [weatherJourney, setWeatherJourney] = useState(initialStates.weather);
-	let [latitude, setLatitude] = useState(initialStates.latitude);
+	const [latitude, setLatitude] = useState(initialStates.latitude);
 
 	// Sync data to URL on change
 	useEffect(() => {
