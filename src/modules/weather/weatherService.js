@@ -3,11 +3,14 @@ import {
 	DICE_RESULT_PRIMARY,
 	DICE_RESULT_SECONDARY,
 	DICE_RESULT_TERTIARY,
+	HOTTEST_HOUR_OF_DAY,
+	SEASON_PERIODS,
 	STATE_AFTERMATH,
 	STATE_BORING,
 	STATE_BUILDING,
 	STATE_CLIMAX,
-	STATE_EVENT
+	STATE_EVENT,
+	WINTER
 } from "./constants";
 import roll from "../../util/roll";
 import dayjs from "dayjs";
@@ -71,4 +74,102 @@ export function getDecompressedWeatherJourney({ label, journey }) {
 	});
 
 	return { label, journey };
+}
+
+export function getCurrentTemp(
+	hourOfDay,
+	diurnalTemp,
+	sunriseHour,
+	tempModifier = 0
+) {
+	const { high, low } = diurnalTemp;
+
+	// Calculate the "time since last low"
+	const hoursSinceSunrise = (hourOfDay - sunriseHour + 24) % 24;
+
+	// Length of the rising and falling phases
+	const riseDuration = (HOTTEST_HOUR_OF_DAY - sunriseHour + 24) % 24;
+	const fallDuration = 24 - riseDuration;
+
+	let t;
+	if (hoursSinceSunrise <= riseDuration) {
+		// Rising phase: low -> high
+		t = hoursSinceSunrise / riseDuration;
+		return lerp(low, high, t) + tempModifier;
+	} else {
+		// Falling phase: high -> low
+		t = (hoursSinceSunrise - riseDuration) / fallDuration;
+		return lerp(high, low, t) + tempModifier;
+	}
+}
+
+export function getAverageTempOfGivenDay(climate, dayOfYear) {
+	// If climate has only one season, return that season's temperature
+	if (Object.keys(climate.seasons).length === 1) {
+		return Object.values(climate.seasons)[0];
+	}
+
+	// Determine current season based on day of the year
+	const currentSeason =
+		[...SEASON_PERIODS]
+			.reverse()
+			.find(({ firstDay }) => dayOfYear >= firstDay)?.label || WINTER;
+
+	// Return early if current season explicitely exists in climate object
+	if (climate.seasons[currentSeason]) {
+		return climate.seasons[currentSeason];
+	} else {
+		// Get neighbouring seasons
+		const currentIndex = SEASON_PERIODS.findIndex(
+			({ label }) => label === currentSeason
+		);
+		const prevSeason =
+			SEASON_PERIODS[
+				(currentIndex - 1 + SEASON_PERIODS.length) %
+					SEASON_PERIODS.length
+			].label;
+
+		const nextSeason =
+			SEASON_PERIODS[(currentIndex + 1) % SEASON_PERIODS.length].label;
+
+		const prevSeasonObj =
+			climate.seasons[prevSeason] || climate.seasons[nextSeason];
+		const nextSeasonObj =
+			climate.seasons[nextSeason] || climate.seasons[prevSeason];
+
+		// Determine transition boundaries
+		const lastDayOfPrevTemp = SEASON_PERIODS[currentIndex].firstDay - 1;
+		const firstDayOfNextTemp =
+			SEASON_PERIODS[(currentIndex + 1) % SEASON_PERIODS.length].firstDay;
+
+		// Handle wrap-around at year-end
+		const daysInTransition =
+			firstDayOfNextTemp > lastDayOfPrevTemp
+				? firstDayOfNextTemp - lastDayOfPrevTemp
+				: firstDayOfNextTemp + 365 - lastDayOfPrevTemp;
+
+		// Progress through the transition [0..1]
+		const dayOfTransition =
+			(dayOfYear -
+				lastDayOfPrevTemp +
+				(dayOfYear < lastDayOfPrevTemp ? 365 : 0)) /
+			daysInTransition;
+
+		// Interpolate temperatures
+		const high = Math.round(
+			lerp(prevSeasonObj.high, nextSeasonObj.high, dayOfTransition)
+		);
+		let low = Math.round(
+			lerp(prevSeasonObj.low, nextSeasonObj.low, dayOfTransition)
+		);
+
+		low = low === -0 ? 0 : low;
+
+		return { high: high, low: low };
+	}
+}
+
+function lerp(start, end, t) {
+	// t between 0.0 and 1.0
+	return start + (end - start) * t;
 }

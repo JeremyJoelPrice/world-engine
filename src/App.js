@@ -20,6 +20,8 @@ import {
 	getDecompressedWeatherJourney
 } from "./modules/weather/weatherService";
 import { LATITUDE_BANDS } from "./modules/weather/constants";
+import roll from "./util/roll";
+import { getSunriseSunset } from "./modules/time/timeService";
 
 const App = () => {
 	const myTheme = createTheme({
@@ -65,11 +67,13 @@ const App = () => {
 	const initialStates = (() => {
 		const encoded = searchParams.get("s");
 		if (encoded) {
-			let { datetime, weather, latitude } = decodeState(encoded);
+			let { datetime, weather, latitude, tempModifier } =
+				decodeState(encoded);
 			return {
 				datetime: dayjs(datetime),
 				weather: getDecompressedWeatherJourney(weather),
-				latitude
+				latitude,
+				tempModifier
 			};
 		} else {
 			// default states in case of nothing in URL
@@ -78,16 +82,31 @@ const App = () => {
 				weather: generateWeatherJourney(
 					dayjs("0793-06-08T00:00:00.000Z")
 				),
-				latitude: LATITUDE_BANDS[1]
+				latitude: LATITUDE_BANDS[1],
+				tempModifier: roll("2d6-7").value
 			};
 		}
 	})();
 	const [datetime, setDatetime] = useState(dayjs(initialStates.datetime));
 	const [weatherJourney, setWeatherJourney] = useState(initialStates.weather);
 	const [latitude, setLatitude] = useState(initialStates.latitude);
+	const [tempModifier, setTempModifier] = useState(
+		initialStates.tempModifier
+	);
+	const [sunriseSunset, setSunriseSunset] = useState(
+		getSunriseSunset(latitude, datetime)
+	);
 
 	// Sync data to URL on change
 	useEffect(() => {
+		const newTempModifier =
+			datetime.hour() === sunriseSunset.sunrise.hour()
+				? roll("2d6-7").value
+				: tempModifier;
+
+		setTempModifier(newTempModifier);
+
+		// encode data in URL
 		setSearchParams({
 			s: lzString.compressToEncodedURIComponent(
 				JSON.stringify({
@@ -101,11 +120,13 @@ const App = () => {
 							})
 						)
 					},
-					latitude
+					latitude,
+					tempModifier: newTempModifier
 				})
 			)
 		});
-	}, [datetime, weatherJourney, latitude, setSearchParams]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [datetime, weatherJourney, latitude]);
 
 	/* end of URL data */
 
@@ -120,11 +141,17 @@ const App = () => {
 					setWeatherJourney={setWeatherJourney}
 					latitude={latitude}
 					setLatitude={setLatitude}
+					tempModifier={tempModifier}
+					setTempModifier={setTempModifier}
+					sunriseSunset={sunriseSunset}
+					setSunriseSunset={setSunriseSunset}
 				/>
 				<TimeComponent
 					datetime={datetime}
 					setDatetime={setDatetime}
 					latitude={latitude}
+					sunriseSunset={sunriseSunset}
+					setSunriseSunset={setSunriseSunset}
 				/>
 				<NpcWindow />
 				<SeedGeneratorComponent />
