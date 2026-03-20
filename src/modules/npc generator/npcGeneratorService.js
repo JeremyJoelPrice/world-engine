@@ -1,5 +1,4 @@
 import { rollOnTable } from "../../util/common";
-import roll from "../../util/roll";
 import {
 	approach,
 	characterisation,
@@ -11,16 +10,7 @@ import flavours from "./data/flavours/index.js";
 
 export const npcParameters = {
 	sexes: ["Female", "Male"],
-	flavours: Object.keys(flavours).map((k) => flavours[k]),
-	honour: [
-		"Terrible (-3)",
-		"Grim (-2)",
-		"Poor (-1)",
-		"Fair (+0)",
-		"Good (+1)",
-		"Great (+2)",
-		"Excellent (+3)"
-	]
+	flavours: Object.keys(flavours).map((k) => flavours[k])
 };
 
 /* NPC generator & helper functions */
@@ -44,18 +34,15 @@ export const generateNpc = (chosenParameters, setGeneratedNpc) => {
 
 	// build & return npc object
 	npc.flavour = chosenParameters.flavour;
-	npc.characterisationPhysical = rollOnTable(
-		characterisation.physicalCharacterisation
-	);
+	npc.characterisationPhysical =
+		Math.random() > 0.5
+			? rollOnTable(characterisation.physicalCharacterisation)
+			: rollOnTable(characterisation.hairCharacterisation);
 	npc.characterisationNonphysical = rollOnTable(
 		characterisation.nonphysicalCharacterisation
 	);
-	npc.characterisationHair = rollOnTable(
-		characterisation.hairCharacterisation
-	);
 	npc.approach1 = approach1;
 	npc.approach2 = approach2;
-	npc.honour = generateHonour();
 	npc.expertise =
 		Math.random() > 0.75
 			? rollOnTable(expertise.uncommon)
@@ -70,14 +57,8 @@ export const generateName = (sex, flavour) => {
 		.generateName(sex);
 };
 
-const generateHonour = () => {
-	const dice = roll("2d7");
-	const result = Math.floor(dice.value / 2 - 1);
-	return npcParameters.honour[result];
-};
-
 export const copyNpcAsText = (npc) => {
-	let npcString = `${npc.name}\n${npc.flavour} ${npc.sex}\n${npc.characterisationPhysical}\n${npc.characterisationNonphysical}\n${npc.characterisationHair}\n\nHonour/Reputation: ${npc.honour}\nPrefers to: ${npc.approach1}\nLast resort: ${npc.approach2}\n\nExpertise: ${npc.expertise}`;
+	let npcString = `${npc.name}\n${npc.flavour} ${npc.sex}\n${npc.characterisationPhysical}\n${npc.characterisationNonphysical}\n\nPrefers to: ${npc.approach1}\nLast resort: ${npc.approach2}\n\nExpertise: ${npc.expertise}`;
 
 	navigator.clipboard.writeText(npcString);
 };

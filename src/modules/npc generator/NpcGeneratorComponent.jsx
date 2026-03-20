@@ -97,10 +97,6 @@ const NpcCard = ({ npc }) => {
 						<br />
 						{npc.characterisationNonphysical}
 						<br />
-						{npc.characterisationHair}
-						<br />
-						<br />
-						Honour/Reputation: {npc.honour}
 						<br />
 						Prefers to: {npc.approach1}
 						<br />
