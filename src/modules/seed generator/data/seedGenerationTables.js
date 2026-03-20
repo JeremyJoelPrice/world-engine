@@ -403,23 +403,23 @@ exports.nouns = {
 	event: [
 		"a wedding",
 		"a party",
-		"religious function",
+		"a religious function",
 		"market day",
-		"secret meeting",
-		"public proclamation",
-		"execution",
-		"þing",
-		"criminal trial",
-		"return of a traveller",
-		"important birth",
-		"swearing an oath",
-		"dark ritual",
+		"a secret meeting",
+		"a public proclamation",
+		"an execution",
+		"a þing",
+		"a criminal trial",
+		"the return of a traveller",
+		"an important birth",
+		"the swearing of an oath",
+		"a dark ritual",
 		"a seiðkona's prophecy",
-		"angry mob",
-		"negotiation between two sides",
-		"battle",
-		"siege",
-		"raid"
+		"an angry mob",
+		"a negotiation between two sides",
+		"a battle",
+		"a siege",
+		"a raid"
 	]
 };
 
