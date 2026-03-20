@@ -6381,7 +6381,8 @@ exports.expertise = {
 		"Local wilderness",
 		"Sailing",
 		"Shepherding",
-		"Tanning & leatherwork"
+		"Tanning & leatherwork",
+		"Trade & mercantile"
 	],
 	uncommon: [
 		"Asculum & The Light",
@@ -6399,7 +6400,6 @@ exports.expertise = {
 		"Skaldic poetry",
 		"Tactics and strategy",
 		"The gods and fate",
-		"Trade & mercantile",
 		"Weapon techniques"
 	]
 };
