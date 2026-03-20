@@ -60,7 +60,7 @@ export const generateName = (sex, flavour) => {
 };
 
 export const copyNpcAsText = (npc) => {
-	let npcString = `${npc.name}\n${npc.flavour} ${npc.sex}\n${npc.characterisationPhysical}\n${npc.characterisationNonphysical}\n\nLikes ${npc.quirk1}\nDislikes ${npc.quirk2}\n\nPrefers to: ${npc.approach1}\nLast resort: ${npc.approach2}\n\nExpertise: ${npc.expertise}`;
+	let npcString = `${npc.name}\n${npc.flavour} ${npc.sex}\n${npc.characterisationPhysical}\n${npc.characterisationNonphysical}\n\nExpertise: ${npc.expertise}\nLikes: ${npc.quirk1}\nDislikes: ${npc.quirk2}\n\nPrefers to: ${npc.approach1}\nLast resort: ${npc.approach2}`;
 
 	navigator.clipboard.writeText(npcString);
 };
