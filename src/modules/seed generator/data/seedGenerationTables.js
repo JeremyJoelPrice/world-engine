@@ -236,7 +236,7 @@ exports.verbs = {
 	place: [
 		"find",
 		"discover",
-		"arrive at",
+		"meet someone at",
 		"scout",
 		"leave",
 		"avoid",
@@ -246,7 +246,6 @@ exports.verbs = {
 		"raid",
 		"infiltrate",
 		"locate",
-		"stop",
 		"defend"
 	],
 	object: [
