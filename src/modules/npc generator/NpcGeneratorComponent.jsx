@@ -8,6 +8,8 @@ import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import SmallBodyText from "../../components/SmallBodyText";
 import StyledSelect from "../../components/StyledSelect";
 import Copyable from "../../components/Copyable";
+import styled from "styled-components";
+import colors from "../../util/colors";
 
 const NpcGeneratorComponent = () => {
 	const flavours = npcParameters.flavours;
@@ -98,20 +100,42 @@ const NpcCard = ({ npc }) => {
 						{npc.characterisationNonphysical}
 						<br />
 						<br />
-						Likes {npc.quirk1}
-						<br />
-						Dislikes {npc.quirk2}
-						<br />
-						<br />
-						Prefers to: {npc.approach1}
-						<br />
-						Last resort: {npc.approach2}
-						<br />
-						<br />
-						Expertise: {npc.expertise}
+						<table style={{ width: "100%" }}>
+							<tr>
+								<LeftCell>Expertise:</LeftCell>
+								<RightCell>{npc.expertise}</RightCell>
+							</tr>
+							<tr>
+								<LeftCell>Likes:</LeftCell>
+								<RightCell>{npc.quirk1}</RightCell>
+							</tr>
+							<tr>
+								<LeftCell>Dislikes:</LeftCell>
+								<RightCell>{npc.quirk2}</RightCell>
+							</tr>
+							<tr>
+								<LeftCell>Prefers to:</LeftCell>
+								<RightCell>{npc.approach1}</RightCell>
+							</tr>
+							<tr>
+								<LeftCell>Last resort:</LeftCell>
+								<RightCell>{npc.approach2}</RightCell>
+							</tr>
+						</table>
 					</SmallBodyText>
 				</Paper>
 			</Copyable>
 		</Container>
 	);
 };
+
+const LeftCell = styled.td`
+	text-align: right;
+	color: ${colors.grey};
+	width: 40%;
+	padding: 4px 0;
+`;
+
+const RightCell = styled.td`
+	text-align: left;
+`;
