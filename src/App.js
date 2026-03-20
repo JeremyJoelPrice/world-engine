@@ -77,11 +77,10 @@ const App = () => {
 			};
 		} else {
 			// default states in case of nothing in URL
+			const datetime = dayjs("0793-06-08T11:00:00.000");
 			return {
-				datetime: dayjs("0793-06-08T00:00:00.000Z"),
-				weather: generateWeatherJourney(
-					dayjs("0793-06-08T00:00:00.000Z")
-				),
+				datetime,
+				weather: generateWeatherJourney(datetime),
 				latitude: LATITUDE_BANDS[1],
 				tempModifier: roll("2d6-7").value
 			};
