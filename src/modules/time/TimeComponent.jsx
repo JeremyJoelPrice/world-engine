@@ -165,7 +165,6 @@ function CircularProgressWithLabel({ onClick, value }) {
 function MoonPhase({ moon }) {
 	const { phase, visible } = moon;
 
-	const textDecoration = visible ? "none" : "line-through";
 	const opacity = visible ? "" : "20%";
 
 	return (
@@ -174,8 +173,7 @@ function MoonPhase({ moon }) {
 			<div
 				style={{
 					fontSize: "10pt",
-					maxWidth: "40px",
-					textDecoration
+					maxWidth: "40px"
 				}}>
 				{phase.label}
 			</div>
