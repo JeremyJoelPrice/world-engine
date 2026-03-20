@@ -2,7 +2,8 @@ import { rollOnTable } from "../../util/common";
 import {
 	approach,
 	characterisation,
-	expertise
+	expertise,
+	quirks
 } from "./data/npcGenerationTables";
 import flavours from "./data/flavours/index.js";
 
@@ -26,11 +27,12 @@ export const generateNpc = (chosenParameters, setGeneratedNpc) => {
 	npc.name = generateName(npc.sex, chosenParameters.flavour);
 
 	// approaches
-	const approach1 = rollOnTable(approach);
-	let approach2 = rollOnTable(approach);
-	while (approach2 === approach1) {
-		approach2 = rollOnTable(approach);
-	}
+	const [approach1, approach2] = rollOnTable(approach, 2);
+
+	// quirks
+	const [quirk1, quirk2] = rollOnTable(quirks, 2);
+	npc.quirk1 = quirk1;
+	npc.quirk2 = quirk2;
 
 	// build & return npc object
 	npc.flavour = chosenParameters.flavour;
@@ -58,7 +60,7 @@ export const generateName = (sex, flavour) => {
 };
 
 export const copyNpcAsText = (npc) => {
-	let npcString = `${npc.name}\n${npc.flavour} ${npc.sex}\n${npc.characterisationPhysical}\n${npc.characterisationNonphysical}\n\nPrefers to: ${npc.approach1}\nLast resort: ${npc.approach2}\n\nExpertise: ${npc.expertise}`;
+	let npcString = `${npc.name}\n${npc.flavour} ${npc.sex}\n${npc.characterisationPhysical}\n${npc.characterisationNonphysical}\n\nLikes ${npc.quirk1}\nDislikes ${npc.quirk2}\n\nPrefers to: ${npc.approach1}\nLast resort: ${npc.approach2}\n\nExpertise: ${npc.expertise}`;
 
 	navigator.clipboard.writeText(npcString);
 };
