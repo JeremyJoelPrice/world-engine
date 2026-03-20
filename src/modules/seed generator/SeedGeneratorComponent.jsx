@@ -232,7 +232,10 @@ const SeedGeneratorComponent = () => {
 									<Typography
 										fontSize={"medium"}
 										sx={{
-											textAlign: "left"
+											textAlign: "left",
+											maxHeight: "300px",
+											overflowY: "auto",
+											scrollbarColor: `${colors.darkgrey2} rgb(0, 0, 0, 0)`
 										}}>
 										{innerCircle.map((e, key) => {
 											return (
@@ -240,9 +243,13 @@ const SeedGeneratorComponent = () => {
 													{e.label.toUpperCase()}; my{" "}
 													{e.relation}
 													<br />
-													<li>{e.desc}</li>
-													<li>they have {e.asset}</li>
-													<li>but {e.limit}</li>
+													<ul>
+														<li>{e.desc}</li>
+														<li>
+															they have {e.asset}
+														</li>
+														<li>but {e.limit}</li>
+													</ul>
 												</div>
 											);
 										})}

@@ -10,7 +10,7 @@ const Copyable = ({ copyFunc, children }) => {
 				sx={{
 					position: "absolute",
 					top: 0,
-					right: 0,
+					right: 10,
 					margin: "5px",
 					cursor: "pointer"
 				}}
