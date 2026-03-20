@@ -10,6 +10,7 @@ import {
 	generateLimitation,
 	generateOutcome,
 	generatePlot,
+	generateQuest,
 	generateRelation
 } from "./SeedGeneratorService";
 import Copyable from "../../components/Copyable";
@@ -36,10 +37,10 @@ const SeedGeneratorComponent = () => {
 
 	const generateRelationship = () => {
 		setDisplay("relationship");
-		setRelation(generateRelation);
-		setEvent(generateEvent);
-		setOutcome(generateOutcome);
-		setInnerCirlceFunction(generateInnerCircleFunction);
+		setRelation(generateRelation());
+		setEvent(generateEvent());
+		setOutcome(generateOutcome());
+		setInnerCirlceFunction(generateInnerCircleFunction());
 	};
 	const copyRelationship = () => {
 		const relString = `They are my ${relation}.\nWe ${event}, and we ${outcome}.\n${
@@ -84,12 +85,12 @@ const SeedGeneratorComponent = () => {
 	};
 
 	/* quest */
-	// const [quest, setQuest] = useState("");
+	const [quest, setQuest] = useState("");
 
-	// const copyQuest = () => {
-	// 	let string = "";
-	// 	navigator.clipboard.writeText(string);
-	// };
+	const copyQuest = () => {
+		let string = "";
+		navigator.clipboard.writeText(string);
+	};
 
 	return (
 		<Paper
@@ -129,7 +130,7 @@ const SeedGeneratorComponent = () => {
 					<Button
 						onClick={() => {
 							setDisplay("quest");
-							// generateQuest(setQuest);
+							generateQuest(setQuest);
 						}}>
 						Quest
 					</Button>
@@ -199,7 +200,7 @@ const SeedGeneratorComponent = () => {
 										and we{" "}
 										<Replaceable
 											replace={() =>
-												setOutcome(generateOutcome)
+												setOutcome(generateOutcome())
 											}>
 											{outcome}.
 										</Replaceable>
@@ -235,16 +236,27 @@ const SeedGeneratorComponent = () => {
 										}}>
 										{innerCircle.map((e, key) => {
 											return (
-												<>
+												<div id={key}>
 													{e.label.toUpperCase()}; my{" "}
 													{e.relation}
 													<br />
 													<li>{e.desc}</li>
 													<li>they have {e.asset}</li>
 													<li>but {e.limit}</li>
-												</>
+												</div>
 											);
 										})}
+									</Typography>
+								</Copyable>
+							)}
+							{display === "quest" && (
+								<Copyable copyFunc={copyQuest}>
+									<Typography
+										fontSize={"medium"}
+										sx={{
+											textAlign: "left"
+										}}>
+										{quest}
 									</Typography>
 								</Copyable>
 							)}

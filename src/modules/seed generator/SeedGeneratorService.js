@@ -6,7 +6,10 @@ const {
 	innerCircleFunctions,
 	events,
 	relations,
-	eventOutcomes
+	eventOutcomes,
+	verbs,
+	nouns,
+	twists
 } = require("./data/seedGenerationTables");
 
 /* API */
@@ -71,6 +74,10 @@ exports.generateInnerCircle = (setInnerCircle) => {
 	setInnerCircle(innerCircle);
 };
 
-exports.generateQuest = () => {
-	return `The players must [strong verb] the [compelling noun], but [severe opposition] and [complication].`;
+exports.generateQuest = (setQuest) => {
+	const type = rollOnTable(["person", "place", "object", "event"]);
+
+	setQuest(
+		`I must ${rollOnTable(verbs[type])} ${rollOnTable(nouns[type])}, but ${rollOnTable(twists)}.`
+	);
 };
