@@ -146,7 +146,7 @@ const SeedGeneratorComponent = () => {
 							}}>
 							{display === "plot" && (
 								<Copyable copyFunc={copyPlot}>
-									<Typography>
+									<Typography component="div">
 										They want to{" "}
 										<Replaceable
 											replace={() =>
@@ -180,7 +180,7 @@ const SeedGeneratorComponent = () => {
 							)}
 							{display === "relationship" && (
 								<Copyable copyFunc={copyRelationship}>
-									<Typography>
+									<Typography component="div">
 										They are my{" "}
 										<Replaceable
 											replace={() =>
@@ -230,6 +230,7 @@ const SeedGeneratorComponent = () => {
 							{display === "inner circle" && (
 								<Copyable copyFunc={copyInnerCircle}>
 									<Typography
+										component="div"
 										fontSize={"medium"}
 										sx={{
 											textAlign: "left",
@@ -239,7 +240,7 @@ const SeedGeneratorComponent = () => {
 										}}>
 										{innerCircle.map((e, key) => {
 											return (
-												<div id={key}>
+												<div key={key}>
 													{e.label.toUpperCase()}; my{" "}
 													{e.relation}
 													<br />
