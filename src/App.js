@@ -103,7 +103,9 @@ const App = () => {
 				? roll("2d6-7").value
 				: tempModifier;
 
-		setTempModifier(newTempModifier);
+		setTempModifier((prev) =>
+			prev !== newTempModifier ? newTempModifier : prev
+		);
 
 		// encode data in URL
 		setSearchParams({
