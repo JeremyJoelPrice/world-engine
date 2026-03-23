@@ -129,6 +129,23 @@ const App = () => {
 
 	/* end of URL data */
 
+	// fix iPadOS viewport issue
+	useEffect(() => {
+		const fix = () => {
+			requestAnimationFrame(() => {
+				window.dispatchEvent(new Event("resize"));
+			});
+		};
+
+		window.addEventListener("visibilitychange", fix);
+		window.addEventListener("pageshow", fix);
+
+		return () => {
+			window.removeEventListener("visibilitychange", fix);
+			window.removeEventListener("pageshow", fix);
+		};
+	}, []);
+
 	return (
 		<ThemeProvider theme={myTheme}>
 			<CssBaseline />
@@ -178,9 +195,9 @@ const decodeState = (encoded) => {
 
 const DashboardLayout = styled.div`
 	height: 100vh;
-	width: 100vw;
+	height: 100dvh;
+	width: 100%;
 	overflow: hidden;
-	position: relative;
 	display: grid;
 	grid-template: repeat(2, 1fr) / repeat(3, 1fr);
 	place-items: safe stretch;
