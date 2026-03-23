@@ -113,11 +113,11 @@ const NpcCard = ({ npc }) => {
 									</RightCell>
 								</tr>
 								<tr>
-									<LeftCell>Prefers to:</LeftCell>
+									<LeftCell>Plan A:</LeftCell>
 									<RightCell>{npc.approach1}</RightCell>
 								</tr>
 								<tr>
-									<LeftCell>Last resort:</LeftCell>
+									<LeftCell>Plan B:</LeftCell>
 									<RightCell>{npc.approach2}</RightCell>
 								</tr>
 							</tbody>
