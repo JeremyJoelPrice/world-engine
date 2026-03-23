@@ -108,11 +108,9 @@ const NpcCard = ({ npc }) => {
 								</tr>
 								<tr>
 									<LeftCell>Likes:</LeftCell>
-									<RightCell>{npc.quirk1}</RightCell>
-								</tr>
-								<tr>
-									<LeftCell>Dislikes:</LeftCell>
-									<RightCell>{npc.quirk2}</RightCell>
+									<RightCell>
+										{npc.quirk1}, {npc.quirk2}
+									</RightCell>
 								</tr>
 								<tr>
 									<LeftCell>Prefers to:</LeftCell>
