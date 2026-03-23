@@ -101,26 +101,28 @@ const NpcCard = ({ npc }) => {
 						<br />
 						<br />
 						<table style={{ width: "100%" }}>
-							<tr>
-								<LeftCell>Expertise:</LeftCell>
-								<RightCell>{npc.expertise}</RightCell>
-							</tr>
-							<tr>
-								<LeftCell>Likes:</LeftCell>
-								<RightCell>{npc.quirk1}</RightCell>
-							</tr>
-							<tr>
-								<LeftCell>Dislikes:</LeftCell>
-								<RightCell>{npc.quirk2}</RightCell>
-							</tr>
-							<tr>
-								<LeftCell>Prefers to:</LeftCell>
-								<RightCell>{npc.approach1}</RightCell>
-							</tr>
-							<tr>
-								<LeftCell>Last resort:</LeftCell>
-								<RightCell>{npc.approach2}</RightCell>
-							</tr>
+							<tbody>
+								<tr>
+									<LeftCell>Expertise:</LeftCell>
+									<RightCell>{npc.expertise}</RightCell>
+								</tr>
+								<tr>
+									<LeftCell>Likes:</LeftCell>
+									<RightCell>{npc.quirk1}</RightCell>
+								</tr>
+								<tr>
+									<LeftCell>Dislikes:</LeftCell>
+									<RightCell>{npc.quirk2}</RightCell>
+								</tr>
+								<tr>
+									<LeftCell>Prefers to:</LeftCell>
+									<RightCell>{npc.approach1}</RightCell>
+								</tr>
+								<tr>
+									<LeftCell>Last resort:</LeftCell>
+									<RightCell>{npc.approach2}</RightCell>
+								</tr>
+							</tbody>
 						</table>
 					</SmallBodyText>
 				</Paper>
